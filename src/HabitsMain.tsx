@@ -1,5 +1,6 @@
-import { HomePage } from "./landingPage/pages/HomePage";
+import { RouterProvider } from "react-router";
+import { appRoutes } from "./routes/routes";
 
 export const HabitsMain = () => {
-  return <HomePage />;
+  return <RouterProvider router={appRoutes} />;
 };

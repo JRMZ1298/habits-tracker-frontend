@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -18,7 +18,7 @@
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  --secondary-foreground: oklch(24.975% 0.02861 19.228);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
@@ -51,20 +51,24 @@ body {
   margin: 0;
   min-height: 100vh;
   background: #dbffe8;
-  color: #003622;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #006a35;
+  font-family: "Plus Jakarta Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .material-symbols-outlined {
-  font-family: 'Material Symbols Outlined', sans-serif;
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-family: "Material Symbols Outlined", sans-serif;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
 }
 
 @theme inline {
   --font-heading: var(--font-sans);
-  --font-sans: 'Geist Variable', sans-serif;
+  --font-sans: "Geist Variable", sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -94,6 +98,52 @@ body {
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary-fixed: #6bfe9c;
+  --color-secondary-container: #abd6ff;
+  --color-on-primary: #cdffd4;
+  --color-error-dim: #9f0519;
+  --color-tertiary: #904800;
+  --color-primary-container: #6bfe9c;
+  --color-primary-dim: #005c2d;
+  --color-inverse-on-surface: #76a78d;
+  --color-on-secondary: #ebf4ff;
+  --color-error-container: #fb5151;
+  --color-inverse-primary: #6bfe9c;
+  --color-tertiary-fixed: #ff9742;
+  --color-on-error: #ffefee;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-high: #aef1cc;
+  --color-surface-container: #b8f6d3;
+  --color-on-error-container: #570008;
+  --color-on-tertiary-container: #4f2500;
+  --color-surface-variant: #a4ecc5;
+  --color-primary-fixed-dim: #5bef90;
+  --color-secondary-dim: #005481;
+  --color-secondary-fixed-dim: #8ccaff;
+  --color-on-secondary-container: #004b74;
+  --color-on-secondary-fixed: #003757;
+  --color-on-primary-fixed: #004a23;
+  --color-tertiary-dim: #7e3e00;
+  --color-surface: #dbffe8;
+  --color-on-tertiary-fixed-variant: #5d2c00;
+  --color-on-tertiary: #fff0e8;
+  --color-tertiary-fixed-dim: #f2882c;
+  --color-outline: #518168;
+  --color-on-surface-variant: #35654d;
+  --color-error: #b31b25;
+  --color-tertiary-container: #ff9742;
+  --color-surface-dim: #98e4bc;
+  --color-surface-tint: #006a35;
+  --color-on-secondary-fixed-variant: #005582;
+  --color-on-background: #003622;
+  --color-surface-container-low: #c4fedd;
+  --color-outline-variant: #86b89c;
+  --color-on-tertiary-fixed: #2b1100;
+  --color-on-surface: #003622;
+  --color-inverse-surface: #001209;
+
   --color-foreground: var(--foreground);
   --color-background: var(--background);
   --radius-sm: calc(var(--radius) * 0.6);
