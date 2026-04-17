@@ -1,43 +1,41 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import { useTranslation } from "react-i18next";
 import { SocialLoginButton } from "./SocialLoginButton";
 import { BrandHeader } from "./BrandHeader";
 
 export const RegistroForm = () => {
+  const { t } = useTranslation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle registration logic here
     console.log("Registration attempt:", { name, email, password });
   };
 
   return (
     <div className="bg-surface-container-lowest glass-panel w-full max-w-md p-8 lg:p-12 rounded-xl shadow-2xl shadow-primary/5">
-      {/* Mobile Headline (visible only on small screens) */}
       <div className="lg:hidden mb-8 space-y-2">
         <h1 className="text-4xl font-headline font-extrabold text-on-surface tracking-tight">
-          Start Your Growth Journey
+          {t("auth.register.headline")}
         </h1>
         <p className="font-label text-on-surface-variant">
-          Cultivate your habits intentionally.
+          {t("auth.register.subtitle")}
         </p>
       </div>
       <div className="space-y-6">
-        {/* Identity Branding for Form */}
         <BrandHeader />
-        {/* Form Fields */}
         <form className="space-y-5" onSubmit={handleSubmit}>
           <div className="space-y-1">
             <label className="font-label text-sm font-bold text-on-surface-variant ml-1">
-              Full Name
+              {t("auth.register.nameLabel")}
             </label>
             <div className="relative group">
               <input
                 className="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant/30 focus:ring-2 focus:ring-primary rounded-lg py-4 px-5 font-label transition-all duration-300"
-                placeholder="Enter your name"
+                placeholder={t("auth.register.namePlaceholder")}
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -49,12 +47,12 @@ export const RegistroForm = () => {
           </div>
           <div className="space-y-1">
             <label className="font-label text-sm font-bold text-on-surface-variant ml-1">
-              Email Address
+              {t("auth.register.emailLabel")}
             </label>
             <div className="relative group">
               <input
                 className="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant/30 focus:ring-2 focus:ring-primary rounded-lg py-4 px-5 font-label transition-all duration-300"
-                placeholder="you@example.com"
+                placeholder={t("auth.register.emailPlaceholder")}
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -66,12 +64,12 @@ export const RegistroForm = () => {
           </div>
           <div className="space-y-1">
             <label className="font-label text-sm font-bold text-on-surface-variant ml-1">
-              Password
+              {t("auth.register.passwordLabel")}
             </label>
             <div className="relative group">
               <input
                 className="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant/30 focus:ring-2 focus:ring-primary rounded-lg py-4 px-5 font-label transition-all duration-300"
-                placeholder="Create a strong password"
+                placeholder={t("auth.register.passwordPlaceholder")}
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -85,23 +83,21 @@ export const RegistroForm = () => {
             className="w-full bg-primary-dim text-white font-headline font-bold py-5 rounded-full shadow-lg shadow-primary/20 hover:bg-on-primary-fixed active:scale-95 transition-all duration-200 mt-4"
             type="submit"
           >
-            Create Account
+            {t("auth.register.createAccount")}
           </button>
         </form>
-        {/* Divider */}
         <div className="relative flex items-center py-2">
           <div className="grow border-t border-outline-variant/20"></div>
           <span className="shrink mx-4 text-on-surface-variant text-xs font-label uppercase tracking-widest">
-            or continue with
+            {t("auth.register.orContinue")}
           </span>
           <div className="grow border-t border-outline-variant/20"></div>
         </div>
-        {/* Social Login */}
-        <SocialLoginButton text="Sign up with Google" />
+        <SocialLoginButton text={t("auth.register.signupGoogle")} />
         <p className="text-center font-label text-on-surface-variant pt-4">
-          Already have an account?{" "}
+          {t("auth.register.haveAccount")}{" "}
           <Link to="/login" className="text-primary font-bold hover:underline">
-            Log in
+            {t("auth.register.login")}
           </Link>
         </p>
       </div>

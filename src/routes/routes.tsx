@@ -1,20 +1,78 @@
 import { LoginPage } from "@/auth/pages/LoginPage";
 import { RegistroPage } from "@/auth/pages/RegistroPage";
 import { HomePage } from "@/landingPage/pages/HomePage";
-import { createBrowserRouter } from "react-router";
+import { MetricsPage } from "@/app/pages/MetricsPage";
+import { DashboardPage } from "@/app/pages/DashboardPage";
+import { HabitsPage } from "@/app/pages/HabitsPage";
+import { SettingsPage } from "@/app/pages/SettingsPage";
+import { createBrowserRouter, Navigate } from "react-router";
+import AppLayout from "@/app/layouts/AppLayout";
+import { HabitAdminPage } from "@/app/pages/HabitAdminPage";
+import {
+  AuthenticatedRoute,
+  NotAuthenticatedRoute,
+} from "@/components/routes/ProtectedRoutes";
+import AuthLayout from "@/auth/layouts/AuthLayout";
 
 export const appRoutes = createBrowserRouter([
+  //Main Routes
   {
-    index: true,
     path: "/home",
     element: <HomePage />,
   },
+  //Not-Autenticated Routes
   {
-    path: "/login",
-    element: <LoginPage />,
+    path: "/auth",
+    element: (
+      <NotAuthenticatedRoute>
+        <AuthLayout />
+      </NotAuthenticatedRoute>
+    ),
+    children: [
+      {
+        path: "login",
+        element: <LoginPage />,
+      },
+      {
+        path: "registro",
+        element: <RegistroPage />,
+      },
+    ],
   },
+  //Autenticated Routes
   {
-    path: "/registro",
-    element: <RegistroPage />,
+    path: "/app",
+    element: (
+      <AuthenticatedRoute>
+        <AppLayout />
+      </AuthenticatedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <DashboardPage />,
+      },
+      {
+        path: "metrics",
+        element: <MetricsPage />,
+      },
+      {
+        path: "habits",
+        element: <HabitsPage />,
+      },
+      {
+        path: "habits/:idHabit",
+        element: <HabitAdminPage />,
+      },
+      {
+        path: "settings",
+        element: <SettingsPage />,
+      },
+    ],
+  },
+  //
+  {
+    path: "*",
+    element: <Navigate to="/home" />,
   },
 ]);
