@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 export const BrandHeader = () => {
   return (
     <div className="flex items-center gap-2 mb-8">
@@ -9,9 +11,12 @@ export const BrandHeader = () => {
           spa
         </span>
       </div>
-      <span className="text-2xl font-headline font-extrabold text-on-background tracking-tighter">
+      <Link
+        to="/home"
+        className="text-2xl font-headline font-extrabold text-on-background tracking-tighter"
+      >
         Vitality
-      </span>
+      </Link>
     </div>
   );
 };

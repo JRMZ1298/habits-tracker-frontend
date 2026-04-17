@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 
 export const CtaSection = () => {
   const { t } = useTranslation();
@@ -15,9 +16,12 @@ export const CtaSection = () => {
             {t("landing.cta.subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="bg-[#6bfe9c] text-[#004a23] px-12 py-5 rounded-full font-bold text-xl hover:bg-white transition-all active:scale-95 shadow-2xl shadow-black/20">
+            <Link
+              to="/auth/login"
+              className="bg-[#6bfe9c] text-[#004a23] px-12 py-5 rounded-full font-bold text-xl hover:bg-white transition-all active:scale-95 shadow-2xl shadow-black/20"
+            >
               {t("landing.cta.button")}
-            </button>
+            </Link>
           </div>
         </div>
       </div>

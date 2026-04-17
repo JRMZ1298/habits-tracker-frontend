@@ -19,7 +19,7 @@ const resources = {
           headlineHighlight: "viaje de crecimiento",
           headlinePart2: "ahora",
           paragraph:
-            "Entra en un invernadero vivo donde tus intenciones se nutren y tus hábitos prosperan. Diseña la vida que siempre has querido cultivar.",
+            "Entra en Vitality donde tus intenciones se nutren y tus hábitos prosperan. Diseña la vida que siempre has querido cultivar.",
           card1: {
             title: "Seguimiento orgánico",
             description:
@@ -36,7 +36,7 @@ const resources = {
           headingLine1: "Cultiva tu",
           headingLine2: "mejor versión",
           paragraph:
-            "Transforma tus rutinas diarias en crecimiento intencional. Registra ejercicio, hidratación y lectura con nuestro ecosistema biophílico diseñado para tu ritmo.",
+            "Transforma tus rutinas diarias en crecimiento intencional. Registra ejercicio, hidratación y lectura con nuestro ecosistema especialmente diseñado para que tu lleves el ritmo.",
           startGrowing: "Comienza a crecer",
           watchDemo: "Ver demostración",
           hydrationLabel: "HIDRATACIÓN",
@@ -51,13 +51,14 @@ const resources = {
           stats: {
             title: "Análisis visual profundo",
             description:
-              "Descubre patrones en tu estilo de vida con gráficas de calidad editorial que hacen que los datos se sientan como arte. Ve tu progreso en meses, no solo en días.",
+              "Descubre patrones en tu estilo de vida con gráficas de calidad, que hacen que los datos se sientan como arte. Ve tu progreso en meses, no solo en días.",
           },
           streaks: {
             title: "Rachas ininterrumpidas",
             description:
-              "Nuestro sistema de retroalimentación cinética hace que mantener una racha sea más adictivo que tu juego favorito.",
+              "Nuestro sistema de retroalimentación continua hace que mantener una racha sea más adictivo que tu juego favorito.",
           },
+          //   TODO: Validar esto si es necesario
           webhooks: {
             title: "Webhooks inteligentes",
             description:
@@ -66,13 +67,15 @@ const resources = {
           alerts: {
             title: "Alertas intencionales",
             description:
-              "Recordatorios suaves según tu ritmo circadiano. No más notificaciones molestas a horas equivocadas.",
+              "Recordatorios suaves según tu ritmo. No más notificaciones molestas a horas equivocadas.",
           },
+          //TODO: Validar esto si es necesario
           community: {
             title: "Ecosistemas sociales",
             description:
-              'Únete a "Invernaderos": comunidades privadas de amigos que siguen metas similares sin presión.',
+              'Únete a "Vitality": comunidades privadas de amigos que siguen metas similares sin presión.',
           },
+          //TODO: Validar que se muestra aqui
           exploreStats: "Explorar estadísticas",
         },
         testimonials: {
@@ -80,16 +83,16 @@ const resources = {
           subtitle:
             "Únete a más de 50,000 personas que han redefinido su flujo diario con Vitality.",
           rating: "4.9/5 Calificación",
-          source: "En la App Store",
+          source: "En web",
           user1: {
             quote:
-              "Vitality no solo me ayudó a seguir mis carreras; cambió la forma en que veo todo mi día. La estética de 'Invernadero Vivo' hace que realmente quiera revisar mi progreso.",
+              "Vitality no solo me ayudó a seguir mis carreras; cambió la forma en que veo todo mi día. La estética de 'Vitality' hace que realmente quiera revisar mi progreso.",
             name: "Sarah Jenkins",
-            role: "Coach de bienestar",
+            role: "Deportista",
           },
           user2: {
             quote:
-              "Las estadísticas son hermosas. Finalmente entiendo el vínculo entre mi hidratación y mi nivel de concentración. Es una experiencia editorial para mis datos personales.",
+              "Las estadísticas son muy buenas. Finalmente entiendo el vínculo entre mi hidratación y mi nivel de concentración. Es una experiencia genial para mis datos personales.",
             name: "Marcus Thorne",
             role: "Arquitecto de software",
           },
@@ -97,9 +100,10 @@ const resources = {
         cta: {
           title: "Tu viaje hacia la intencionalidad comienza hoy.",
           subtitle:
-            "Sin tarjeta de crédito. Empieza con una prueba premium de 14 días y observa cómo florecen tus hábitos.",
-          button: "Comienza gratis",
+            "Sin tarjeta de crédito. Empieza y observa cómo florecen tus hábitos.",
+          button: "Comienzar",
         },
+        //TODO: Validar a donde dirigir los enlaces
         footer: {
           brand: "Vitality",
           copyright: "© 2024 Vitality Framework. Crece con intención.",

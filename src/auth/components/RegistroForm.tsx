@@ -29,7 +29,7 @@ export const RegistroForm = () => {
         <BrandHeader />
         <form className="space-y-5" onSubmit={handleSubmit}>
           <div className="space-y-1">
-            <label className="font-label text-sm font-bold text-on-surface-variant ml-1">
+            <label className="font-label text-sm font-bold text-surface-tint ml-1">
               {t("auth.register.nameLabel")}
             </label>
             <div className="relative group">
@@ -46,7 +46,7 @@ export const RegistroForm = () => {
             </div>
           </div>
           <div className="space-y-1">
-            <label className="font-label text-sm font-bold text-on-surface-variant ml-1">
+            <label className="font-label text-sm font-bold text-surface-tint ml-1">
               {t("auth.register.emailLabel")}
             </label>
             <div className="relative group">
@@ -63,7 +63,7 @@ export const RegistroForm = () => {
             </div>
           </div>
           <div className="space-y-1">
-            <label className="font-label text-sm font-bold text-on-surface-variant ml-1">
+            <label className="font-label text-sm font-bold text-surface-tint ml-1">
               {t("auth.register.passwordLabel")}
             </label>
             <div className="relative group">
@@ -96,7 +96,10 @@ export const RegistroForm = () => {
         <SocialLoginButton text={t("auth.register.signupGoogle")} />
         <p className="text-center font-label text-on-surface-variant pt-4">
           {t("auth.register.haveAccount")}{" "}
-          <Link to="/login" className="text-primary font-bold hover:underline">
+          <Link
+            to="/auth/login"
+            className="text-surface-tint font-bold hover:underline"
+          >
             {t("auth.register.login")}
           </Link>
         </p>

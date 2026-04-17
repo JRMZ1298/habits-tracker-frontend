@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SocialLoginButton } from "./SocialLoginButton";
+import { Link } from "react-router";
 
 export const LoginForm = () => {
   const { t } = useTranslation();
+  // TODO: Quitar el useState para evitar renderizados innecesarios
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -57,7 +59,7 @@ export const LoginForm = () => {
             </label>
             <a
               href="#"
-              className="text-xs font-bold text-primary hover:text-primary-dim transition-colors font-label"
+              className="text-xs font-bold text-surface-tint hover:text-on-surface-variant transition-colors font-label"
             >
               {t("auth.login.forgotPassword")}
             </a>
@@ -105,12 +107,12 @@ export const LoginForm = () => {
       <div className="mt-10 text-center">
         <p className="text-on-surface-variant font-label text-sm">
           {t("auth.login.noAccount")}{" "}
-          <a
-            href="#"
-            className="text-primary font-bold hover:underline transition-all"
+          <Link
+            to="/auth/registro"
+            className="text-surface-tint font-bold hover:underline transition-all"
           >
             {t("auth.login.signUp")}
-          </a>
+          </Link>
         </p>
       </div>
     </div>

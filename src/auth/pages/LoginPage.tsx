@@ -8,9 +8,9 @@ export const LoginPage = () => {
         <BrandHeader />
         <LoginForm />
         <div className="mt-12 flex justify-center gap-2 opacity-30">
-          <div className="w-2 h-2 rounded-full bg-primary" />
-          <div className="w-2 h-2 rounded-full bg-secondary" />
-          <div className="w-2 h-2 rounded-full bg-tertiary" />
+          <div className="w-2 h-2 rounded-full bg-on-background" />
+          <div className="w-2 h-2 rounded-full bg-on-primary-fixed" />
+          <div className="w-2 h-2 rounded-full bg-on-surface" />
         </div>
       </main>
     </div>
