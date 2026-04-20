@@ -1,23 +1,20 @@
 // import { useAuthStore } from "@/auth/store/auth.store"
+import { useAuthStore } from "@/auth/store/authStore";
 import type { PropsWithChildren } from "react";
-// import { Navigate } from "react-router";
+import { Navigate } from "react-router";
 
 export const AuthenticatedRoute = ({ children }: PropsWithChildren) => {
-  //   const { authStatus } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
 
-  //   if (authStatus === "checking") return null;
-
-  //   if (authStatus === "not-authenticated") return <Navigate to="/auth/login" />;
+  if (!isAuthenticated) return <Navigate to="/auth/login" />;
 
   return children;
 };
 
 export const NotAuthenticatedRoute = ({ children }: PropsWithChildren) => {
-  //   const { authStatus } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
 
-  //   if (authStatus === "checking") return null;
-
-  //   if (authStatus === "authenticated") return <Navigate to="/" />;
+  if (isAuthenticated) return <Navigate to="/app" />;
 
   return children;
 };

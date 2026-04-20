@@ -11,7 +11,7 @@ export const DashboardHabitList = () => {
       subtitle: t("app.dashboard.habitMorningExerciseSubtitle"),
       completed: true,
       bgColor: "bg-primary-container",
-      textColor: "text-primary",
+      textColor: "text-surface-tint",
     },
     {
       id: 2,
@@ -57,7 +57,7 @@ export const DashboardHabitList = () => {
                   {habit.icon}
                 </span>
               </div>
-              <div>
+              <div className="text-on-background">
                 <h4 className="text-lg font-bold">{habit.title}</h4>
                 <p className="text-sm text-outline">{habit.subtitle}</p>
               </div>

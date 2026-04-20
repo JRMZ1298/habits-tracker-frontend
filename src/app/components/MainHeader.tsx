@@ -1,7 +1,13 @@
+import { useLogout } from "@/auth/hooks/useAuth";
 import { useTranslation } from "react-i18next";
 
-export const MetricsHeader = () => {
+export const MainHeader = () => {
   const { t } = useTranslation();
+  const logout = useLogout();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <header className="bg-surface text-on-background backdrop-blur-xl fixed top-0 left-0 right-0 z-50 border-b border-outline-variant/10">
@@ -24,6 +30,12 @@ export const MetricsHeader = () => {
             className="w-8 h-8 rounded-full border-2 border-primary-container"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx1ye6NWu0isVXcxRWOIZODx_p2VFtuvRAcU73TJAmebwuVoLdBc6SMcsPR4UDF6awL1kwVw6OwtaNn-i_RMiMearaJcBMRyhjcadHymxbd2iccgERfckji0zZZT61qYAh-h3Qss6m_HIei2MDU0z1CMmg_aT7YlWn49jFQkWfLGtF_Qa4htUqxy8-FJGyb4CyWcqWa0LnchEX6b_cjlA8lipK8w0Dw-eqeseLNkNTS5MB9Ph8DeHR2UoM6u_eggWKXsHtO6560Uw"
           />
+          <button
+            className=" hover:bg-surface-container rounded-full p-2 transition-colors duration-200 active:scale-95"
+            onClick={handleLogout}
+          >
+            Cerrar sesion
+          </button>
         </div>
       </div>
     </header>

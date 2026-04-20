@@ -3,16 +3,20 @@ import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { SocialLoginButton } from "./SocialLoginButton";
 import { BrandHeader } from "./BrandHeader";
+import { useRegister } from "../hooks/useAuth";
 
 export const RegistroForm = () => {
   const { t } = useTranslation();
+  //TODO: Quitar los useState para evitar renderizados innecesarios y agregar campo para confirmar contrasenia
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { mutateAsync } = useRegister();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Registration attempt:", { name, email, password });
+    await mutateAsync({ email, name, password, confirmPassword: password });
   };
 
   return (

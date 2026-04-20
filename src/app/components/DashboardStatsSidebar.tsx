@@ -12,7 +12,7 @@ export const DashboardStatsSidebar = () => {
         <div className="flex justify-between items-end h-32 gap-2">
           {[
             { day: "M", height: "40%", color: "bg-primary-container" },
-            { day: "T", height: "90%", color: "bg-primary" },
+            { day: "T", height: "90%", color: "bg-surface-tint" },
             { day: "W", height: "60%", color: "bg-primary-container" },
             { day: "T", height: "100%", color: "bg-primary" },
             { day: "F", height: "50%", color: "bg-primary-container" },

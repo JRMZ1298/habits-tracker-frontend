@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-export const MetricsSidebar = () => {
+export const MainSidebar = () => {
   const { t } = useTranslation();
 
   return (

@@ -2,16 +2,19 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SocialLoginButton } from "./SocialLoginButton";
 import { Link } from "react-router";
+import { useLogin } from "../hooks/useAuth";
 
 export const LoginForm = () => {
   const { t } = useTranslation();
   // TODO: Quitar el useState para evitar renderizados innecesarios
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { mutateAsync } = useLogin();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Login attempt:", { email, password });
+    await mutateAsync({ email, password });
   };
 
   return (

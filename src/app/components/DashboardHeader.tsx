@@ -6,7 +6,7 @@ export const DashboardHeader = () => {
   return (
     <header className="flex flex-col md:flex-row justify-between items-end gap-6 pb-5">
       <div className="space-y-2">
-        <h1 className="text-4xl md:text-6xl font-extrabold font-headline tracking-tighter text-on-background">
+        <h1 className="text-4xl md:text-6xl font-extrabold font-headline tracking-tighter text-surface-tint">
           {t("app.dashboard.heading")}
         </h1>
         <p className="text-lg text-outline font-medium">
@@ -18,7 +18,7 @@ export const DashboardHeader = () => {
           <span className="text-label text-[10px] uppercase tracking-widest text-outline">
             {t("app.dashboard.currentStreak")}
           </span>
-          <span className="text-3xl font-black text-on-background">
+          <span className="text-3xl font-black text-surface-tint">
             {t("app.dashboard.days")}
           </span>
         </div>
