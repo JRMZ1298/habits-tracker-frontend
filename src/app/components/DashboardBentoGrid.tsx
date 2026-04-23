@@ -1,7 +1,21 @@
 import { useTranslation } from "react-i18next";
 
-export const DashboardBentoGrid = () => {
+interface Props {
+  totalHabits: number;
+  completedHabits: number;
+  completedPercentage: number;
+}
+
+export const DashboardBentoGrid: React.FC<Props> = ({
+  totalHabits,
+  completedHabits,
+  completedPercentage,
+}) => {
   const { t } = useTranslation();
+  const radius = 40;
+  const circumference = 2 * Math.PI * radius;
+
+  const offset = circumference - (completedPercentage / 100) * circumference;
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -16,9 +30,12 @@ export const DashboardBentoGrid = () => {
         </div>
         <div className="relative z-10 flex items-end justify-between">
           <div className="flex flex-col">
-            <span className="text-6xl font-black">64%</span>
+            <span className="text-6xl font-black">{completedPercentage}%</span>
             <span className="text-sm opacity-90">
-              {t("app.dashboard.habitsDone")}
+              {completedHabits +
+                t("app.dashboard.habitsDoneP1") +
+                totalHabits +
+                t("app.dashboard.habitsDoneP2")}
             </span>
           </div>
           <div className="w-32 h-32 relative">
@@ -36,13 +53,14 @@ export const DashboardBentoGrid = () => {
                 strokeWidth="12"
               />
               <circle
+                className="transition-all duration-700"
                 cx="50"
                 cy="50"
                 fill="transparent"
                 r="40"
                 stroke="#6bfe9c"
-                strokeDasharray="251.2"
-                strokeDashoffset="90.4"
+                strokeDasharray={circumference}
+                strokeDashoffset={offset}
                 strokeLinecap="round"
                 strokeWidth="12"
               />
@@ -76,6 +94,7 @@ export const DashboardBentoGrid = () => {
         </div>
       </div>
 
+      {/* TODO: SOLO MOSTRAR CUANDO SE TENGA UN HABITO DE BEBER AGUA */}
       <div className="bg-on-secondary-container text-on-secondary p-8 rounded-xl flex flex-col justify-between min-h-80">
         <div className="flex justify-between items-start">
           <span className="material-symbols-outlined text-4xl">water_drop</span>

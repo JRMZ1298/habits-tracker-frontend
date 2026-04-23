@@ -11,13 +11,13 @@ export const DashboardStatsSidebar = () => {
         </h3>
         <div className="flex justify-between items-end h-32 gap-2">
           {[
-            { day: "M", height: "40%", color: "bg-primary-container" },
-            { day: "T", height: "90%", color: "bg-surface-tint" },
-            { day: "W", height: "60%", color: "bg-primary-container" },
-            { day: "T", height: "100%", color: "bg-primary" },
-            { day: "F", height: "50%", color: "bg-primary-container" },
-            { day: "S", height: "20%", color: "bg-outline-variant/20" },
-            { day: "S", height: "10%", color: "bg-outline-variant/20" },
+            { day: "Dom", height: "40%", color: "bg-primary-container" },
+            { day: "Lun", height: "90%", color: "bg-surface-tint" },
+            { day: "Mar", height: "60%", color: "bg-primary-container" },
+            { day: "Mie", height: "100%", color: "bg-primary" },
+            { day: "Jue", height: "50%", color: "bg-primary-container" },
+            { day: "Vie", height: "20%", color: "bg-outline-variant/20" },
+            { day: "Sab", height: "10%", color: "bg-outline-variant/20" },
           ].map((bar) => (
             <div
               key={bar.day}

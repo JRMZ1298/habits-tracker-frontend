@@ -16,9 +16,21 @@ export interface Habit {
   id: number;
   user_id: number;
   name: string;
-  description: string;
   frequency: "daily" | "weekly";
-  created_at: string; // FastAPI devuelve fechas como string ISO 8601
+  goal: string;
+  reminders: string[];
+  icon: string;
+  created_at: string;
+}
+
+export interface PaginatedHabits {
+  habits: Habit[];
+  total: number;
+  page: number;
+  limit: number;
+  total_pages: number;
+  has_next: boolean;
+  has_prev: boolean;
 }
 
 export interface HabitLog {
@@ -32,6 +44,10 @@ export interface HabitStats {
   current_streak: number;
   best_streak: number;
   total: number;
+}
+
+export interface HabitWithStatus extends Habit {
+  completedToday: boolean; // lo calculamos en el frontend
 }
 
 // ── Respuestas genéricas ──────────────────────────────────────────────────────

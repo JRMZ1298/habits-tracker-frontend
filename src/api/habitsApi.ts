@@ -10,7 +10,7 @@ const habitsApi = axios.create({
 // Interceptor de REQUEST
 // Se ejecuta ANTES de cada petición y agrega el token automáticamente
 habitsApi.interceptors.request.use((config) => {
-  const token = useAuthStore.getState().token; // Leer sin hook (fuera de React)
+  const token = useAuthStore.getState().token;
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

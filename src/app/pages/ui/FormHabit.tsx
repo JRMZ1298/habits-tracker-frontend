@@ -1,3 +1,5 @@
+import { useCreateHabit } from "@/app/hooks/useHabits";
+import { formatTo12h } from "@/lib/timeFormat";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -62,8 +64,8 @@ const GoalInput = ({
   goal,
   onChange,
 }: {
-  goal: number;
-  onChange: (value: number) => void;
+  goal: string;
+  onChange: (value: string) => void;
 }) => {
   const { t } = useTranslation();
 
@@ -74,15 +76,12 @@ const GoalInput = ({
       </label>
       <div className="flex items-center gap-3">
         <input
-          className="w-20 bg-surface-container-lowest border-none rounded-lg text-xl font-black text-center text-on-background py-2"
-          type="number"
+          className="w-48 bg-surface-container-lowest border-none rounded-lg text-xl font-black text-center text-on-background py-2"
+          type="text"
           value={goal}
           min={0}
-          onChange={(e) => onChange(Number(e.target.value))}
+          onChange={(e) => onChange(e.target.value)}
         />
-        <span className="text-on-surface-variant font-medium">
-          {t("formHabit.minutes")}
-        </span>
       </div>
     </section>
   );
@@ -106,7 +105,7 @@ const ReminderRow = ({
             schedule
           </span>
         </div>
-        <span className="font-bold">{time}</span>
+        <span className="font-bold">{formatTo12h(time)}</span>
       </div>
       <button type="button" onClick={onRemove} className="text-error-dim">
         <span className="material-symbols-outlined">remove_circle_outline</span>
@@ -121,10 +120,33 @@ const ReminderPanel = ({
   onRemove,
 }: {
   reminders: string[];
-  onAdd: () => void;
+  onAdd: (time: string) => void; // ← cambia de () => void a (time: string) => void
   onRemove: (index: number) => void;
 }) => {
   const { t } = useTranslation();
+
+  // Estado interno — solo vive aquí, el padre no necesita saber
+  const [isAdding, setIsAdding] = useState(false);
+  const [selectedTime, setSelectedTime] = useState("08:00");
+
+  const handleConfirm = () => {
+    if (!selectedTime) return;
+
+    // Verificar que no esté duplicada
+    if (reminders.includes(selectedTime)) {
+      setIsAdding(false);
+      return;
+    }
+
+    onAdd(selectedTime); // Manda la hora al padre
+    setIsAdding(false); // Cierra el input
+    setSelectedTime("08:00"); // Resetea para la próxima
+  };
+
+  const handleCancel = () => {
+    setIsAdding(false);
+    setSelectedTime("08:00");
+  };
 
   return (
     <section className="bg-surface-container-lowest rounded-lg p-8">
@@ -136,7 +158,9 @@ const ReminderPanel = ({
           notifications_active
         </span>
       </div>
+
       <div className="space-y-4">
+        {/* Lista de recordatorios existentes — sin cambios */}
         {reminders.map((time, index) => (
           <ReminderRow
             key={time + index}
@@ -144,14 +168,59 @@ const ReminderPanel = ({
             onRemove={() => onRemove(index)}
           />
         ))}
-        <button
-          type="button"
-          onClick={onAdd}
-          className="w-full py-4 border-2 border-dashed border-outline-variant rounded-xl text-outline font-semibold flex items-center justify-center gap-2 hover:bg-surface-container-low transition-colors"
-        >
-          <span className="material-symbols-outlined">add_circle</span>
-          <span>{t("formHabit.addNotificationTime")}</span>
-        </button>
+
+        {/* Input inline — aparece al pulsar el botón */}
+        {isAdding && (
+          <div className="flex items-center gap-3 p-4 rounded-xl bg-surface-container-low border-2 border-primary-dim">
+            <div className="w-10 h-10 rounded-full bg-secondary-dim flex items-center justify-center shrink-0">
+              <span
+                className="material-symbols-outlined text-sm text-white"
+                style={{ fontVariationSettings: "'FILL' 1" }}
+              >
+                schedule
+              </span>
+            </div>
+
+            {/* Input nativo de hora — abre el reloj del sistema */}
+            <input
+              type="time"
+              value={selectedTime}
+              onChange={(e) => setSelectedTime(e.target.value)}
+              className="flex-1 bg-transparent text-on-background font-bold text-base focus:outline-none"
+              autoFocus
+            />
+
+            {/* Confirmar */}
+            <button
+              type="button"
+              onClick={handleConfirm}
+              className="text-primary-dim hover:opacity-80 transition-opacity"
+            >
+              <span className="material-symbols-outlined">check_circle</span>
+            </button>
+
+            {/* Cancelar */}
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="text-error-dim hover:opacity-80 transition-opacity"
+            >
+              <span className="material-symbols-outlined">cancel</span>
+            </button>
+          </div>
+        )}
+
+        {/* Botón agregar — se oculta mientras el input está abierto */}
+        {!isAdding && (
+          <button
+            type="button"
+            onClick={() => setIsAdding(true)}
+            className="w-full py-4 border-2 border-dashed border-outline-variant rounded-xl text-outline font-semibold flex items-center justify-center gap-2 hover:bg-surface-container-low transition-colors"
+          >
+            <span className="material-symbols-outlined">add_circle</span>
+            <span>{t("formHabit.addNotificationTime")}</span>
+          </button>
+        )}
       </div>
     </section>
   );
@@ -174,7 +243,7 @@ const VisualSelector = ({
     { value: "water_drop" },
     { value: "self_improvement" },
     { value: "forest" },
-    { value: "nature" },
+    { value: "sleep" },
   ];
 
   return (
@@ -211,21 +280,28 @@ export const FormHabit = () => {
   const { t } = useTranslation();
   const [habitName, setHabitName] = useState("");
   const [rhythm, setRhythm] = useState("daily");
-  const [goal, setGoal] = useState(30);
+  const [goal, setGoal] = useState("30 minutos");
   const [selectedIcon, setSelectedIcon] = useState("spa");
-  const [reminders, setReminders] = useState(["07:00 AM"]);
+  const [reminders, setReminders] = useState(["07:00"]);
+  const { mutateAsync } = useCreateHabit();
 
-  const handleAddReminder = () => {
-    setReminders((current) => [...current, "08:00 AM"]);
+  const handleAddReminder = (time: string) => {
+    setReminders((prev) => [...prev, time]);
   };
 
   const handleRemoveReminder = (index: number) => {
     setReminders((current) => current.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log({ habitName, rhythm, goal, selectedIcon, reminders });
+    await mutateAsync({
+      name: habitName,
+      frequency: rhythm,
+      goal: goal,
+      category: selectedIcon,
+      reminders: reminders,
+    });
   };
 
   return (

@@ -12,6 +12,8 @@ export interface RegisterForm {
 
 export interface CreateHabitForm {
   name: string;
-  description?: string;
-  frequency?: "daily" | "weekly";
+  frequency: string;
+  goal: string;
+  category: string;
+  reminders: string[];
 }

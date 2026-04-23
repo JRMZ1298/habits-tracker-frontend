@@ -1,9 +1,9 @@
 import habitsApi from "./habitsApi";
 import type {
-  Habit,
   HabitLog,
   HabitStats,
   LoginResponse,
+  PaginatedHabits,
   RegisterResponse,
 } from "@/interfaces/api";
 import type { CreateHabitForm, RegisterForm } from "@/interfaces/forms";
@@ -36,12 +36,20 @@ export const loginUser = (
 };
 
 // ── Hábitos ───────────────────────────────────────────────────────────────────
-export const getHabits = (): Promise<Habit[]> =>
-  habitsApi.get("/habits/").then((res) => res.data);
+export const getHabits = (page = 1, limit = 5): Promise<PaginatedHabits> =>
+  habitsApi
+    .get("/habits/", { params: { page, limit } })
+    .then((res) => res.data);
 
 export const createHabit = (newHabit: CreateHabitForm) =>
   habitsApi
-    .post("/habits/", null, { params: newHabit })
+    .post("/habits/", {
+      name: newHabit.name,
+      frequency: newHabit.frequency,
+      goal: newHabit.goal,
+      reminders: newHabit.reminders ?? [],
+      icon: newHabit.category ?? null,
+    })
     .then((res) => res.data);
 
 export const deleteHabit = (habitId: number) =>
