@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { BadgesSection } from "./BadgesSection";
 
 export const MetricsStatGrid = () => {
   const { t } = useTranslation();
@@ -108,64 +109,7 @@ export const MetricsStatGrid = () => {
           </div>
         </section>
 
-        <section className="md:col-span-4 lg:col-span-4 bg-surface-container-high rounded-lg p-8">
-          <div className="flex justify-between items-center mb-8">
-            <div>
-              <span className="text-[10px] uppercase tracking-widest font-label font-bold text-on-surface-variant">
-                {t("app.metrics.collections")}
-              </span>
-              <h2 className="text-3xl font-bold font-headline">
-                {t("app.metrics.unlockedBadges")}
-              </h2>
-            </div>
-            <button className="text-sm font-bold text-on-surface-variant flex items-center gap-1">
-              {t("app.metrics.gallery")}
-              <span className="material-symbols-outlined text-sm">
-                arrow_forward
-              </span>
-            </button>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-            {[
-              {
-                icon: "eco",
-                label: "Sprout Phase",
-                color: "text-on-surface-variant",
-              },
-              { icon: "sunny", label: "Early Riser", color: "text-tertiary" },
-              {
-                icon: "water_drop",
-                label: "Fluid Flow",
-                color: "text-on-secondary-container",
-              },
-              {
-                icon: "lock",
-                label: "Forest Lord",
-                color: "text-outline",
-                locked: true,
-              },
-            ].map((badge) => (
-              <div
-                key={badge.label}
-                className={`flex flex-col items-center gap-3 ${badge.locked ? "opacity-40 grayscale" : ""}`}
-              >
-                <div
-                  className={`w-20 h-20 rounded-full ${badge.locked ? "bg-surface-container-low border-2 border-dashed border-outline-variant" : "bg-surface-container-lowest shadow-sm"} flex items-center justify-center group hover:scale-110 transition-all duration-300`}
-                >
-                  <span
-                    className={`material-symbols-outlined text-4xl ${badge.color}`}
-                    style={{ fontVariationSettings: "'FILL' 1" }}
-                  >
-                    {badge.icon}
-                  </span>
-                </div>
-                <span className="text-xs font-bold font-label text-center">
-                  {badge.label}
-                </span>
-              </div>
-            ))}
-          </div>
-        </section>
+        <BadgesSection />
       </div>
 
       <section className="mt-8 bg-tertiary-container text-on-tertiary-container rounded-lg p-8 flex flex-col md:flex-row items-center justify-between gap-6">

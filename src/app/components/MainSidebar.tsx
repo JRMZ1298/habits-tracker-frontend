@@ -54,7 +54,7 @@ export const MainSidebar = () => {
       </nav>
 
       <button
-        onClick={() => navigate("/app/habits/newHabit")}
+        onClick={() => navigate("/app/habits/new")}
         className={`mt-auto bg-primary-dim text-white rounded-full py-4 font-bold transition-all duration-200 active:scale-95 shadow-lg shadow-primary/20 hover:bg-on-primary-fixed`}
       >
         {t("app.dashboard.addNewHabit")}

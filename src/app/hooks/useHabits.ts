@@ -1,15 +1,22 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  useQueries,
+} from "@tanstack/react-query";
 import {
   getHabits,
   createHabit,
   deleteHabit,
   logHabit,
   getHabitStats,
+  getHabit,
+  updateHabit,
 } from "../../api/habitsAccions";
 import type {
   Habit,
-  HabitLog,
   HabitStats,
+  LogHabitResponse,
   PaginatedHabits,
 } from "@/interfaces/api";
 import type { CreateHabitForm } from "@/interfaces/forms";
@@ -43,6 +50,7 @@ export function useCreateHabit() {
     onSuccess: () => {
       // Invalida el cache de hábitos → TanStack los vuelve a pedir automáticamente
       queryClient.invalidateQueries({ queryKey: HABITS_KEY });
+      queryClient.invalidateQueries({ queryKey: ["habits-grid"] });
     },
   });
 }
@@ -54,6 +62,7 @@ export function useDeleteHabit() {
     mutationFn: (habitId: number) => deleteHabit(habitId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: HABITS_KEY });
+      queryClient.invalidateQueries({ queryKey: ["habits-grid"] });
     },
   });
 }
@@ -63,11 +72,18 @@ type LogHabitContext = {
 };
 
 // Marcar hábito como completado hoy
-export function useLogHabit() {
+export function useLogHabit(onNewBadge?: (badge: NewBadge) => void) {
   const queryClient = useQueryClient();
 
-  return useMutation<HabitLog, Error, number, LogHabitContext>({
+  return useMutation<LogHabitResponse, Error, number, LogHabitContext>({
     mutationFn: (habitId: number) => logHabit(habitId),
+
+    onSuccess: (data) => {
+      // Si hay insignias nuevas, notifica
+      if (data.new_badges?.length > 0 && onNewBadge) {
+        onNewBadge(data.new_badges[0]);
+      }
+    },
 
     // Optimistic update — marca como completado ANTES de que responda el server
     // Si falla, revierte automáticamente
@@ -100,15 +116,76 @@ export function useLogHabit() {
       // Refresca los datos reales del server al terminar
       queryClient.invalidateQueries({ queryKey: HABITS_KEY });
       queryClient.invalidateQueries({ queryKey: ["log-today", habitId] });
+      queryClient.invalidateQueries({ queryKey: ["badges"] });
+      queryClient.invalidateQueries({ queryKey: ["habits-grid"] });
     },
   });
 }
 
-// Stats de un hábito específico
-export function useHabitStats(habitId: number) {
-  return useQuery<HabitStats>({
-    queryKey: ["stats", habitId],
-    queryFn: () => getHabitStats(habitId),
-    enabled: !!habitId,
+export function useHabitsStats(habitIds: number[]) {
+  const results = useQueries({
+    queries: habitIds.map((id) => ({
+      queryKey: ["stats", id],
+      queryFn: () => getHabitStats(id),
+      enabled: !!id,
+      staleTime: 1000 * 60, // Cache válido 1 minuto
+    })),
+  });
+
+  // Mapa { habitId: HabitStats }
+  const statsMap = habitIds.reduce(
+    (acc, id, index) => {
+      const data = results[index].data;
+      if (data) acc[id] = data;
+      return acc;
+    },
+    {} as Record<number, HabitStats>,
+  );
+
+  const isLoading = results.some((r) => r.isLoading);
+
+  return { statsMap, isLoading };
+}
+
+//Get Habits para la pagina de Habitos
+export function useHabitsGrid(limit = 6) {
+  const [page, setPage] = useState(1);
+
+  const query = useQuery<PaginatedHabits, Error>({
+    queryKey: ["habits-grid", page],
+    queryFn: () => getHabits(page, limit),
+    placeholderData: (prev) => prev,
+  });
+
+  return {
+    ...query,
+    page,
+    setPage,
+    habits: query.data?.habits ?? [],
+  };
+}
+
+// Obtener un hábito por ID
+export function useHabit(id: number | undefined) {
+  return useQuery<Habit, Error>({
+    queryKey: ["habit", id],
+    queryFn: () => getHabit(id!),
+    enabled: !!id, // Solo ejecuta si hay un id
+  });
+}
+
+// Actualizar hábito
+export function useUpdateHabit(id: number) {
+  const queryClient = useQueryClient();
+
+  return useMutation<Habit, Error, CreateHabitForm>({
+    mutationFn: (data) => updateHabit(id, data),
+    onSuccess: (updated) => {
+      // Actualiza el cache del hábito individual
+      queryClient.setQueryData(["habit", id], updated);
+      // Invalida la lista para que se refresque
+      queryClient.invalidateQueries({ queryKey: ["habits"] });
+      queryClient.invalidateQueries({ queryKey: ["habits-grid"] });
+    },
   });
 }

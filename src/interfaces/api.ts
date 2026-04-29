@@ -55,7 +55,9 @@ export interface MessageResponse {
   mensaje: string;
 }
 
-export interface LogHabitResponse extends MessageResponse, HabitStats {}
+export interface LogHabitResponse extends MessageResponse, HabitStats {
+  new_badges: { name: string; icon: string; description: string }[];
+}
 
 // ── Errores de FastAPI ────────────────────────────────────────────────────────
 // FastAPI devuelve los errores en este formato estándar
@@ -67,4 +69,23 @@ export interface ValidationError {
   loc: (string | number)[]; // Dónde ocurrió el error: ["body", "email"]
   msg: string; // "field required"
   type: string; // "missing"
+}
+
+// ---------Badges------------------------------------------------------------------
+
+export interface Badge {
+  id: number;
+  key: string;
+  name: string;
+  icon: string;
+  description: string | null;
+  category: string;
+  required_streak: number;
+  unlocked: boolean;
+  unlocked_at: string | null;
+}
+
+// El badge ahora incluye el progreso hacia él
+export interface BadgeWithProgress extends Badge {
+  currentStreak: number; // lo calculamos en el frontend
 }

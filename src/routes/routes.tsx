@@ -13,6 +13,7 @@ import {
   NotAuthenticatedRoute,
 } from "@/components/routes/ProtectedRoutes";
 import AuthLayout from "@/auth/layouts/AuthLayout";
+import { BadgesGalleryPage } from "@/app/pages/BadgesGalleryPage";
 
 export const appRoutes = createBrowserRouter([
   //Main Routes
@@ -61,12 +62,20 @@ export const appRoutes = createBrowserRouter([
         element: <HabitsPage />,
       },
       {
-        path: "habits/:idHabit",
+        path: "habits/new",
+        element: <HabitAdminPage />,
+      },
+      {
+        path: "habits/edit/:idHabit",
         element: <HabitAdminPage />,
       },
       {
         path: "settings",
         element: <SettingsPage />,
+      },
+      {
+        path: "badges",
+        element: <BadgesGalleryPage />,
       },
     ],
   },

@@ -12,9 +12,10 @@ export const DashboardPage = () => {
   const habitIds = habits?.map((h) => h.id) ?? [];
   const { completedMap } = useTodayLogs(habitIds);
   const completedCount = Object.values(completedMap).filter(Boolean).length;
-  const completedPercentage = habits
-    ? obtenerPorcentaje(data?.total || 0, completedCount)
-    : 0;
+  const completedPercentage =
+    data?.total != undefined
+      ? obtenerPorcentaje(data?.total || 0, completedCount)
+      : 0;
 
   return (
     <>

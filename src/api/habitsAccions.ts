@@ -1,7 +1,8 @@
 import habitsApi from "./habitsApi";
 import type {
-  HabitLog,
+  Habit,
   HabitStats,
+  LogHabitResponse,
   LoginResponse,
   PaginatedHabits,
   RegisterResponse,
@@ -55,8 +56,25 @@ export const createHabit = (newHabit: CreateHabitForm) =>
 export const deleteHabit = (habitId: number) =>
   habitsApi.delete(`/habits/${habitId}`).then((res) => res.data);
 
+export const getHabit = (id: number): Promise<Habit> =>
+  habitsApi.get(`/habits/${id}`).then((res) => res.data);
+
+export const updateHabit = (
+  id: number,
+  data: CreateHabitForm,
+): Promise<Habit> =>
+  habitsApi
+    .put(`/habits/${id}`, {
+      name: data.name,
+      frequency: data.frequency ?? "daily",
+      goal: data.goal ?? null,
+      reminders: data.reminders ?? [],
+      icon: data.category ?? null,
+    })
+    .then((res) => res.data);
+
 // ── Logs (rachas) ─────────────────────────────────────────────────────────────
-export const logHabit = (habitId: number): Promise<HabitLog> =>
+export const logHabit = (habitId: number): Promise<LogHabitResponse> =>
   habitsApi.post(`/habits/${habitId}/logs/`).then((res) => res.data);
 
 export const getHabitStats = (habitId: number): Promise<HabitStats> =>

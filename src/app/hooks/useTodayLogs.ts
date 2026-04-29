@@ -32,6 +32,8 @@ export function useTodayLogs(habitIds: number[]) {
         }
         return failureCount < 2;
       },
+      refetchOnWindowFocus: false, // ← no refetchear al volver a la ventana
+      staleTime: 1000 * 60 * 5,
     })),
   });
 

@@ -8,6 +8,9 @@ interface HabitCardProps {
   percentage: number;
   completedBars: number;
   totalBars: number;
+  onEdit: () => void;
+  onDelete: () => void;
+  isDeleting?: boolean;
 }
 
 export const HabitCard = ({
@@ -20,6 +23,9 @@ export const HabitCard = ({
   percentage,
   completedBars,
   totalBars,
+  onEdit,
+  onDelete,
+  isDeleting,
 }: HabitCardProps) => {
   return (
     <div className="bg-surface-container-lowest rounded-lg p-6 group transition-all duration-300 hover:-translate-y-1">
@@ -38,11 +44,20 @@ export const HabitCard = ({
           </div>
         </div>
         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button className="p-2 text-on-background hover:text-secondary-dim transition-colors">
+          <button
+            onClick={onEdit}
+            className="p-2 text-on-background hover:text-secondary-dim transition-colors"
+          >
             <span className="material-symbols-outlined text-xl">edit</span>
           </button>
-          <button className="p-2 text-on-background hover:text-error transition-colors">
-            <span className="material-symbols-outlined text-xl">delete</span>
+          <button
+            onClick={onDelete}
+            disabled={isDeleting}
+            className="p-2 text-on-background hover:text-error transition-colors disabled:opacity-50"
+          >
+            <span className="material-symbols-outlined text-xl">
+              {isDeleting ? "hourglass_empty" : "delete"}
+            </span>
           </button>
         </div>
       </div>

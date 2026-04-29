@@ -155,6 +155,19 @@ const resources = {
         },
       },
       app: {
+        badges: {
+          title: "Galería de insignias",
+          subtitle: "Tu colección de logros",
+          unlocked: "Desbloqueadas",
+          total: "Total disponibles",
+          progress: "Progreso",
+          empty: "No hay insignias en esta categoría",
+          filter: {
+            all: "Todas",
+            unlocked: "Desbloqueadas",
+            locked: "Bloqueadas",
+          },
+        },
         dashboard: {
           prev: "Anterior",
           next: "Siguiente",
@@ -298,6 +311,12 @@ const resources = {
         cultivateHabit: "Cultivar hábito",
         quote: "El crecimiento no es un destino, es un ritmo.",
         schedule: "Horario",
+        editTitle: "Editar hábito",
+        editSubtitle: "Ajusta lo que necesites",
+        saveChanges: "Guardar cambios",
+        saving: "Guardando...",
+        nameRequired: "El nombre es obligatorio",
+        error: "Algo salió mal, intenta de nuevo",
       },
       sidebar: {
         addNewHabit: "Agregar nuevo hábito",
