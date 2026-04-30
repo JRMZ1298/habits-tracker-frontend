@@ -5,17 +5,21 @@ import { DashboardHeader } from "../components/DashboardHeader";
 import { DashboardStatsSidebar } from "../components/DashboardStatsSidebar";
 import { useHabits } from "../hooks/useHabits";
 import { useTodayLogs } from "../hooks/useTodayLogs";
+import { useAllCompletedToday } from "../hooks/useWeeklyLogs";
 
 export const DashboardPage = () => {
   const { data, habits, isLoading, page, setPage } = useHabits(5);
-  // IDs de los hábitos para consultar logs de hoy en paralelo
-  const habitIds = habits?.map((h) => h.id) ?? [];
-  const { completedMap } = useTodayLogs(habitIds);
-  const completedCount = Object.values(completedMap).filter(Boolean).length;
+
+  const pagehabitIds = habits?.map((h) => h.id) ?? [];
+  const { completedMap } = useTodayLogs(pagehabitIds);
+
+  const totalHabits = data?.total ?? 0;
+
+  const { data: allTodayCount } = useAllCompletedToday();
+
+  const completedCount = allTodayCount ?? 0;
   const completedPercentage =
-    data?.total != undefined
-      ? obtenerPorcentaje(data?.total || 0, completedCount)
-      : 0;
+    totalHabits > 0 ? obtenerPorcentaje(totalHabits, completedCount) : 0;
 
   return (
     <>
@@ -25,7 +29,7 @@ export const DashboardPage = () => {
         level={33}
       />
       <DashboardBentoGrid
-        totalHabits={data?.total || 0}
+        totalHabits={totalHabits}
         completedHabits={completedCount}
         completedPercentage={completedPercentage}
       />

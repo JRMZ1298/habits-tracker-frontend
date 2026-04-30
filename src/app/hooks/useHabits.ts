@@ -118,6 +118,8 @@ export function useLogHabit(onNewBadge?: (badge: NewBadge) => void) {
       queryClient.invalidateQueries({ queryKey: ["log-today", habitId] });
       queryClient.invalidateQueries({ queryKey: ["badges"] });
       queryClient.invalidateQueries({ queryKey: ["habits-grid"] });
+      queryClient.invalidateQueries({ queryKey: ["today-count"] }); // ← nuevo
+      queryClient.invalidateQueries({ queryKey: ["weekly-summary"] });
     },
   });
 }

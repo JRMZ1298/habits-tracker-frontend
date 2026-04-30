@@ -89,3 +89,11 @@ export interface Badge {
 export interface BadgeWithProgress extends Badge {
   currentStreak: number; // lo calculamos en el frontend
 }
+
+// ---------Logs---------------------------------------------------------------------
+
+export interface WeeklyDay {
+  date: string;
+  day: string; // "Sun" | "Mon" | "Tue" ...
+  completed: number;
+}

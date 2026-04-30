@@ -10,13 +10,13 @@ export const VisualSelector = ({
   const { t } = useTranslation();
 
   const icons = [
-    { value: "spa", active: true },
-    { value: "potted_plant" },
-    { value: "eco" },
-    { value: "psychology_alt" },
-    { value: "water_drop" },
+    { value: "favorite", active: true },
+    { value: "directions_run" },
     { value: "self_improvement" },
-    { value: "forest" },
+    { value: "exercise" },
+    { value: "water_drop" },
+    { value: "menu_book" },
+    { value: "fork_spoon" },
     { value: "sleep" },
   ];
 

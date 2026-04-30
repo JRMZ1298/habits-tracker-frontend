@@ -52,7 +52,7 @@ export const FormHabit = () => {
       name: "",
       frequency: "daily",
       goal: "30 minutos",
-      category: "spa",
+      category: "favorite",
       reminders: [{ value: "07:00" }],
     },
   });

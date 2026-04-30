@@ -15,7 +15,7 @@ const queryClient = new QueryClient({
 export const HabitsMain = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={appRoutes} />;
+      <RouterProvider router={appRoutes} />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

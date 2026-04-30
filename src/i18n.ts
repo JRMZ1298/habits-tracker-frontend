@@ -169,6 +169,7 @@ const resources = {
           },
         },
         dashboard: {
+          thisWeek: "completados esta semana",
           prev: "Anterior",
           next: "Siguiente",
           noHabits: "No tienes hábitos todavía. ¡Crea el primero!",
@@ -235,6 +236,7 @@ const resources = {
           progress2: "2/3 sesiones",
           progress3: "15/15 minutos realizados",
           progress4: "No iniciado hoy",
+          noHabits: "No tienes habitos registrados aun",
         },
         metrics: {
           title: "Métricas de impacto.",
