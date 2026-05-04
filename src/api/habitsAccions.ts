@@ -6,6 +6,8 @@ import type {
   LoginResponse,
   PaginatedHabits,
   RegisterResponse,
+  WeeklyDay,
+  YearlyMonth,
 } from "@/interfaces/api";
 import type { CreateHabitForm, RegisterForm } from "@/interfaces/forms";
 
@@ -79,3 +81,9 @@ export const logHabit = (habitId: number): Promise<LogHabitResponse> =>
 
 export const getHabitStats = (habitId: number): Promise<HabitStats> =>
   habitsApi.get(`/habits/${habitId}/logs/stats`).then((res) => res.data);
+
+export const getWeeklySummary = (): Promise<WeeklyDay[]> =>
+  habitsApi.get("/stats/weekly").then((res) => res.data);
+
+export const getYearlySummary = (): Promise<YearlyMonth[]> =>
+  habitsApi.get("/stats/yearly").then((res) => res.data);

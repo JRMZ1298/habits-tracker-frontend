@@ -71,6 +71,12 @@ type LogHabitContext = {
   previous: Habit[] | undefined;
 };
 
+interface NewBadge {
+  name: string;
+  icon: string;
+  description: string;
+}
+
 // Marcar hábito como completado hoy
 export function useLogHabit(onNewBadge?: (badge: NewBadge) => void) {
   const queryClient = useQueryClient();
@@ -117,9 +123,12 @@ export function useLogHabit(onNewBadge?: (badge: NewBadge) => void) {
       queryClient.invalidateQueries({ queryKey: HABITS_KEY });
       queryClient.invalidateQueries({ queryKey: ["log-today", habitId] });
       queryClient.invalidateQueries({ queryKey: ["badges"] });
+      queryClient.invalidateQueries({ queryKey: ["badges-progress"] });
       queryClient.invalidateQueries({ queryKey: ["habits-grid"] });
-      queryClient.invalidateQueries({ queryKey: ["today-count"] }); // ← nuevo
+      queryClient.invalidateQueries({ queryKey: ["today-count"] });
       queryClient.invalidateQueries({ queryKey: ["weekly-summary"] });
+      queryClient.invalidateQueries({ queryKey: ["profile-stats"] });
+      queryClient.invalidateQueries({ queryKey: ["yearly-summary"] });
     },
   });
 }

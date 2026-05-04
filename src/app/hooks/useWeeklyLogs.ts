@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
+import { getWeeklySummary, getYearlySummary } from "@/api/habitsAccions";
 import type { WeeklyDay } from "@/interfaces/api";
+import type { YearlyMonth } from "@/interfaces/api";
 import habitsApi from "@/api/habitsApi";
-
-const getWeeklySummary = (): Promise<WeeklyDay[]> =>
-  habitsApi.get("/stats/weekly").then((res) => res.data);
 
 export function useWeeklySummary() {
   return useQuery<WeeklyDay[]>({
@@ -20,6 +19,15 @@ export function useAllCompletedToday() {
     queryFn: () =>
       habitsApi.get("/stats/today-count").then((res) => res.data.completed),
     staleTime: 0, // Siempre fresco — cambia cuando el usuario completa hábitos
+    refetchOnWindowFocus: false,
+  });
+}
+
+export function useYearlySummary() {
+  return useQuery<YearlyMonth[]>({
+    queryKey: ["yearly-summary"],
+    queryFn: getYearlySummary,
+    staleTime: 1000 * 60 * 10,
     refetchOnWindowFocus: false,
   });
 }

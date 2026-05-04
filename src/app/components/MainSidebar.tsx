@@ -1,10 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router";
+import { useProfileStats } from "../hooks/useProfileStats";
 
 export const MainSidebar = () => {
   const { t } = useTranslation();
   const pathname = useLocation();
   const navigate = useNavigate();
+  const { data: profile } = useProfileStats();
 
   return (
     <aside className="hidden md:flex h-screen w-64 sticky top-0 rounded-r-[2rem] bg-surface-container-low p-6 gap-8 flex-col">
@@ -13,7 +15,7 @@ export const MainSidebar = () => {
           {t("app.dashboard.growthJourney")}
         </h2>
         <p className="text-[10px] uppercase tracking-widest font-label text-shadow-primary-dim opacity-80">
-          {t("app.dashboard.levelLabel")}
+          {profile?.level + " " + t("app.dashboard.level")}
         </p>
       </div>
 

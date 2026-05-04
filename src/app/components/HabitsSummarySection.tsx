@@ -1,6 +1,10 @@
+import type { StreakInfo } from "@/interfaces/api";
 import { useTranslation } from "react-i18next";
+interface Props {
+  best_current_streak: StreakInfo;
+}
 
-export const HabitsSummarySection = () => {
+export const HabitsSummarySection: React.FC<Props> = (props) => {
   const { t } = useTranslation();
 
   return (
@@ -11,7 +15,7 @@ export const HabitsSummarySection = () => {
             {t("app.habits.currentFocus")}
           </span>
           <h2 className="text-3xl md:text-4xl font-extrabold text-on-surface mt-2 tracking-tight">
-            {t("app.habits.consistency")}
+            {props.best_current_streak.habit}
           </h2>
           <p className="text-on-surface-variant mt-2 max-w-xs">
             {t("app.habits.streakMessage")}
@@ -32,7 +36,10 @@ export const HabitsSummarySection = () => {
         >
           local_fire_department
         </span>
-        <div className="text-4xl font-black text-on-primary-fixed">12</div>
+        <div className="text-4xl font-black text-on-primary-fixed">
+          {props.best_current_streak.streak} dia
+          {props.best_current_streak.streak > 1 && "s"}
+        </div>
         <div className="font-label text-xs uppercase tracking-widest text-on-primary-fixed font-bold">
           {t("app.habits.dayStreak")}
         </div>

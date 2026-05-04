@@ -1,8 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { MetricsStatGrid } from "../components/MetricsStatGrid";
+import { useProfileStats } from "../hooks/useProfileStats";
 
 export const MetricsPage = () => {
   const { t } = useTranslation();
+  const { data: profile } = useProfileStats();
 
   return (
     <>
@@ -15,7 +17,16 @@ export const MetricsPage = () => {
         </p>
       </header>
 
-      <MetricsStatGrid />
+      <MetricsStatGrid
+        best_streak={
+          profile?.best_historical_streak ?? { streak: 0, habit: null }
+        }
+        total_completed={profile?.total_completed ?? 0}
+        level={profile?.level ?? 1}
+        progress_in_level={profile?.progress_in_level ?? 0}
+        habits_to_next={profile?.habits_to_next ?? 10}
+        habits_per_level={profile?.habits_per_level ?? 10}
+      />
     </>
   );
 };

@@ -97,3 +97,24 @@ export interface WeeklyDay {
   day: string; // "Sun" | "Mon" | "Tue" ...
   completed: number;
 }
+
+export interface StreakInfo {
+  streak: number;
+  habit: string | null; // nombre del hábito con esa racha
+}
+
+export interface UserProfileStats {
+  level: number;
+  total_completed: number;
+  progress_in_level: number; // 0-9
+  habits_to_next: number; // cuántos faltan para el siguiente nivel
+  habits_per_level: number; // siempre 10
+  best_current_streak: StreakInfo;
+  best_historical_streak: StreakInfo;
+}
+
+export interface YearlyMonth {
+  month: number; // 1-12
+  label: string; // "Jan", "Feb"...
+  completed: number;
+}

@@ -13,7 +13,6 @@ export const LoginForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login attempt:", { email, password });
     await mutateAsync({ email, password });
   };
 

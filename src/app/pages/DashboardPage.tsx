@@ -6,6 +6,7 @@ import { DashboardStatsSidebar } from "../components/DashboardStatsSidebar";
 import { useHabits } from "../hooks/useHabits";
 import { useTodayLogs } from "../hooks/useTodayLogs";
 import { useAllCompletedToday } from "../hooks/useWeeklyLogs";
+import { useProfileStats } from "../hooks/useProfileStats";
 
 export const DashboardPage = () => {
   const { data, habits, isLoading, page, setPage } = useHabits(5);
@@ -21,12 +22,24 @@ export const DashboardPage = () => {
   const completedPercentage =
     totalHabits > 0 ? obtenerPorcentaje(totalHabits, completedCount) : 0;
 
+  const { data: profile, isLoading: profileStatsLoading } = useProfileStats();
+
+  if (profileStatsLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="bg-surface-container-low rounded-lg p-8 animate-pulse h-32" />
+        <div className="bg-surface-container-low rounded-lg p-8 animate-pulse h-48" />
+        <div className="bg-surface-container-low rounded-lg p-8 animate-pulse h-64" />
+      </div>
+    );
+  }
+
   return (
     <>
       <DashboardHeader
         percentageCompleted={completedPercentage}
-        currentStreak={12}
-        level={33}
+        currentStreak={profile?.best_current_streak.streak ?? 0}
+        level={profile?.level ?? 1}
       />
       <DashboardBentoGrid
         totalHabits={totalHabits}

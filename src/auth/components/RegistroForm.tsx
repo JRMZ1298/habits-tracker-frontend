@@ -15,7 +15,6 @@ export const RegistroForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Registration attempt:", { name, email, password });
     await mutateAsync({ email, name, password, confirmPassword: password });
   };
 

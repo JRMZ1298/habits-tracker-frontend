@@ -2,13 +2,19 @@ import { useTranslation } from "react-i18next";
 import { HabitsSummarySection } from "../components/HabitsSummarySection";
 import { HabitsManagement } from "../components/HabitsManagement";
 import { HabitsGrid } from "../components/HabitsGrid";
+import { useProfileStats } from "../hooks/useProfileStats";
 
 export const HabitsPage = () => {
   const { t } = useTranslation();
+  const { data: profile } = useProfileStats();
 
   return (
     <div>
-      <HabitsSummarySection />
+      <HabitsSummarySection
+        best_current_streak={
+          profile?.best_current_streak ?? { habit: "ninguno", streak: 0 }
+        }
+      />
 
       <HabitsManagement />
 
