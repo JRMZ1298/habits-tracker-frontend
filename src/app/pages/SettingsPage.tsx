@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { NotificationsPanel } from "../components/NotificationsPanel";
 import { WebhooksPanel } from "../components/WebhooksPanel";
-import { AdvancedConfiguration } from "../components/AdvancedConfiguration";
 import { IdentitySettings } from "../components/IdentitySettings";
 
 export const SettingsPage = () => {
@@ -21,7 +20,6 @@ export const SettingsPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <NotificationsPanel />
         <WebhooksPanel />
-        <AdvancedConfiguration />
         <IdentitySettings />
       </div>
     </section>

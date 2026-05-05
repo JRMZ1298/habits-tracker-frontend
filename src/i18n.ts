@@ -264,6 +264,11 @@ const resources = {
           optimizeSchedule: "Optimizar horario",
         },
         settings: {
+          notifications: "Notificaciones",
+          dailyReminder: "Recordatorio diario",
+          dailyReminderDesc: "Recibe a las 8 AM la lista de hábitos pendientes",
+          weeklySummary: "Resumen semanal",
+          weeklySummaryDesc: "Recibe cada lunes un resumen de tu semana",
           title: "Configuración",
           subtitle: "Personaliza tu entorno de crecimiento",
           notificationPreferences: "Preferencias de notificación",

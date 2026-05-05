@@ -3,10 +3,12 @@ import { HabitsSummarySection } from "../components/HabitsSummarySection";
 import { HabitsManagement } from "../components/HabitsManagement";
 import { HabitsGrid } from "../components/HabitsGrid";
 import { useProfileStats } from "../hooks/useProfileStats";
+import { useNavigate } from "react-router";
 
 export const HabitsPage = () => {
   const { t } = useTranslation();
   const { data: profile } = useProfileStats();
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -21,7 +23,10 @@ export const HabitsPage = () => {
       <HabitsGrid />
 
       <div className="mt-12 hidden md:block">
-        <button className="w-full py-8 border-2 border-dashed border-outline-variant rounded-lg flex flex-col items-center justify-center gap-2 group hover:bg-surface-container-low transition-all">
+        <button
+          onClick={() => navigate("/app/habits/new")}
+          className="w-full py-8 border-2 border-dashed border-outline-variant rounded-lg flex flex-col items-center justify-center gap-2 group hover:bg-surface-container-low transition-all"
+        >
           <span className="material-symbols-outlined text-3xl text-on-surface-variant group-hover:scale-110 transition-transform">
             add_circle
           </span>

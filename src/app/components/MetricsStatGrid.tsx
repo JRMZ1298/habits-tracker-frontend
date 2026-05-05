@@ -48,7 +48,7 @@ export const MetricsStatGrid: React.FC<Props> = (props) => {
 
             {/* Número de racha */}
             <h2 className="text-6xl font-extrabold mt-1 font-headline tracking-tighter leading-none">
-              {props.best_streak.streak} dia{" "}
+              {props.best_streak.streak} dia
               {props.best_streak.streak > 1 && "s"}
             </h2>
             <p className="text-lg font-medium opacity-90 mt-1">

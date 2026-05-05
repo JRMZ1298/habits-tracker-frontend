@@ -118,3 +118,9 @@ export interface YearlyMonth {
   label: string; // "Jan", "Feb"...
   completed: number;
 }
+
+// ---------Notifications---------------------------------------------------------------------
+export interface NotificationPreferences {
+  daily_reminder: boolean;
+  weekly_summary: boolean;
+}

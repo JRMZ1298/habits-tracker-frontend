@@ -7,6 +7,7 @@ export const MainSidebar = () => {
   const pathname = useLocation();
   const navigate = useNavigate();
   const { data: profile } = useProfileStats();
+  const level = profile?.level || 1;
 
   return (
     <aside className="hidden md:flex h-screen w-64 sticky top-0 rounded-r-[2rem] bg-surface-container-low p-6 gap-8 flex-col">
@@ -15,7 +16,7 @@ export const MainSidebar = () => {
           {t("app.dashboard.growthJourney")}
         </h2>
         <p className="text-[10px] uppercase tracking-widest font-label text-shadow-primary-dim opacity-80">
-          {profile?.level + " " + t("app.dashboard.level")}
+          {level + " " + t("app.dashboard.level")}
         </p>
       </div>
 
