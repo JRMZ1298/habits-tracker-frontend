@@ -10,11 +10,11 @@ export const RhythmSelector = ({
   const { t } = useTranslation();
 
   return (
-    <section className="bg-surface-container-low rounded-lg p-6">
-      <label className="block text-[0.6875rem] font-bold text-on-surface-variant tracking-widest uppercase mb-6 font-label">
+    <section className="bg-canvas border border-hairline rounded-[18px] p-[24px]">
+      <label className="text-[12px] text-ink-muted-48 tracking-[-0.12px] mb-[12px] block">
         {t("formHabit.rhythm")}
       </label>
-      <div className="flex p-1 bg-surface-container-high rounded-full">
+      <div className="flex p-[4px] bg-canvas-parchment rounded-[11px]">
         {[
           { label: t("formHabit.daily"), value: "daily" },
           { label: t("formHabit.weekly"), value: "weekly" },
@@ -23,11 +23,12 @@ export const RhythmSelector = ({
             key={option.value}
             type="button"
             onClick={() => onChange(option.value)}
-            className={`flex-1 py-2 rounded-full transition-all ${
-              rhythm === option.value
-                ? "bg-surface-container-lowest text-on-background font-bold shadow-sm"
-                : "text-on-surface-variant font-medium"
-            }`}
+            className={`flex-1 py-[8px] rounded-[8px] text-[14px] tracking-[-0.224px] transition-all
+              ${
+                rhythm === option.value
+                  ? "bg-canvas text-ink shadow-sm font-normal"
+                  : "text-ink-muted-48"
+              }`}
           >
             {option.label}
           </button>

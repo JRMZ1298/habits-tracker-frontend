@@ -3,10 +3,13 @@ import { useTranslation } from "react-i18next";
 import { useBadges, useBadgesProgress } from "../hooks/useBadges";
 import type { Badge } from "@/interfaces/api";
 import { BadgeCard } from "../components/BadgeCard";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 
-type Filter = "all" | "unlocked" | "locked";
-
-// Agrupa las insignias por categoría
 function groupByCategory(badges: Badge[]): Record<string, Badge[]> {
   return badges.reduce(
     (acc, badge) => {
@@ -19,7 +22,6 @@ function groupByCategory(badges: Badge[]): Record<string, Badge[]> {
   );
 }
 
-// Nombre legible de cada categoría
 const CATEGORY_NAMES: Record<string, string> = {
   water_drop: "Hidratación",
   directions_run: "Ejercicio",
@@ -30,16 +32,16 @@ const CATEGORY_NAMES: Record<string, string> = {
 
 export const BadgesGalleryPage = () => {
   const { t } = useTranslation();
-  const [filter, setFilter] = useState<Filter>("all");
+  const [activeTab, setActiveTab] = useState("all");
   const { data: badges, isLoading } = useBadges();
   const { data: progress } = useBadgesProgress();
 
   const filtered = useMemo(() => {
     if (!badges) return [];
-    if (filter === "unlocked") return badges.filter((b) => b.unlocked);
-    if (filter === "locked") return badges.filter((b) => !b.unlocked);
+    if (activeTab === "unlocked") return badges.filter((b) => b.unlocked);
+    if (activeTab === "locked") return badges.filter((b) => !b.unlocked);
     return badges;
-  }, [badges, filter]);
+  }, [badges, activeTab]);
 
   const grouped = useMemo(() => groupByCategory(filtered), [filtered]);
   const unlockedCount = badges?.filter((b) => b.unlocked).length ?? 0;
@@ -49,17 +51,20 @@ export const BadgesGalleryPage = () => {
 
   if (isLoading) {
     return (
-      <div>
-        <div style={{ marginBottom: "2rem" }}>
-          <h1 className="text-4xl font-black text-on-surface font-headline">
+      <div className="space-y-[48px]">
+        <div>
+          <h1
+            className="text-[40px] md:text-[56px] font-semibold text-ink leading-[1.1]"
+            style={{ letterSpacing: "-0.28px" }}
+          >
             {t("app.badges.title")}
           </h1>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-[20px]">
           {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
             <div
               key={i}
-              className="bg-surface-container-lowest rounded-lg p-6 animate-pulse h-36"
+              className="bg-canvas border border-hairline rounded-[18px] p-[24px] animate-pulse h-[180px]"
             />
           ))}
         </div>
@@ -68,89 +73,93 @@ export const BadgesGalleryPage = () => {
   }
 
   return (
-    <div>
+    <div className="space-y-[48px]">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-black text-on-surface font-headline">
+      <div className="space-y-[12px] pt-[32px]">
+        <h1
+          className="text-[40px] md:text-[56px] font-semibold text-ink leading-[1.1]"
+          style={{ letterSpacing: "-0.28px" }}
+        >
           {t("app.badges.title")}
         </h1>
-        <p className="text-on-surface-variant mt-1 font-label">
+        <p className="text-[17px] text-ink-muted-48 leading-[1.47]">
           {t("app.badges.subtitle")}
         </p>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      {/* Stats Row */}
+      <div className="grid grid-cols-3 gap-[20px]">
         {[
           { label: t("app.badges.unlocked"), value: unlockedCount },
           { label: t("app.badges.total"), value: totalCount },
           { label: t("app.badges.progress"), value: `${percentage}%` },
         ].map(({ label, value }) => (
-          <div key={label} className="bg-surface-container-low rounded-lg p-5">
-            <p className="text-xs font-bold text-on-surface-variant uppercase tracking-widest font-label mb-1">
+          <div
+            key={label}
+            className="bg-canvas border border-hairline rounded-[18px] p-[24px]"
+          >
+            <p className="text-[12px] text-ink-muted-48 tracking-[-0.12px] mb-[8px]">
               {label}
             </p>
-            <p className="text-3xl font-black text-on-background font-headline">
+            <p
+              className="text-[28px] font-semibold text-ink leading-[1.14]"
+              style={{ letterSpacing: "0.196px" }}
+            >
               {value}
             </p>
           </div>
         ))}
       </div>
 
-      {/* Filtros */}
-      <div className="flex gap-2 mb-8">
-        {(["all", "unlocked", "locked"] as Filter[]).map((f) => (
-          <button
-            key={f}
-            onClick={() => setFilter(f)}
-            className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors border
-              ${
-                filter === f
-                  ? "bg-on-background text-background border-on-background"
-                  : "bg-transparent text-on-surface-variant border-outline-variant hover:bg-surface-container-low"
-              }`}
-          >
-            {t(`app.badges.filter.${f}`)}
-          </button>
-        ))}
-      </div>
+      {/* Filters with Tabs */}
+      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v)}>
+        <TabsList className="bg-canvas border border-hairline">
+          <TabsTrigger value="all">{t("app.badges.filter.all")}</TabsTrigger>
+          <TabsTrigger value="unlocked">{t("app.badges.filter.unlocked")}</TabsTrigger>
+          <TabsTrigger value="locked">{t("app.badges.filter.locked")}</TabsTrigger>
+        </TabsList>
 
-      {/* Grid por categoría */}
-      {Object.entries(grouped).map(([category, categoryBadges]) => (
-        <div key={category} className="mb-10">
-          <div className="flex items-center gap-3 mb-4 pb-3 border-b border-outline-variant">
-            <span className="material-symbols-outlined text-on-surface-variant text-lg">
-              {category}
-            </span>
-            <p className="text-xs font-bold text-on-surface-variant uppercase tracking-widest font-label">
-              {CATEGORY_NAMES[category] ?? category}
-            </p>
-            <span className="text-xs text-outline ml-auto">
-              {categoryBadges.filter((b) => b.unlocked).length} /{" "}
-              {categoryBadges.length}
-            </span>
-          </div>
+        <TabsContent value={activeTab}>
+          {/* Grid by category */}
+          {Object.entries(grouped).map(([category, categoryBadges]) => (
+            <div key={category} className="space-y-[24px] mt-[24px]">
+              <div className="flex items-center gap-[12px] pb-[17px] border-b border-hairline">
+                <span className="material-symbols-outlined text-ink-muted-48 text-[20px]">
+                  {category}
+                </span>
+                <p className="text-[14px] text-ink-muted-48 tracking-[-0.224px]">
+                  {CATEGORY_NAMES[category] ?? category}
+                </p>
+                <span className="text-[12px] text-ink-muted-48 ml-auto tracking-[-0.12px]">
+                  {categoryBadges.filter((b) => b.unlocked).length} /{" "}
+                  {categoryBadges.length}
+                </span>
+              </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {categoryBadges.map((badge) => (
-              <BadgeCard
-                key={badge.key}
-                badge={badge}
-                currentStreak={progress?.[badge.category] ?? 0}
-              />
-            ))}
-          </div>
-        </div>
-      ))}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-[20px]">
+                {categoryBadges.map((badge) => (
+                  <BadgeCard
+                    key={badge.key}
+                    badge={badge}
+                    currentStreak={progress?.[badge.category] ?? 0}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
 
-      {filtered.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-20 gap-3">
-          <span className="material-symbols-outlined text-5xl text-outline-variant">
-            workspace_premium
-          </span>
-          <p className="text-outline text-center">{t("app.badges.empty")}</p>
-        </div>
-      )}
+          {filtered.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-[80px] gap-[17px]">
+              <span className="material-symbols-outlined text-[48px] text-ink-muted-48">
+                workspace_premium
+              </span>
+              <p className="text-[17px] text-ink-muted-48 leading-[1.47] text-center">
+                {t("app.badges.empty")}
+              </p>
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

@@ -1,3 +1,8 @@
+import type { HabitFormData } from "@/app/pages/ui/FormHabitSchema";
+
+// Re-export HabitFormData for backwards compatibility
+export type { HabitFormData }
+
 export interface LoginForm {
   email: string;
   password: string;
@@ -10,10 +15,6 @@ export interface RegisterForm {
   confirmPassword: string; // Solo en el front, no se manda al backend
 }
 
-export interface CreateHabitForm {
-  name: string;
-  frequency: string;
-  goal: string;
-  category: string;
-  reminders: string[];
-}
+// Eliminado: CreateHabitForm - usar HabitFormData de FormHabitSchema.ts
+// export interface CreateHabitForm { ... }
+// Use HabitFormData type from FormHabitSchema.ts instead

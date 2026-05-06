@@ -10,19 +10,16 @@ export const GoalInput = ({
   const { t } = useTranslation();
 
   return (
-    <section className="bg-surface-container-low rounded-lg p-6">
-      <label className="block text-[0.6875rem] font-bold text-on-surface-variant tracking-widest uppercase mb-4 font-label">
+    <section className="bg-canvas border border-hairline rounded-[18px] p-[24px]">
+      <label className="text-[12px] text-ink-muted-48 tracking-[-0.12px] mb-[12px] block">
         {t("formHabit.goalLabel")}
       </label>
-      <div className="flex items-center gap-3">
-        <input
-          className="w-48 bg-surface-container-lowest border-none rounded-lg text-xl font-black text-center text-on-background py-2"
-          type="text"
-          value={goal}
-          min={0}
-          onChange={(e) => onChange(e.target.value)}
-        />
-      </div>
+      <input
+        className="w-full bg-canvas-parchment text-[17px] text-ink leading-[1.47] rounded-[11px] px-[17px] py-[11px] border border-transparent focus:border-primary outline-none transition-colors"
+        type="text"
+        value={goal}
+        onChange={(e) => onChange(e.target.value)}
+      />
     </section>
   );
 };

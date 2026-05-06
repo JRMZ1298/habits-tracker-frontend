@@ -7,7 +7,7 @@ const AppLayout = () => (
     <MainHeader />
     <div className="flex pt-20 md:pt-24">
       <MainSidebar />
-      <main className="flex-1 px-6 pt-6 pb-20 md:px-12 max-w-7xl mx-auto">
+      <main id="main-content" className="flex-1 px-6 pt-6 pb-20 md:px-12 max-w-7xl mx-auto" tabIndex={-1}>
         <Outlet />
       </main>
     </div>

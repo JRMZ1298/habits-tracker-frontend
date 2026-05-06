@@ -19,8 +19,9 @@ import type {
   LogHabitResponse,
   PaginatedHabits,
 } from "@/interfaces/api";
-import type { CreateHabitForm } from "@/interfaces/forms";
+import type { HabitFormData } from "@/app/pages/ui/FormHabitSchema";
 import { useState } from "react";
+import { toast } from "sonner";
 
 // Clave de cache — TanStack identifica cada query por su queryKey
 const HABITS_KEY = ["habits"] as const;
@@ -45,12 +46,16 @@ export function useHabits(limit = 5) {
 export function useCreateHabit() {
   const queryClient = useQueryClient();
 
-  return useMutation<Habit, Error, CreateHabitForm>({
+  return useMutation<Habit, Error, HabitFormData>({
     mutationFn: (newHabit) => createHabit(newHabit),
     onSuccess: () => {
+      toast.success("¡Hábito creado exitosamente!");
       // Invalida el cache de hábitos → TanStack los vuelve a pedir automáticamente
       queryClient.invalidateQueries({ queryKey: HABITS_KEY });
       queryClient.invalidateQueries({ queryKey: ["habits-grid"] });
+    },
+    onError: (error) => {
+      toast.error(error.message || "Error al crear el hábito");
     },
   });
 }
@@ -61,8 +66,12 @@ export function useDeleteHabit() {
   return useMutation({
     mutationFn: (habitId: number) => deleteHabit(habitId),
     onSuccess: () => {
+      toast.success("Hábito eliminado correctamente");
       queryClient.invalidateQueries({ queryKey: HABITS_KEY });
       queryClient.invalidateQueries({ queryKey: ["habits-grid"] });
+    },
+    onError: (error) => {
+      toast.error(error.message || "Error al eliminar el hábito");
     },
   });
 }
@@ -85,10 +94,20 @@ export function useLogHabit(onNewBadge?: (badge: NewBadge) => void) {
     mutationFn: (habitId: number) => logHabit(habitId),
 
     onSuccess: (data) => {
+      toast.success("¡Hábito completado hoy!");
       // Si hay insignias nuevas, notifica
       if (data.new_badges?.length > 0 && onNewBadge) {
         onNewBadge(data.new_badges[0]);
       }
+    },
+
+    onError: (error, habitId, context) => {
+      toast.error(error.message || "Error al completar el hábito");
+      if (context?.previous) {
+        queryClient.setQueryData(HABITS_KEY, context.previous);
+      }
+      // Revierte también el log de hoy
+      queryClient.setQueryData(["log-today", habitId], null);
     },
 
     // Optimistic update — marca como completado ANTES de que responda el server
@@ -108,14 +127,6 @@ export function useLogHabit(onNewBadge?: (badge: NewBadge) => void) {
       });
 
       return { previous };
-    },
-
-    onError: (_err, habitId, context) => {
-      if (context?.previous) {
-        queryClient.setQueryData(HABITS_KEY, context.previous);
-      }
-      // Revierte también el log de hoy
-      queryClient.setQueryData(["log-today", habitId], null);
     },
 
     onSettled: (habitId) => {
@@ -189,14 +200,18 @@ export function useHabit(id: number | undefined) {
 export function useUpdateHabit(id: number) {
   const queryClient = useQueryClient();
 
-  return useMutation<Habit, Error, CreateHabitForm>({
+  return useMutation<Habit, Error, HabitFormData>({
     mutationFn: (data) => updateHabit(id, data),
     onSuccess: (updated) => {
+      toast.success("¡Hábito actualizado exitosamente!");
       // Actualiza el cache del hábito individual
       queryClient.setQueryData(["habit", id], updated);
       // Invalida la lista para que se refresque
       queryClient.invalidateQueries({ queryKey: ["habits"] });
       queryClient.invalidateQueries({ queryKey: ["habits-grid"] });
+    },
+    onError: (error) => {
+      toast.error(error.message || "Error al actualizar el hábito");
     },
   });
 }

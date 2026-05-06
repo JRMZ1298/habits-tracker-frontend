@@ -10,21 +10,25 @@ const ReminderRow = ({
   onRemove: () => void;
 }) => {
   return (
-    <div className="flex items-center justify-between p-4 rounded-xl bg-surface-container-low">
-      <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-full bg-secondary-dim flex items-center justify-center text-on-primary-container">
-          <span
-            className="material-symbols-outlined text-sm text-white"
-            style={{ fontVariationSettings: "'FILL' 1" }}
-          >
-            schedule
-          </span>
-        </div>
-        <span className="font-bold">{formatTo12h(time)}</span>
+    <div className="flex items-center justify-between py-[12px] border-b border-hairline last:border-b-0">
+      <div className="flex items-center gap-[12px]">
+        <span className="material-symbols-outlined text-[20px] text-ink-muted-48">
+          schedule
+        </span>
+        <span className="text-[17px] text-ink font-normal leading-[1.24]">
+          {formatTo12h(time)}
+        </span>
       </div>
-      <button type="button" onClick={onRemove} className="text-error-dim">
-        <span className="material-symbols-outlined">remove_circle_outline</span>
-      </button>
+       <button
+         type="button"
+         onClick={onRemove}
+         aria-label="Eliminar recordatorio"
+         className="text-primary transition-transform active:scale-[0.95]"
+       >
+         <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
+           remove_circle
+         </span>
+       </button>
     </div>
   );
 };
@@ -35,27 +39,23 @@ export const ReminderPanel = ({
   onRemove,
 }: {
   reminders: string[];
-  onAdd: (time: string) => void; // ← cambia de () => void a (time: string) => void
+  onAdd: (time: string) => void;
   onRemove: (index: number) => void;
 }) => {
   const { t } = useTranslation();
 
-  // Estado interno — solo vive aquí, el padre no necesita saber
   const [isAdding, setIsAdding] = useState(false);
   const [selectedTime, setSelectedTime] = useState("08:00");
 
   const handleConfirm = () => {
     if (!selectedTime) return;
-
-    // Verificar que no esté duplicada
     if (reminders.includes(selectedTime)) {
       setIsAdding(false);
       return;
     }
-
-    onAdd(selectedTime); // Manda la hora al padre
-    setIsAdding(false); // Cierra el input
-    setSelectedTime("08:00"); // Resetea para la próxima
+    onAdd(selectedTime);
+    setIsAdding(false);
+    setSelectedTime("08:00");
   };
 
   const handleCancel = () => {
@@ -64,18 +64,18 @@ export const ReminderPanel = ({
   };
 
   return (
-    <section className="bg-surface-container-lowest rounded-lg p-8">
-      <div className="flex justify-between items-center mb-6">
-        <label className="text-sm font-bold text-on-background tracking-widest uppercase font-label">
+    <div>
+      <div className="flex justify-between items-center mb-[17px]">
+        <label className="text-[12px] text-ink-muted-48 tracking-[-0.12px]">
           {t("formHabit.nurtureReminders")}
         </label>
-        <span className="material-symbols-outlined text-primary-dim">
+        <span className="material-symbols-outlined text-[20px] text-primary">
           notifications_active
         </span>
       </div>
 
-      <div className="space-y-4">
-        {/* Lista de recordatorios existentes — sin cambios */}
+      <div className="space-y-[4px]">
+        {/* Existing reminders */}
         {reminders.map((time, index) => (
           <ReminderRow
             key={time + index}
@@ -84,59 +84,60 @@ export const ReminderPanel = ({
           />
         ))}
 
-        {/* Input inline — aparece al pulsar el botón */}
+        {/* Inline add input */}
         {isAdding && (
-          <div className="flex items-center gap-3 p-4 rounded-xl bg-surface-container-low border-2 border-primary-dim">
-            <div className="w-10 h-10 rounded-full bg-secondary-dim flex items-center justify-center shrink-0">
-              <span
-                className="material-symbols-outlined text-sm text-white"
-                style={{ fontVariationSettings: "'FILL' 1" }}
-              >
-                schedule
-              </span>
-            </div>
+          <div className="flex items-center gap-[12px] py-[12px] border-b border-hairline">
+            <span className="material-symbols-outlined text-[20px] text-primary">
+              schedule
+            </span>
 
-            {/* Input nativo de hora — abre el reloj del sistema */}
             <input
               type="time"
               value={selectedTime}
               onChange={(e) => setSelectedTime(e.target.value)}
-              className="flex-1 bg-transparent text-on-background font-bold text-base focus:outline-none"
+              className="flex-1 bg-transparent text-[17px] text-ink leading-[1.24] focus-visible:outline-none"
               autoFocus
             />
 
-            {/* Confirmar */}
-            <button
-              type="button"
-              onClick={handleConfirm}
-              className="text-primary-dim hover:opacity-80 transition-opacity"
-            >
-              <span className="material-symbols-outlined">check_circle</span>
-            </button>
+             <button
+               type="button"
+               onClick={handleConfirm}
+               aria-label="Confirmar hora"
+               className="text-primary transition-transform active:scale-[0.95]"
+             >
+               <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
+                 check_circle
+               </span>
+             </button>
 
-            {/* Cancelar */}
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="text-error-dim hover:opacity-80 transition-opacity"
-            >
-              <span className="material-symbols-outlined">cancel</span>
-            </button>
+             <button
+               type="button"
+               onClick={handleCancel}
+               aria-label="Cancelar"
+               className="text-ink-muted-48 transition-transform active:scale-[0.95]"
+             >
+               <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
+                 cancel
+               </span>
+             </button>
           </div>
         )}
 
-        {/* Botón agregar — se oculta mientras el input está abierto */}
+        {/* Add button */}
         {!isAdding && (
-          <button
-            type="button"
-            onClick={() => setIsAdding(true)}
-            className="w-full py-4 border-2 border-dashed border-outline-variant rounded-xl text-outline font-semibold flex items-center justify-center gap-2 hover:bg-surface-container-low transition-colors"
-          >
-            <span className="material-symbols-outlined">add_circle</span>
-            <span>{t("formHabit.addNotificationTime")}</span>
-          </button>
+         <button
+           type="button"
+           onClick={() => setIsAdding(true)}
+           aria-label={t("formHabit.addNotificationTime")}
+           className="w-full py-[12px] flex items-center justify-center gap-[8px] text-[17px] text-primary font-normal leading-[1.47] transition-transform active:scale-[0.99]"
+         >
+           <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
+             add_circle
+           </span>
+           <span>{t("formHabit.addNotificationTime")}</span>
+         </button>
         )}
       </div>
-    </section>
+    </div>
   );
 };

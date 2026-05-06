@@ -1,77 +1,54 @@
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 
 export const HeroSection = () => {
   const { t } = useTranslation();
 
   return (
-    <section
-      className="px-6 md:px-12 py-16 md:py-32 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"
-      id="features"
-    >
-      <div className="flex flex-col gap-8 order-2 lg:order-1">
-        <div className="inline-flex items-center gap-2 bg-[#b8f6d3] text-[#005f2f] px-4 py-1.5 rounded-full w-fit text-xs font-bold uppercase tracking-[0.18em]">
-          <span className="material-symbols-outlined text-[18px]">
-            energy_savings_leaf
-          </span>
-          <span>{t("landing.hero.badge")}</span>
-        </div>
-        <h1 className="text-6xl md:text-[5rem] font-extrabold text-[#003622] leading-[1.05] tracking-tight">
-          {t("landing.hero.headingLine1")}
-          <br />
-          <span className="bg-gradient-to-r from-[#006a35] to-[#005c2d] bg-clip-text text-transparent">
-            {t("landing.hero.headingLine2")}
-          </span>
+    <section className="bg-canvas py-[80px] md:py-[80px]" id="features">
+      <div className="max-w-[980px] mx-auto px-6 text-center">
+        {/* Hero headline */}
+        <h1
+          className="text-[40px] md:text-[56px] font-semibold text-ink leading-[1.1] md:leading-[1.07] tracking-[-0.28px] mb-[12px]"
+        >
+          {t("landing.hero.headingLine1")}{" "}
+          <span className="text-primary">{t("landing.hero.headingLine2")}</span>
         </h1>
-        <p className="text-lg md:text-xl text-[#35654d] max-w-xl leading-relaxed">
+
+        {/* Lead subcopy */}
+        <p
+          className="text-[21px] md:text-[28px] font-normal text-ink leading-[1.47] md:leading-[1.14] tracking-[0.231px] md:tracking-[0.196px] max-w-[680px] mx-auto mb-[24px]"
+        >
           {t("landing.hero.paragraph")}
         </p>
-        <div className="flex flex-wrap gap-4 mt-4">
-          <button className="bg-[#006a35] text-[#cdffd4] px-10 py-5 rounded-full font-bold text-lg hover:opacity-90 transition-all active:scale-95 shadow-xl shadow-[#006a35]/20 flex items-center gap-2">
-            {t("landing.hero.startGrowing")}
-            <span className="material-symbols-outlined">trending_up</span>
-          </button>
-          <button className="bg-[#ffffff] text-[#006a35] px-10 py-5 rounded-full font-bold text-lg hover:bg-[#f0fff3] transition-all active:scale-95 flex items-center gap-2">
-            {t("landing.hero.watchDemo")}
-            <span className="material-symbols-outlined">play_circle</span>
-          </button>
-        </div>
-      </div>
 
-      <div className="relative order-1 lg:order-2">
-        <div className="absolute inset-0 bg-[#6bfe9c] rounded-[4rem] rotate-3 blur-3xl opacity-20" />
-        <div className="relative z-10 rounded-4xl overflow-hidden aspect-square md:aspect-[4/5] shadow-2xl bg-white">
+        {/* Dual pill CTAs */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-[17px] mb-[48px]">
+          <Link
+            to="/auth/registro"
+            className="bg-primary text-on-primary text-[17px] font-normal leading-[1.47] tracking-[-0.374px] rounded-[9999px] px-[22px] py-[11px] transition-transform active:scale-[0.95] min-w-[140px]"
+          >
+            {t("landing.hero.startGrowing")}
+          </Link>
+          <Link
+            to="/auth/login"
+            className="bg-transparent text-primary border border-primary text-[17px] font-normal leading-[1.47] tracking-[-0.374px] rounded-[9999px] px-[22px] py-[11px] transition-transform active:scale-[0.95] min-w-[140px]"
+          >
+            {t("landing.hero.watchDemo")}
+          </Link>
+        </div>
+
+        {/* Product imagery */}
+        <div className="relative max-w-[720px] mx-auto">
           <img
-            className="w-full h-full object-cover"
+            className="w-full h-auto rounded-none"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuDF1Te_s03rXQc-fpHsb0TxwnhlQfnmcASGcPtCJSMBursPOZRL0ykOh4bjRck65H8pgJip1yyBx84IUzw-UcC_86zR6Tq_wlC9RqNR1yzAyhimqPlax6SoQz0Q55r4oriXEDDavZ8jOGhXk3bN1A7lCIL3DLv_WwuT3egLeYTDONSWsblFNmOPjbCA0efZrALmuoJ5IDVSUKRb4wxKxO5if1PKXy8zqOmlAQXTK0bVSt-qFNCorg_2XWS2IWJjQe0nzvVXqiymfHo"
             alt={t("landing.hero.altImage")}
+            style={{
+              filter:
+                "drop-shadow(rgba(0, 0, 0, 0.22) 3px 5px 30px 0)",
+            }}
           />
-          <div className="absolute top-8 -left-8 backdrop-blur-[24px] bg-white/80 p-6 rounded-3xl shadow-xl max-w-[12.5rem]">
-            <p className="font-semibold text-[11px] uppercase tracking-[0.28em] text-[#35654d] mb-2">
-              {t("landing.hero.hydrationLabel")}
-            </p>
-            <div className="flex items-end gap-1 mb-3">
-              <span className="text-3xl font-extrabold text-[#006093]">
-                2.4
-              </span>
-              <span className="text-sm text-[#35654d] mb-1">/ 3L</span>
-            </div>
-            <div className="h-2 w-full bg-[#ffffff] rounded-full overflow-hidden">
-              <div className="h-full w-4/5 bg-[#006093] rounded-full" />
-            </div>
-          </div>
-          <div className="absolute bottom-12 -right-6 backdrop-blur-[24px] bg-white/80 p-6 rounded-3xl shadow-xl max-w-[12.5rem]">
-            <p className="font-semibold text-[11px] uppercase tracking-[0.28em] text-[#35654d] mb-2">
-              {t("landing.hero.readingStreak")}
-            </p>
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-[#ff9742] flex items-center justify-center">
-                <span className="material-symbols-outlined text-[#fff0e8]">
-                  local_fire_department
-                </span>
-              </div>
-              <span className="text-3xl font-extrabold text-[#904800]">14</span>
-            </div>
-          </div>
         </div>
       </div>
     </section>

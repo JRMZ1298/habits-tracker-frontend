@@ -7,20 +7,29 @@ export const SettingsPage = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="flex-1 space-y-8">
-      <header>
-        <h1 className="text-4xl font-extrabold text-surface-tint font-headline tracking-tight mb-2">
+    <section className="flex-1 space-y-[48px]">
+      <header className="space-y-[12px] pt-[32px]">
+        <h1
+          className="text-[40px] md:text-[56px] font-semibold text-ink leading-[1.1]"
+          style={{ letterSpacing: "-0.28px" }}
+        >
           {t("app.settings.title")}
         </h1>
-        <p className="text-on-surface-variant font-label text-sm uppercase tracking-widest">
+        <p className="text-[17px] text-ink-muted-48 leading-[1.47]">
           {t("app.settings.subtitle")}
         </p>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <NotificationsPanel />
-        <WebhooksPanel />
+      <div className="space-y-[24px]">
         <IdentitySettings />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-[20px]">
+          <div className="lg:col-span-2">
+            <NotificationsPanel />
+          </div>
+          <div className="lg:col-span-1">
+            <WebhooksPanel />
+          </div>
+        </div>
       </div>
     </section>
   );

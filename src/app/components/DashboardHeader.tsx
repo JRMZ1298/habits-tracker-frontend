@@ -16,29 +16,40 @@ export const DashboardHeader: React.FC<Props> = ({
   const { user } = useAuthStore();
 
   return (
-    <header className="flex flex-col md:flex-row justify-between items-end gap-6 pb-5">
-      <div className="space-y-2">
-        <h1 className="text-4xl md:text-6xl font-extrabold font-headline tracking-tighter text-surface-tint">
-          {t("app.dashboard.heading") + user?.name.split(" ", 1)}
+    <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 pt-[32px] pb-[48px]">
+      <div className="space-y-3">
+        <h1
+          className="text-[40px] md:text-[56px] font-semibold text-ink leading-[1.1] tracking-[-0.01em]"
+          style={{ letterSpacing: "-0.28px" }}
+        >
+          {t("app.dashboard.heading")}
+          <br />
+          <span className="text-primary">{user?.name.split(" ", 1)}</span>
         </h1>
-        <p className="text-lg text-outline font-medium">
-          {t("app.dashboard.subtitle") + percentageCompleted + "%"}
+        <p className="text-[17px] text-ink-muted-48 leading-[1.47]">
+          {t("app.dashboard.subtitle")}{" "}
+          <span className="text-ink font-semibold">{percentageCompleted}%</span>
         </p>
       </div>
-      <div className="flex gap-4">
-        <div className="bg-surface-container-low px-6 py-4 rounded-lg flex flex-col">
-          <span className="text-label text-[10px] uppercase tracking-widest text-outline">
+
+      <div className="flex gap-3">
+        <div className="bg-canvas px-[17px] py-[12px] rounded-[11px] flex flex-col items-center min-w-[100px]">
+          <span className="text-[12px] text-ink-muted-48 uppercase tracking-wide font-normal">
             {t("app.dashboard.currentStreak")}
           </span>
-          <span className="text-3xl font-black text-surface-tint">
-            {currentStreak + t("app.dashboard.days")}
+          <span className="text-[40px] font-semibold text-ink mt-[4px] leading-[1.1]">
+            {currentStreak}
+          </span>
+          <span className="text-[12px] text-ink-muted-48">
+            {t("app.dashboard.days")}
           </span>
         </div>
-        <div className="bg-secondary-container px-6 py-4 rounded-lg flex flex-col">
-          <span className="text-label text-[10px] uppercase tracking-widest text-on-secondary-container">
+
+        <div className="bg-surface-tile-1 px-[17px] py-[12px] rounded-[11px] flex flex-col items-center min-w-[100px]">
+          <span className="text-[12px] text-body-muted uppercase tracking-wide font-normal">
             {t("app.dashboard.level")}
           </span>
-          <span className="text-3xl font-black text-on-secondary-container">
+          <span className="text-[40px] font-semibold text-primary-on-dark mt-[4px] leading-[1.1]">
             {level}
           </span>
         </div>

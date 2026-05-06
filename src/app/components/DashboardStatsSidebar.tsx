@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useWeeklySummary } from "../hooks/useWeeklyLogs";
-import { Bar, BarChart, CartesianGrid, XAxis, Cell } from "recharts";
+import { Bar, BarChart, XAxis, Cell } from "recharts";
 import {
   ChartContainer,
   ChartTooltipContent,
@@ -33,97 +33,112 @@ export const DashboardStatsSidebar = () => {
 
   const today = new Date().toLocaleDateString("en-CA");
 
-  // Transformar para Recharts — una fila por día
   const chartData = (data ?? []).map((d) => ({
     day: DAY_LABELS[d.day] ?? d.day,
     completed: d.completed,
     isToday: d.date === today,
   }));
 
+  const weekTotal = data?.reduce((s, d) => s + d.completed, 0) ?? 0;
+
   return (
-    <aside className="space-y-8">
-      <div className="bg-white/40 backdrop-blur-md p-8 rounded-xl space-y-6">
-        <h3 className="text-xl font-bold font-headline">
-          {t("app.dashboard.weeklyView")}
-        </h3>
+    <aside className="space-y-[24px]">
+      {/* Weekly View */}
+      <div className="bg-canvas border border-hairline p-[24px] rounded-[18px]">
+        <div className="flex items-center justify-between mb-[24px]">
+          <h3 className="text-[17px] font-semibold text-ink leading-[1.24]">
+            {t("app.dashboard.weeklyView")}
+          </h3>
+          <span className="text-[12px] text-ink-muted-48 tracking-[-0.12px]">
+            7 días
+          </span>
+        </div>
 
         {isLoading ? (
-          <div className="flex justify-between items-end h-32 gap-2 animate-pulse">
+          <div className="flex justify-between items-end h-[128px] gap-[6px] animate-pulse">
             {Array.from({ length: 7 }).map((_, i) => (
-              <div key={i} className="flex-1 flex flex-col items-center gap-2">
-                <div className="w-full bg-surface-container-high rounded-full h-full" />
-                <span className="text-[10px] font-bold text-outline">···</span>
+              <div key={i} className="flex-1 flex flex-col items-center gap-[8px]">
+                <div className="w-full bg-canvas-parchment rounded-[5px] h-full" />
+                <span className="text-[10px] text-ink-muted-48">···</span>
               </div>
             ))}
           </div>
         ) : (
-          <ChartContainer
-            config={chartConfig}
-            className="min-h-32 w-full text-primary-dim"
-          >
-            <BarChart
-              data={chartData}
-              margin={{ top: 8, right: 0, left: 0, bottom: 0 }}
+          <>
+            <ChartContainer
+              config={chartConfig}
+              className="min-h-[128px] w-full"
             >
-              <CartesianGrid vertical={false} stroke="var(--chart-2)" />
+              <BarChart
+                data={chartData}
+                margin={{ top: 8, right: 0, left: 0, bottom: 0 }}
+              >
+                <ChartTooltip
+                  content={
+                    <ChartTooltipContent
+                      formatter={(value) => [`${value} hábitos`, ""]}
+                      labelFormatter={(label) => label}
+                    />
+                  }
+                />
+                <XAxis
+                  dataKey="day"
+                  tickLine={false}
+                  axisLine={false}
+                  tick={{
+                    fontSize: 12,
+                    fontWeight: 400,
+                    fill: "#7a7a7a",
+                    letterSpacing: "-0.12px",
+                  }}
+                />
+                <Bar dataKey="completed" radius={[5, 5, 5, 5]} maxBarSize={28}>
+                  {chartData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={
+                        entry.isToday
+                          ? "#0066cc"
+                          : "#e0e0e0"
+                      }
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ChartContainer>
 
-              <XAxis
-                dataKey="day"
-                tickLine={false}
-                axisLine={false}
-                tick={{ fontSize: 10, fontWeight: 600 }}
-              />
-
-              <ChartTooltip
-                content={
-                  <ChartTooltipContent
-                    formatter={(value) => [`${value} hábitos`, ""]}
-                    labelFormatter={(label) => label}
-                  />
-                }
-              />
-
-              <Bar dataKey="completed" radius={[4, 4, 0, 0]} maxBarSize={32}>
-                {chartData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={
-                      entry.isToday
-                        ? "var(--chart-1)"
-                        : entry.completed > 0
-                          ? "var(--chart-2)"
-                          : "var(--chart-2)"
-                    }
-                  />
-                ))}
-              </Bar>
-            </BarChart>
-          </ChartContainer>
-        )}
-
-        {!isLoading && (
-          <p className="text-xs text-outline text-right">
-            {data?.reduce((s, d) => s + d.completed, 0)}{" "}
-            {t("app.dashboard.thisWeek")}
-          </p>
+            <div className="flex items-center justify-between mt-[17px] pt-[17px] border-t border-hairline">
+              <span className="text-[14px] text-ink-muted-48 leading-[1.43]">
+                {t("app.dashboard.thisWeek")}
+              </span>
+              <span className="text-[21px] font-semibold text-ink leading-[1.19]">
+                {weekTotal}
+              </span>
+            </div>
+          </>
         )}
       </div>
+
+      {/* Recommendation */}
       {recLoading ? (
-        <div className="h-48 bg-gray-200 animate-pulse rounded-xl" />
+        <div className="h-[200px] bg-canvas border border-hairline rounded-[18px] animate-pulse" />
       ) : (
-        <div className="rounded-xl overflow-hidden relative group cursor-pointer">
-          <img
-            alt={recommendation?.title}
-            className="w-full h-48 object-cover transition-transform duration-700 group-hover:scale-110"
-            src={recommendation?.image}
-          />
-          <div className="absolute inset-0 bg-linear-to-t from-primary/80 to-transparent p-6 flex flex-col justify-end">
-            <span className="text-xs font-bold text-on-primary/80 uppercase tracking-widest">
-              {t("app.dashboard.recommended")}
-            </span>
-            <h4 className="text-lg font-bold text-on-primary">
-              {recommendation?.title}
-            </h4>
+        <div className="bg-canvas border border-hairline rounded-[18px] overflow-hidden">
+          <div className="relative">
+            <img
+              alt={recommendation?.title}
+              className="w-full h-[200px] object-cover"
+              src={recommendation?.image}
+              style={{ borderRadius: 0 }}
+            />
+            <div className="absolute bottom-0 left-0 right-0 p-[24px] bg-gradient-to-t from-surface-black/80 to-transparent">
+              <span className="text-[12px] text-body-muted tracking-[-0.12px] uppercase">
+                {t("app.dashboard.recommended")}
+              </span>
+              <h4 className="text-[17px] font-semibold text-on-dark mt-[4px] leading-[1.24]">
+                {recommendation?.title}
+              </h4>
+            </div>
           </div>
         </div>
       )}

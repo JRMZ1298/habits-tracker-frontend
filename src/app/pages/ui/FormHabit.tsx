@@ -1,8 +1,13 @@
-import { useEffect } from "react";
+import { useCallback } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import { useForm, Controller, useFieldArray } from "react-hook-form";
+import {
+  useForm,
+  useController,
+  useFieldArray,
+  FormProvider,
+} from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -13,12 +18,82 @@ import {
   useHabit,
   useUpdateHabit,
 } from "@/app/hooks/useHabits";
+import { getHabit } from "@/api/habitsAccions";
 
 import { HabitHeader } from "./components/HabitHeaderForm";
-import { RhythmSelector } from "./components/RhythmSelectorForm";
-import { GoalInput } from "./components/GoalInputForm";
 import { ReminderPanel } from "./components/ReminderPanelForm";
-import { VisualSelector } from "./components/VisualSelectorForm";
+import { ICONS } from "./components/VisualSelectorForm";
+
+const useHabitForm = (habitId: number | undefined) => {
+  const isEditing = !!habitId;
+  const { isLoading } = useHabit(habitId);
+  const createHabit = useCreateHabit();
+  const updateHabit = useUpdateHabit(habitId ?? 0);
+  const mutation = isEditing ? updateHabit : createHabit;
+
+  const form = useForm<HabitFormData>({
+    resolver: zodResolver(habitSchema),
+    mode: "onTouched",
+    defaultValues: async () => {
+      if (!isEditing || !habitId) {
+        return {
+          name: "",
+          frequency: "daily" as const,
+          goal: "30 minutos",
+          category: "favorite",
+          reminders: [{ value: "07:00" }],
+        };
+      }
+
+      const habit = await getHabit(habitId);
+
+      return {
+        name: habit.name,
+        frequency: habit.frequency as "daily" | "weekly",
+        goal: habit.goal ?? "30 minutos",
+        category: habit.icon ?? "spa",
+        reminders:
+          habit.reminders?.map((r: string) => ({
+            value: r,
+          })) || [{ value: "07:00" }],
+      };
+    },
+    reValidateMode: "onBlur",
+  });
+
+  return { form, isEditing, isLoading, mutation };
+};
+
+const NameField = () => {
+  const { t } = useTranslation();
+  const {
+    field,
+    fieldState: { error },
+  } = useController<HabitFormData, "name">({
+    name: "name",
+  });
+
+  return (
+    <section className="bg-canvas border border-hairline rounded-[18px] p-8">
+      <label className="text-[12px] text-ink-muted-48 tracking-[-0.12px] mb-3 block">
+        {t("formHabit.habitIdentity")}
+      </label>
+
+       <input
+         value={field.value}
+         onChange={field.onChange}
+         onBlur={field.onBlur}
+         className="w-full bg-transparent text-[28px] font-semibold text-ink leading-[1.14] placeholder:text-ink-muted-48 focus-visible:outline-none"
+         style={{ letterSpacing: "0.196px" }}
+         placeholder={t("formHabit.habitPlaceholder")}
+       />
+
+      {error && (
+        <p className="text-destructive mt-2 text-[14px]">{error.message}</p>
+      )}
+    </section>
+  );
+};
 
 export const FormHabit = () => {
   const { t } = useTranslation();
@@ -30,180 +105,209 @@ export const FormHabit = () => {
 
   const habitId = idHabit ? parseInt(idHabit) : undefined;
 
-  const isEditing = !!habitId;
+  const { form, isEditing, isLoading, mutation } = useHabitForm(habitId);
 
-  const { data: existingHabit, isLoading } = useHabit(habitId);
-
-  const createHabit = useCreateHabit();
-  const updateHabit = useUpdateHabit(habitId ?? 0);
-
-  const mutation = isEditing ? updateHabit : createHabit;
-
-  const {
-    control,
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<HabitFormData>({
-    resolver: zodResolver(habitSchema),
-
-    defaultValues: {
-      name: "",
-      frequency: "daily",
-      goal: "30 minutos",
-      category: "favorite",
-      reminders: [{ value: "07:00" }],
-    },
-  });
+  const { control, handleSubmit, formState } = form;
+  const { isValid } = formState;
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: "reminders",
   });
 
-  useEffect(() => {
-    if (!existingHabit) return;
+  const onSubmit = useCallback(
+    async (data: HabitFormData) => {
+      await mutation.mutateAsync({
+        name: data.name.trim(),
+        frequency: data.frequency,
+        goal: data.goal,
+        category: data.category,
+        reminders: data.reminders,
+      });
 
-    reset({
-      name: existingHabit.name,
-      frequency: existingHabit.frequency,
-      goal: existingHabit.goal ?? "30 minutos",
-      category: existingHabit.icon ?? "spa",
-
-      reminders:
-        existingHabit.reminders?.map((r: string) => ({
-          value: r,
-        })) || [],
-    });
-  }, [existingHabit, reset]);
-
-  const onSubmit = async (data: HabitFormData) => {
-    await mutation.mutateAsync({
-      name: data.name.trim(),
-      frequency: data.frequency,
-      goal: data.goal,
-      category: data.category,
-      reminders: data.reminders.map((r) => r.value),
-    });
-
-    navigate("/app/habits");
-  };
+      navigate("/app/habits");
+    },
+    [mutation, navigate],
+  );
 
   if (isEditing && isLoading) {
     return (
-      <div className="animate-pulse space-y-8">
-        <div className="h-16 rounded bg-surface-container-low" />
-        <div className="h-40 rounded bg-surface-container-low" />
-        <div className="h-40 rounded bg-surface-container-low" />
+      <div className="animate-pulse space-y-6">
+        <div className="h-16 bg-canvas-parchment rounded-[18px]" />
+        <div className="h-50 bg-canvas-parchment rounded-[18px]" />
+        <div className="h-50 bg-canvas-parchment rounded-[18px]" />
       </div>
     );
   }
 
   return (
-    <form className="w-full max-w-4xl" onSubmit={handleSubmit(onSubmit)}>
-      <HabitHeader isEditing={isEditing} />
+    <FormProvider {...form}>
+      <form className="w-full max-w-245" onSubmit={handleSubmit(onSubmit)}>
+        <HabitHeader isEditing={isEditing} />
 
-      <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <div className="lg:col-span-7 space-y-8">
-          <section className="bg-surface-container-lowest rounded-lg p-8 shadow-sm">
-            <label className="block text-sm font-bold text-on-background tracking-widest uppercase mb-4 font-label">
-              {t("formHabit.habitIdentity")}
-            </label>
+        <div className="space-y-6">
+          <NameField />
 
-            <input
-              {...register("name")}
-              className="w-full bg-transparent border-b-2 border-surface-container-high focus:border-on-background border-t-0 border-x-0 px-0 py-4 text-2xl font-bold placeholder:text-surface-variant focus:ring-0 transition-all outline-none"
-              placeholder={t("formHabit.habitPlaceholder")}
+          <div className="grid md:grid-cols-2 gap-5">
+            <FrequencyField />
+            <GoalField />
+          </div>
+
+          <section className="bg-canvas border border-hairline rounded-[18px] p-8">
+            <ReminderPanel
+              reminders={fields.map((item) => item.value)}
+              onAdd={(time) =>
+                append({
+                  value: time,
+                })
+              }
+              onRemove={(index) => remove(index)}
             />
-
-            {errors.name && (
-              <p className="text-error mt-2">{errors.name.message}</p>
-            )}
           </section>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            <Controller
-              control={control}
-              name="frequency"
-              render={({ field }) => (
-                <RhythmSelector
-                  rhythm={field.value}
-                  onChange={field.onChange}
-                />
-              )}
-            />
+          <section className="bg-canvas border border-hairline rounded-[18px] p-8">
+            <CategoryField />
+          </section>
 
-            <Controller
-              control={control}
-              name="goal"
-              render={({ field }) => (
-                <GoalInput goal={field.value} onChange={field.onChange} />
-              )}
-            />
-          </div>
+           <div className="flex justify-end gap-2 pt-2">
+             <button
+               type="button"
+               onClick={() => navigate(-1)}
+               className="px-5.5 py-2.75 rounded-[9999px] text-[17px] text-primary font-normal leading-[1.47] border border-primary/30 transition-transform active:scale-[0.95]"
+             >
+               {t("formHabit.cancel")}
+             </button>
+              <button
+                type="submit"
+                disabled={mutation.isPending || formState.isSubmitting || !isValid}
+                aria-label={isEditing ? t("formHabit.saveChanges") : t("formHabit.cultivateHabit")}
+                className="px-5.5 py-2.75 rounded-[9999px] bg-primary text-on-primary text-[17px] font-normal leading-[1.47] transition-transform active:scale-[0.95] flex items-center gap-2 disabled:opacity-50"
+              >
+               <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
+                 {mutation.isPending
+                   ? "hourglass_empty"
+                   : isEditing
+                     ? "save"
+                     : "check"}
+               </span>
+               <span>
+                 {mutation.isPending
+                   ? t("formHabit.saving")
+                   : isEditing
+                     ? t("formHabit.saveChanges")
+                     : t("formHabit.cultivateHabit")}
+               </span>
+             </button>
+           </div>
 
-          <ReminderPanel
-            reminders={fields.map((item) => item.value)}
-            onAdd={(time) =>
-              append({
-                value: time,
-              })
-            }
-            onRemove={(index) => remove(index)}
-          />
+           {mutation.isError && (
+             <p className="text-destructive text-center text-[17px]" role="alert" aria-live="polite">
+               {t("formHabit.error")}
+             </p>
+           )}
         </div>
+      </form>
+    </FormProvider>
+  );
+};
 
-        <div className="lg:col-span-5 space-y-8">
-          <Controller
-            control={control}
-            name="category"
-            render={({ field }) => (
-              <VisualSelector
-                selected={field.value}
-                onSelect={field.onChange}
-              />
-            )}
-          />
-          <div className="relative rounded-lg overflow-hidden h-64 group">
-            <img
-              alt={t("formHabit.habitPlaceholder")}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLbBU9p9rHOiJbQfIQXXC1poEJ52R5ZSJHymPUQDyCyGXPk2zlYAHn7A15M7b7uFstBaLTVXyNXvVSqxnAtMlypZN0gqnVeZJIge8MlFUvQZt6a0mEcPT61Xe_VFz0A9Bh5kOK0JKGAD5D9XzjF_ZERQmp8mGOx80aujXGJI1nUkQ873XcxVpK2b-IvHndWBw7-M03cwzI7O866QJjDld9XHjMyAJk4VchJWT__aZlClTx_axZ3p5CdlMYy54kbPR1a81PnsBiMXI"
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-primary/60 to-transparent flex items-end p-6">
-              <p className="text-on-primary font-bold italic text-lg leading-tight">
-                {t("formHabit.quote")}
-              </p>
-            </div>
-          </div>
+const FrequencyField = () => {
+  const { t } = useTranslation();
+  const { field } = useController<HabitFormData, "frequency">({
+    name: "frequency",
+  });
+
+  return (
+    <section className="bg-canvas border border-hairline rounded-[18px] p-[24px]">
+      <label className="text-[12px] text-ink-muted-48 tracking-[-0.12px] mb-[12px] block">
+        {t("formHabit.rhythm")}
+      </label>
+      <div className="flex p-[4px] bg-canvas-parchment rounded-[11px]">
+        {[
+          { label: t("formHabit.daily"), value: "daily" as const },
+          { label: t("formHabit.weekly"), value: "weekly" as const },
+        ].map((option) => (
           <button
-            type="submit"
-            disabled={mutation.isPending || isSubmitting}
-            className="w-full bg-on-background text-on-primary py-6 rounded-full text-xl font-black shadow-xl shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0.5 transition-all flex items-center justify-center gap-3 hover:opacity-90"
+            key={option.value}
+            type="button"
+            onClick={() => field.onChange(option.value)}
+            className={`flex-1 py-[8px] rounded-[8px] text-[14px] tracking-[-0.224px] transition-all
+              ${
+                field.value === option.value
+                  ? "bg-canvas text-ink shadow-sm font-normal"
+                  : "text-ink-muted-48"
+              }`}
           >
-            <span className="material-symbols-outlined">
-              {mutation.isPending
-                ? "hourglass_empty"
-                : isEditing
-                  ? "save"
-                  : "celebration"}
-            </span>
-
-            <span>
-              {mutation.isPending
-                ? t("formHabit.saving")
-                : isEditing
-                  ? t("formHabit.saveChanges")
-                  : t("formHabit.cultivateHabit")}
-            </span>
+            {option.label}
           </button>
-
-          {mutation.isError && (
-            <p className="text-error text-center">{t("formHabit.error")}</p>
-          )}
-        </div>
+        ))}
       </div>
-    </form>
+    </section>
+  );
+};
+
+const GoalField = () => {
+  const { t } = useTranslation();
+  const { field } = useController<HabitFormData, "goal">({
+    name: "goal",
+  });
+
+  return (
+    <section className="bg-canvas border border-hairline rounded-[18px] p-[24px]">
+      <label className="text-[12px] text-ink-muted-48 tracking-[-0.12px] mb-[12px] block">
+        {t("formHabit.goalLabel")}
+      </label>
+       <input
+         className="w-full bg-canvas-parchment text-[17px] text-ink leading-[1.47] rounded-[11px] px-[17px] py-[11px] border border-transparent focus-visible:border-primary focus-visible:outline-none transition-colors"
+         type="text"
+         value={field.value}
+         onChange={field.onChange}
+         onBlur={field.onBlur}
+       />
+    </section>
+  );
+};
+
+const CategoryField = () => {
+  const { t } = useTranslation();
+  const { field } = useController<HabitFormData, "category">({
+    name: "category",
+  });
+
+  return (
+    <div>
+      <label className="text-[12px] text-ink-muted-48 tracking-[-0.12px] mb-[17px] block">
+        {t("formHabit.visualSpirit")}
+      </label>
+      <div className="grid grid-cols-4 gap-[12px]">
+        {ICONS.map((icon) => {
+          const isActive = field.value === icon.value;
+          return (
+            <button
+              key={icon.value}
+              type="button"
+              onClick={() => field.onChange(icon.value)}
+              aria-label={`${t("formHabit.visualSpirit")}: ${icon.value}`}
+              className={`aspect-square rounded-[18px] flex items-center justify-center transition-all border
+                ${
+                  isActive
+                    ? "bg-ink border-ink"
+                    : "bg-canvas-parchment border-hairline hover:border-ink-muted-48"
+                }`}
+            >
+              <span
+                className="material-symbols-outlined text-[28px]"
+                style={{
+                  color: isActive ? "#ffffff" : "#1d1d1f",
+                  fontVariationSettings: `'FILL' ${isActive ? 1 : 0}`,
+                }}
+              >
+                {icon.value}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 };

@@ -1,16 +1,14 @@
 import type { Habit, HabitStats } from "@/interfaces/api";
 
-// Cuántas barras mostrar según la frecuencia
 const BARS_BY_FREQUENCY: Record<string, number> = {
-  daily: 7, // 7 días de la semana
-  weekly: 4, // 4 semanas del mes
+  daily: 7,
+  weekly: 4,
 };
 
-// Colores por índice — igual que en el dashboard
 const CATEGORY_COLORS = [
-  "bg-primary-container   text-on-primary-container",
-  "bg-secondary-container text-on-secondary-container",
-  "bg-tertiary-container  text-on-tertiary-container",
+  "bg-primary/10 text-primary",
+  "bg-surface-tile-1/10 text-ink",
+  "bg-surface-chip-translucent/50 text-ink",
 ];
 
 export function buildHabitCardProps(
@@ -20,7 +18,6 @@ export function buildHabitCardProps(
 ) {
   const totalBars = BARS_BY_FREQUENCY[habit.frequency] ?? 7;
   const completed = stats?.total ?? 0;
-  // Cuántas barras están completas — máximo totalBars
   const completedBars = Math.min(completed, totalBars);
   const percentage =
     totalBars > 0 ? Math.round((completedBars / totalBars) * 100) : 0;

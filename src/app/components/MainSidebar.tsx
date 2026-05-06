@@ -1,12 +1,12 @@
 import { useTranslation } from "react-i18next";
-import { Link, useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useProfileStats } from "../hooks/useProfileStats";
+import { SidebarLink } from "./SidebarLink";
 
 export const MainSidebar = () => {
   const { t } = useTranslation();
-  const pathname = useLocation();
-  const navigate = useNavigate();
   const { data: profile } = useProfileStats();
+  const navigate = useNavigate();
   const level = profile?.level || 1;
 
   return (
@@ -21,44 +21,32 @@ export const MainSidebar = () => {
       </div>
 
       <nav className="flex flex-col gap-2">
-        <Link
-          className={`flex items-center gap-3 px-4 py-3 text-shadow-primary-dim rounded-full font-headline text-sm font-semibold hover:translate-x-1 transition-transform duration-200 active:scale-95 ${pathname.pathname === "/app" ? "bg-surface-container-lowest shadow-sm" : "opacity-80"}`}
+        <SidebarLink
           to="/app"
-        >
-          <span className="material-symbols-outlined">dashboard</span>
-          {t("app.dashboard.dashboard")}
-        </Link>
-        <Link
-          className={`flex items-center gap-3 px-4 py-3 text-shadow-primary-dim rounded-full font-headline text-sm font-semibold hover:translate-x-1 transition-transform duration-200 active:scale-95 ${pathname.pathname === "/app/habits" ? "bg-surface-container-lowest shadow-sm" : "opacity-80"}`}
+          icon="dashboard"
+          translationKey="app.dashboard.dashboard"
+        />
+        <SidebarLink
           to="/app/habits"
-        >
-          <span className="material-symbols-outlined">event_repeat</span>
-          {t("app.dashboard.habits")}
-        </Link>
-        <Link
-          className={`flex items-center gap-3 px-4 py-3 text-shadow-primary-dim rounded-full  font-headline text-sm font-semibold hover:translate-x-1 transition-transform duration-200 active:scale-95 ${pathname.pathname === "/app/metrics" ? "bg-surface-container-lowest shadow-sm" : "opacity-80"}`}
+          icon="event_repeat"
+          translationKey="app.dashboard.habits"
+        />
+        <SidebarLink
           to="/app/metrics"
-        >
-          <span
-            className="material-symbols-outlined"
-            style={{ fontVariationSettings: "'FILL' 1" }}
-          >
-            query_stats
-          </span>
-          {t("app.dashboard.statistics")}
-        </Link>
-        <Link
-          className={`flex items-center gap-3 px-4 py-3 text-shadow-primary-dim rounded-full font-headline text-sm font-semibold hover:translate-x-1 transition-transform duration-200 active:scale-95 ${pathname.pathname === "/app/settings" ? "bg-surface-container-lowest shadow-sm" : "opacity-80"}`}
+          icon="query_stats"
+          translationKey="app.dashboard.statistics"
+          fillIcon={true}
+        />
+        <SidebarLink
           to="/app/settings"
-        >
-          <span className="material-symbols-outlined">settings</span>
-          {t("app.dashboard.settings")}
-        </Link>
+          icon="settings"
+          translationKey="app.dashboard.settings"
+        />
       </nav>
 
       <button
         onClick={() => navigate("/app/habits/new")}
-        className={`mt-auto bg-primary-dim text-white rounded-full py-4 font-bold transition-all duration-200 active:scale-95 shadow-lg shadow-primary/20 hover:bg-on-primary-fixed`}
+        className="mt-auto bg-primary-dim text-on-dark rounded-full py-4 font-bold transition-all duration-200 active:scale-95 shadow-lg shadow-primary/20 hover:bg-primary-focus"
       >
         {t("app.dashboard.addNewHabit")}
       </button>

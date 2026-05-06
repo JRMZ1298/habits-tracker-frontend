@@ -4,43 +4,45 @@ export const WebhooksPanel = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="lg:col-span-4 bg-secondary-container rounded-lg p-8 flex flex-col justify-between">
-      <div>
-        <div className="w-12 h-12 rounded-xl bg-white/40 flex items-center justify-center mb-4">
-          <span className="material-symbols-outlined text-on-secondary-container text-2xl">
+    <div className="bg-surface-tile-1 text-on-dark rounded-[18px] p-[32px] flex flex-col justify-between">
+      <div className="space-y-[17px]">
+        <div className="w-[44px] h-[44px] rounded-full bg-surface-tile-2 flex items-center justify-center">
+          <span className="material-symbols-outlined text-primary-on-dark text-[24px]">
             api
           </span>
         </div>
-        <h3 className="text-xl font-bold text-on-secondary-container font-headline mb-2">
-          {t("app.settings.developerWebhooks")}
-        </h3>
-        <p className="text-on-secondary-container/80 text-sm mb-6">
-          {t("app.settings.webhooksDescription")}
-        </p>
-        <div className="space-y-4">
-          <div className="space-y-1">
-            <label className="text-[10px] uppercase font-label tracking-widest text-on-secondary-container/60 font-bold">
+        <div className="space-y-[8px]">
+          <h3 className="text-[17px] font-semibold text-body-on-dark leading-[1.24]">
+            {t("app.settings.developerWebhooks")}
+          </h3>
+          <p className="text-[14px] text-body-muted leading-[1.43]">
+            {t("app.settings.webhooksDescription")}
+          </p>
+        </div>
+        <div className="space-y-[17px]">
+          <div className="space-y-[8px]">
+            <label className="text-[12px] text-body-muted tracking-[-0.12px]">
               {t("app.settings.webhookUrl")}
             </label>
             <input
-              className="w-full bg-white/50 border-none rounded-lg p-3 text-sm placeholder-on-secondary-container/40"
+              className="w-full bg-surface-tile-2 text-body-on-dark text-[17px] leading-[1.47] rounded-[11px] px-[17px] py-[11px] placeholder:text-body-muted/50 border border-surface-tile-2 focus:border-primary-on-dark/50 outline-none transition-colors"
               placeholder="https://api.tudominio.com/vitality"
               type="text"
             />
           </div>
-          <div className="space-y-1">
-            <label className="text-[10px] uppercase font-label tracking-widest text-on-secondary-container/60 font-bold">
+          <div className="space-y-[8px]">
+            <label className="text-[12px] text-body-muted tracking-[-0.12px]">
               {t("app.settings.secretKey")}
             </label>
             <input
-              className="w-full bg-white/50 border-none rounded-lg p-3 text-sm"
+              className="w-full bg-surface-tile-2 text-body-on-dark text-[17px] leading-[1.47] rounded-[11px] px-[17px] py-[11px] placeholder:text-body-muted/50 border border-surface-tile-2 focus:border-primary-on-dark/50 outline-none transition-colors"
               type="password"
               placeholder="••••••••••••••••"
             />
           </div>
         </div>
       </div>
-      <button className="mt-8 py-3 bg-secondary-dim text-white rounded-full font-bold text-sm shadow-md hover:opacity-90 transition-opacity">
+      <button className="mt-[24px] w-full bg-primary-on-dark text-on-dark text-[17px] font-normal leading-[1.47] rounded-[9999px] px-[22px] py-[11px] transition-transform active:scale-[0.95]">
         {t("app.settings.saveWebhook")}
       </button>
     </div>

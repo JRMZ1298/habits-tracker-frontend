@@ -17,11 +17,11 @@ export const HabitsGrid = () => {
 
   if (isLoading || statsLoading) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {[1, 2, 3, 4].map((i) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]">
+        {[1, 2, 3, 4, 5, 6].map((i) => (
           <div
             key={i}
-            className="bg-surface-container-lowest rounded-lg p-6 animate-pulse h-40"
+            className="bg-canvas border border-hairline rounded-[18px] p-[24px] animate-pulse h-[180px]"
           />
         ))}
       </div>
@@ -30,18 +30,20 @@ export const HabitsGrid = () => {
 
   if (habits.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 gap-4">
-        <span className="material-symbols-outlined text-6xl text-outline-variant">
+      <div className="flex flex-col items-center justify-center py-[80px] gap-[17px]">
+        <span className="material-symbols-outlined text-[64px] text-ink-muted-48">
           sentiment_neutral
         </span>
-        <p className="text-outline text-center">{t("app.habits.noHabits")}</p>
+        <p className="text-[17px] text-ink-muted-48 leading-[1.47] text-center">
+          {t("app.habits.noHabits")}
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div className="space-y-[32px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]">
         {habits.map((habit, index) => {
           const stats = statsMap[habit.id];
           const props = buildHabitCardProps(habit, stats, index);
@@ -50,8 +52,7 @@ export const HabitsGrid = () => {
             <HabitCard
               key={habit.id}
               {...props}
-              // Callbacks de acciones
-              onEdit={() => navigate(`/app/habits/edit/${habit.id}`)} // conecta tu modal de edición
+              onEdit={() => navigate(`/app/habits/edit/${habit.id}`)}
               onDelete={() => deleteHabit.mutate(habit.id)}
               isDeleting={
                 deleteHabit.isPending && deleteHabit.variables === habit.id
@@ -61,32 +62,32 @@ export const HabitsGrid = () => {
         })}
       </div>
 
-      {/* Paginación */}
+      {/* Pagination */}
       {(data?.total_pages ?? 1) > 1 && (
-        <div className="flex items-center justify-between pt-2">
+        <div className="flex items-center justify-between pt-[17px]">
           <button
             onClick={() => setPage((p) => p - 1)}
             disabled={!data?.has_prev}
-            className="flex items-center gap-2 text-sm font-semibold text-outline hover:text-on-background disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center gap-[8px] text-[17px] text-primary font-normal leading-[1.47] disabled:opacity-30 disabled:cursor-not-allowed transition-transform active:scale-[0.95]"
           >
-            <span className="material-symbols-outlined text-base">
-              arrow_back
+            <span className="material-symbols-outlined text-[20px]">
+              chevron_left
             </span>
             {t("app.dashboard.prev")}
           </button>
 
-          <span className="text-sm text-outline">
+          <span className="text-[14px] text-ink-muted-48 tracking-[-0.224px]">
             {page} / {data?.total_pages}
           </span>
 
           <button
             onClick={() => setPage((p) => p + 1)}
             disabled={!data?.has_next}
-            className="flex items-center gap-2 text-sm font-semibold text-outline hover:text-on-background disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center gap-[8px] text-[17px] text-primary font-normal leading-[1.47] disabled:opacity-30 disabled:cursor-not-allowed transition-transform active:scale-[0.95]"
           >
             {t("app.dashboard.next")}
-            <span className="material-symbols-outlined text-base">
-              arrow_forward
+            <span className="material-symbols-outlined text-[20px]">
+              chevron_right
             </span>
           </button>
         </div>

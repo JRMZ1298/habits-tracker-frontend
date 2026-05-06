@@ -1,19 +1,37 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { SocialLoginButton } from "./SocialLoginButton";
 import { Link } from "react-router";
 import { useLogin } from "../hooks/useAuth";
+import type { LoginForm as LoginFormType } from "@/interfaces/forms";
+
+const loginSchema = z.object({
+  email: z.string().min(1, "El email es requerido").email("Email inválido"),
+  password: z.string().min(1, "La contraseña es requerida"),
+});
 
 export const LoginForm = () => {
   const { t } = useTranslation();
-  // TODO: Quitar el useState para evitar renderizados innecesarios
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { mutateAsync } = useLogin();
+  const { mutateAsync, isPending } = useLogin();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await mutateAsync({ email, password });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormType>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    mode: "onSubmit",
+    reValidateMode: "onBlur",
+  });
+
+  const onSubmit = async (data: LoginFormType) => {
+    await mutateAsync(data);
   };
 
   return (
@@ -27,7 +45,7 @@ export const LoginForm = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
         <div className="space-y-2">
           <label
             htmlFor="email"
@@ -41,14 +59,23 @@ export const LoginForm = () => {
             </span>
             <input
               id="email"
-              name="email"
               type="email"
               placeholder={t("auth.login.emailPlaceholder")}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary-fixed transition-all font-body"
+              {...register("email")}
+              className={`w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary-fixed transition-all font-body ${
+                errors.email ? "ring-2 ring-error" : ""
+              }`}
             />
           </div>
+          {errors.email && (
+            <p
+              className="text-error text-xs font-label ml-1"
+              role="alert"
+              aria-live="polite"
+            >
+              {errors.email.message}
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -72,23 +99,37 @@ export const LoginForm = () => {
             </span>
             <input
               id="password"
-              name="password"
               type="password"
               placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary-fixed transition-all font-body"
+              {...register("password")}
+              className={`w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary-fixed transition-all font-body ${
+                errors.password ? "ring-2 ring-error" : ""
+              }`}
             />
           </div>
+          {errors.password && (
+            <p
+              className="text-error text-xs font-label ml-1"
+              role="alert"
+              aria-live="polite"
+            >
+              {errors.password.message}
+            </p>
+          )}
         </div>
 
         <button
           type="submit"
-          className="w-full py-4 bg-primary-dim text-white font-bold rounded-full hover:bg-on-primary-fixed transition-all active:scale-95 shadow-lg shadow-primary/10 flex items-center justify-center gap-2"
+          disabled={isPending}
+          className="w-full py-4 bg-primary-dim text-white font-bold rounded-full hover:bg-primary-focus transition-all active:scale-95 shadow-lg shadow-primary/10 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span>{t("auth.login.loginButton")}</span>
+          <span>
+            {isPending
+              ? t("auth.login.loggingIn", "Iniciando sesión...")
+              : t("auth.login.loginButton")}
+          </span>
           <span className="material-symbols-outlined text-[18px]">
-            arrow_forward
+            {isPending ? "hourglass_empty" : "arrow_forward"}
           </span>
         </button>
       </form>

@@ -24,4 +24,7 @@ dist-ssr
 *.sw?
 
 .env
-.md
+AGENTS.MD
+.agents
+DESIGN.MD
+session-ses*.MD

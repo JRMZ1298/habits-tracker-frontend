@@ -9,7 +9,8 @@ import type {
   WeeklyDay,
   YearlyMonth,
 } from "@/interfaces/api";
-import type { CreateHabitForm, RegisterForm } from "@/interfaces/forms";
+import type { RegisterForm } from "@/interfaces/forms";
+import type { HabitFormData } from "@/app/pages/ui/FormHabitSchema";
 
 // ── Auth ─────────────────────────────────────────────────────────────────────
 export const registerUser = (
@@ -44,13 +45,13 @@ export const getHabits = (page = 1, limit = 5): Promise<PaginatedHabits> =>
     .get("/habits/", { params: { page, limit } })
     .then((res) => res.data);
 
-export const createHabit = (newHabit: CreateHabitForm) =>
+export const createHabit = (newHabit: HabitFormData) =>
   habitsApi
     .post("/habits/", {
       name: newHabit.name,
       frequency: newHabit.frequency,
       goal: newHabit.goal,
-      reminders: newHabit.reminders ?? [],
+      reminders: newHabit.reminders.map((r) => r.value) ?? [],
       icon: newHabit.category ?? null,
     })
     .then((res) => res.data);
@@ -63,14 +64,14 @@ export const getHabit = (id: number): Promise<Habit> =>
 
 export const updateHabit = (
   id: number,
-  data: CreateHabitForm,
+  data: HabitFormData,
 ): Promise<Habit> =>
   habitsApi
     .put(`/habits/${id}`, {
       name: data.name,
       frequency: data.frequency ?? "daily",
       goal: data.goal ?? null,
-      reminders: data.reminders ?? [],
+      reminders: data.reminders.map((r) => r.value) ?? [],
       icon: data.category ?? null,
     })
     .then((res) => res.data);

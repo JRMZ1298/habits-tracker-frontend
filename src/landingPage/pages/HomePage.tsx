@@ -4,17 +4,17 @@ import { FeatureGrid } from "../components/FeatureGrid";
 import { Testimonials } from "../components/Testimonials";
 import { CtaSection } from "../components/CtaSection";
 import { Footer } from "../components/Footer";
+import { StructuredData } from "@/components/StructuredData";
 
 export const HomePage = () => {
   return (
-    <div className="min-h-screen bg-surface text-[#003622]">
+    <div className="bg-canvas">
+      <StructuredData type="WebSite" />
       <TopAppBar />
-      <main className="pt-24">
-        <HeroSection />
-        <FeatureGrid />
-        <Testimonials />
-        <CtaSection />
-      </main>
+      <HeroSection />
+      <FeatureGrid />
+      <Testimonials />
+      <CtaSection />
       <Footer />
     </div>
   );

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -27,9 +27,6 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
-  /* --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0); */
-  /* --chart-3: #518168; */
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.625rem;
@@ -50,11 +47,24 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background: #dbffe8;
-  color: #006a35;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  background: #f5f5f7;
+  color: #1d1d1f;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Skip navigation link - accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 .material-symbols-outlined {
@@ -68,91 +78,95 @@ body {
 
 @theme inline {
   --font-heading: var(--font-sans);
-  --font-sans: "Geist Variable", sans-serif;
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary-fixed: #6bfe9c;
-  --color-secondary-container: #abd6ff;
-  --color-on-primary: #cdffd4;
-  --color-error-dim: #9f0519;
-  --color-tertiary: #904800;
-  --color-primary-container: #6bfe9c;
-  --color-primary-dim: #005c2d;
-  --color-inverse-on-surface: #76a78d;
-  --color-on-secondary: #ebf4ff;
-  --color-error-container: #fb5151;
-  --color-inverse-primary: #6bfe9c;
-  --color-tertiary-fixed: #ff9742;
-  --color-on-error: #ffefee;
-  --color-surface-container-lowest: #ffffff;
-  --color-surface-container-high: #aef1cc;
-  --color-surface-container: #b8f6d3;
-  --color-on-error-container: #570008;
-  --color-on-tertiary-container: #4f2500;
-  --color-surface-variant: #a4ecc5;
-  --color-primary-fixed-dim: #5bef90;
-  --color-secondary-dim: #005481;
-  --color-secondary-fixed-dim: #8ccaff;
-  --color-on-secondary-container: #004b74;
-  --color-on-secondary-fixed: #003757;
-  --color-on-primary-fixed: #004a23;
-  --color-tertiary-dim: #7e3e00;
-  --color-surface: #dbffe8;
-  --color-on-tertiary-fixed-variant: #5d2c00;
-  --color-on-tertiary: #fff0e8;
-  --color-tertiary-fixed-dim: #f2882c;
-  --color-outline: #518168;
-  --color-on-surface-variant: #35654d;
-  --color-error: #b31b25;
-  --color-tertiary-container: #ff9742;
-  --color-surface-dim: #98e4bc;
-  --color-surface-tint: #006a35;
-  --color-on-secondary-fixed-variant: #005582;
-  --color-on-background: #003622;
-  --color-surface-container-low: #c4fedd;
-  --color-outline-variant: #86b89c;
-  --color-on-tertiary-fixed: #2b1100;
-  --color-on-surface: #003622;
-  --color-inverse-surface: #001209;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
 
-  --color-foreground: var(--foreground);
+  /* Core theme variables (OKLCH) */
   --color-background: var(--background);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Chart colors */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Sidebar */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Apple Design tokens - surface colors */
+  --color-canvas: #ffffff;
+  --color-canvas-parchment: #f5f5f7;
+  --color-surface-pearl: #fafafc;
+  --color-surface-container: #f5f5f7;
+  --color-surface-container-low: #fafafc;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-high: #e0e0e0;
+  --color-surface: #f5f5f7;
+  --color-surface-dim: #e0e0e0;
+
+  /* Apple Design tokens - text colors */
+  --color-ink: #1d1d1f;
+  --color-ink-muted-48: #7a7a7a;
+  --color-ink-muted-80: #333333;
+  --color-body: #1d1d1f;
+  --color-body-muted: #cccccc;
+  --color-body-on-dark: #ffffff;
+  --color-on-surface: #1d1d1f;
+  --color-on-dark: #ffffff;
+  --color-surface-tint: #1d1d1f;
+
+  /* Apple Design tokens - primary colors */
+  --color-primary: #0066cc;
+  --color-primary-focus: #0071e3;
+  --color-primary-on-dark: #2997ff;
+  --color-primary-dim: #0052a3;
+  --color-on-primary: #ffffff;
+  --color-on-primary-fixed: #ffffff;
+
+  /* Apple Design tokens - borders */
+  --color-hairline: #e0e0e0;
+  --color-divider-soft: #f0f0f0;
+  --color-outline: #7a7a7a;
+
+  /* Apple Design tokens - surface tiles */
+  --color-surface-tile-1: #272729;
+  --color-surface-tile-2: #2a2a2c;
+  --color-surface-tile-3: #252527;
+  --color-surface-black: #000000;
+  --color-surface-chip-translucent: #d2d2d7;
+
+  /* Radius */
+  --radius-sm: 5px;
+  --radius-md: 11px;
+  --radius-lg: 18px;
+  --radius-xl: 18px;
+  --radius-2xl: 18px;
+  --radius-3xl: 9999px;
+  --radius-4xl: 9999px;
 }
 
 .dark {
@@ -200,13 +214,13 @@ body {
     @apply font-sans;
   }
   :root {
-    --chart-1: #003622;
-    --chart-2: #a4ecc5;
-    --chart-3: #518168;
+    --chart-1: #0066cc;
+    --chart-2: #e0e0e0;
+    --chart-3: #7a7a7a;
   }
 
   .dark {
-    --chart-1: oklch(0.488 0.243 264.376);
-    --chart-2: oklch(0.696 0.17 162.48);
+    --chart-1: #2997ff;
+    --chart-2: #3a3a3c;
   }
 }

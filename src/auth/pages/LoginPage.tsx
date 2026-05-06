@@ -3,7 +3,7 @@ import { LoginForm } from "@/auth/components/LoginForm";
 
 export const LoginPage = () => {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center p-6 bg-surface bg-[radial-gradient(circle_at_0%_0%,#c4fedd_0%,transparent_50%),radial-gradient(circle_at_100%_100%,#a4ecc5_0%,transparent_50%)]">
+    <div className="min-h-screen flex flex-col justify-center items-center p-6 bg-surface">
       <main className="w-full max-w-md">
         <BrandHeader />
         <LoginForm />

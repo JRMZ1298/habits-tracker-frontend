@@ -11,7 +11,7 @@ export const HabitsPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className="space-y-[48px]">
       <HabitsSummarySection
         best_current_streak={
           profile?.best_current_streak ?? { habit: "ninguno", streak: 0 }
@@ -22,15 +22,15 @@ export const HabitsPage = () => {
 
       <HabitsGrid />
 
-      <div className="mt-12 hidden md:block">
+      <div className="pt-[17px] hidden md:block">
         <button
           onClick={() => navigate("/app/habits/new")}
-          className="w-full py-8 border-2 border-dashed border-outline-variant rounded-lg flex flex-col items-center justify-center gap-2 group hover:bg-surface-container-low transition-all"
+          className="w-full py-[32px] border border-hairline rounded-[18px] flex flex-col items-center justify-center gap-[8px] group transition-transform active:scale-[0.99] bg-canvas"
         >
-          <span className="material-symbols-outlined text-3xl text-on-surface-variant group-hover:scale-110 transition-transform">
+          <span className="material-symbols-outlined text-[32px] text-primary group-hover:scale-105 transition-transform">
             add_circle
           </span>
-          <span className="text-lg font-bold text-on-surface-variant">
+          <span className="text-[17px] text-primary font-normal leading-[1.47]">
             {t("app.habits.cultivateNewHabit")}
           </span>
         </button>

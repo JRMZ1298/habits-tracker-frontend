@@ -5,25 +5,24 @@ export const CtaSection = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="py-32 px-6 max-w-5xl mx-auto text-center">
-      <div className="relative overflow-hidden rounded-4xl p-16 bg-[#005c2d] text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(107,254,156,0.45),transparent_40%)] opacity-50" />
-        <div className="relative z-10">
-          <h2 className="text-4xl md:text-6xl font-extrabold leading-tight">
-            {t("landing.cta.title")}
-          </h2>
-          <p className="text-[#6bfe9c] text-lg mb-12 max-w-xl mx-auto opacity-90">
-            {t("landing.cta.subtitle")}
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              to="/auth/login"
-              className="bg-[#6bfe9c] text-[#004a23] px-12 py-5 rounded-full font-bold text-xl hover:bg-white transition-all active:scale-95 shadow-2xl shadow-black/20"
-            >
-              {t("landing.cta.button")}
-            </Link>
-          </div>
-        </div>
+    <section className="bg-surface-tile-3 py-[80px]">
+      <div className="max-w-[980px] mx-auto px-6 text-center">
+        <h2
+          className="text-[40px] md:text-[56px] font-semibold text-on-dark leading-[1.1] tracking-[-0.28px] mb-[12px]"
+        >
+          {t("landing.cta.title")}
+        </h2>
+        <p
+          className="text-[21px] font-normal text-body-muted leading-[1.47] max-w-[680px] mx-auto mb-[24px]"
+        >
+          {t("landing.cta.subtitle")}
+        </p>
+        <Link
+          to="/auth/registro"
+          className="inline-block bg-primary text-on-primary text-[17px] font-normal leading-[1.47] tracking-[-0.374px] rounded-[9999px] px-[22px] py-[11px] transition-transform active:scale-[0.95]"
+        >
+          {t("landing.cta.button")}
+        </Link>
       </div>
     </section>
   );

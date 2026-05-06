@@ -26,42 +26,54 @@ export const DashboardPage = () => {
 
   if (profileStatsLoading) {
     return (
-      <div className="space-y-6">
-        <div className="bg-surface-container-low rounded-lg p-8 animate-pulse h-32" />
-        <div className="bg-surface-container-low rounded-lg p-8 animate-pulse h-48" />
-        <div className="bg-surface-container-low rounded-lg p-8 animate-pulse h-64" />
+      <div className="space-y-[80px]">
+        <div className="h-36 animate-pulse" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+          <div className="md:col-span-2 bg-canvas animate-pulse h-72" />
+          <div className="bg-surface-tile-1 animate-pulse h-72" />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-3">
+            <div className="bg-canvas rounded-lg animate-pulse h-20" />
+            <div className="bg-canvas rounded-lg animate-pulse h-20" />
+            <div className="bg-canvas rounded-lg animate-pulse h-20" />
+          </div>
+          <div className="bg-canvas rounded-lg animate-pulse h-96" />
+        </div>
       </div>
     );
   }
 
   return (
-    <>
-      <DashboardHeader
-        percentageCompleted={completedPercentage}
-        currentStreak={profile?.best_current_streak.streak ?? 0}
-        level={profile?.level ?? 1}
-      />
-      <DashboardBentoGrid
-        totalHabits={totalHabits}
-        completedHabits={completedCount}
-        completedPercentage={completedPercentage}
-      />
-
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-10 py-5">
-        <DashboardHabitList
-          habits={habits || []}
-          isLoading={isLoading}
-          completedMap={completedMap}
-          // Paginación
-          page={page}
-          totalPages={data?.total_pages ?? 1}
-          hasNext={data?.has_next ?? false}
-          hasPrev={data?.has_prev ?? false}
-          onNext={() => setPage((p) => p + 1)}
-          onPrev={() => setPage((p) => p - 1)}
+    <div className="relative">
+      <div className="relative space-y-[48px]">
+        <DashboardHeader
+          percentageCompleted={completedPercentage}
+          currentStreak={profile?.best_current_streak.streak ?? 0}
+          level={profile?.level ?? 1}
         />
-        <DashboardStatsSidebar />
-      </section>
-    </>
+
+        <DashboardBentoGrid
+          totalHabits={totalHabits}
+          completedHabits={completedCount}
+          completedPercentage={completedPercentage}
+        />
+
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <DashboardHabitList
+            habits={habits || []}
+            isLoading={isLoading}
+            completedMap={completedMap}
+            page={page}
+            totalPages={data?.total_pages ?? 1}
+            hasNext={data?.has_next ?? false}
+            hasPrev={data?.has_prev ?? false}
+            onNext={() => setPage((p) => p + 1)}
+            onPrev={() => setPage((p) => p - 1)}
+          />
+          <DashboardStatsSidebar />
+        </section>
+      </div>
+    </div>
   );
 };

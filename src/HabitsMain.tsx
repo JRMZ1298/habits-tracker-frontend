@@ -2,6 +2,8 @@ import { RouterProvider } from "react-router";
 import { appRoutes } from "./routes/routes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ErrorBoundary } from "./components/ErrorBoundary";
+import { Toaster } from "./components/ui/sonner";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,9 +16,12 @@ const queryClient = new QueryClient({
 
 export const HabitsMain = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={appRoutes} />
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={appRoutes} />
+        <ReactQueryDevtools initialIsOpen={false} />
+        <Toaster />
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 };

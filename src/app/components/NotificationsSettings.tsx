@@ -1,4 +1,3 @@
-// src/components/NotificationSettings.tsx
 import type { NotificationPreferences } from "@/interfaces/api";
 import {
   useNotificationPreferences,
@@ -12,9 +11,7 @@ export const NotificationSettings = () => {
   const updatePrefs = useUpdateNotifications();
 
   const toggle = (key: keyof NotificationPreferences) => {
-    if (!prefs) {
-      return <div className="animate-pulse h-24 bg-gray-200 rounded-lg" />;
-    }
+    if (!prefs) return;
     updatePrefs.mutate({ ...prefs, [key]: !prefs[key] });
   };
 
@@ -38,35 +35,64 @@ export const NotificationSettings = () => {
     },
   ];
 
+  if (!prefs) {
+    return (
+      <div className="space-y-[17px]">
+        {[1, 2].map((i) => (
+          <div
+            key={i}
+            className="flex items-center justify-between gap-[17px] animate-pulse"
+          >
+            <div className="flex items-start gap-[12px]">
+              <div className="w-[20px] h-[20px] bg-canvas-parchment rounded" />
+              <div className="space-y-[8px]">
+                <div className="h-[14px] w-32 bg-canvas-parchment rounded" />
+                <div className="h-[12px] w-48 bg-canvas-parchment rounded" />
+              </div>
+            </div>
+            <div className="w-[51px] h-[31px] bg-canvas-parchment rounded-[9999px]" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-surface-container-lowest rounded-lg p-6 space-y-4">
+    <div className="space-y-[17px]">
       {settings.map(({ key, label, desc, icon }) => (
-        <div key={key} className="flex items-center justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <span className="material-symbols-outlined text-on-surface-variant mt-0.5">
+        <div
+          key={key}
+          className="flex items-center justify-between gap-[17px] py-[12px]"
+        >
+          <div className="flex items-start gap-[12px]">
+            <span className="material-symbols-outlined text-[20px] text-ink-muted-48 mt-[2px]">
               {icon}
             </span>
-            <div>
-              <p className="text-sm font-semibold text-on-background">
+            <div className="space-y-[4px]">
+              <p className="text-[17px] text-ink font-normal leading-[1.24]">
                 {label}
               </p>
-              <p className="text-sm text-outline">{desc}</p>
+              <p className="text-[14px] text-ink-muted-48 leading-[1.43]">
+                {desc}
+              </p>
             </div>
           </div>
 
-          {/* Toggle */}
+          {/* Apple-style Toggle */}
           <button
             onClick={() => toggle(key)}
             disabled={updatePrefs.isPending}
-            className={`relative w-11 h-6 rounded-full transition-colors duration-200 shrink-0
+            className={`relative w-[51px] h-[31px] rounded-[9999px] transition-colors duration-200 shrink-0
               ${
-                prefs?.[key] ? "bg-on-background" : "bg-surface-container-high"
+                prefs?.[key]
+                  ? "bg-primary"
+                  : "bg-canvas-parchment border border-hairline"
               }`}
           >
             <span
-              className={`absolute top-1 w-4 h-4 rounded-full bg-white
+              className={`absolute top-[2px] w-[27px] h-[27px] rounded-full bg-white
               shadow-sm transition-all duration-200
-              ${prefs?.[key] ? "left-6" : "left-1"}`}
+              ${prefs?.[key] ? "left-[22px]" : "left-[2px]"}`}
             />
           </button>
         </div>

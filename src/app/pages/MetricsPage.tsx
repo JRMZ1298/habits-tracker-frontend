@@ -7,12 +7,15 @@ export const MetricsPage = () => {
   const { data: profile } = useProfileStats();
 
   return (
-    <>
-      <header className="mb-12 space-y-2 pt-4 md:pt-0">
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-on-background font-headline">
+    <div className="space-y-[48px]">
+      <header className="space-y-[12px] pt-[32px]">
+        <h1
+          className="text-[40px] md:text-[56px] font-semibold text-ink leading-[1.1]"
+          style={{ letterSpacing: "-0.28px" }}
+        >
           {t("app.metrics.title")}
         </h1>
-        <p className="text-on-surface-variant font-label text-lg">
+        <p className="text-[17px] text-ink-muted-48 leading-[1.47]">
           {t("app.metrics.subtitle")}
         </p>
       </header>
@@ -27,6 +30,6 @@ export const MetricsPage = () => {
         habits_to_next={profile?.habits_to_next ?? 10}
         habits_per_level={profile?.habits_per_level ?? 10}
       />
-    </>
+    </div>
   );
 };

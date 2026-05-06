@@ -5,20 +5,16 @@ export const NotificationsPanel = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="lg:col-span-8 bg-surface-container-low rounded-lg p-8 space-y-8">
-      <div className="flex items-center gap-4">
-        <div>
-          <h3 className="text-xl font-bold text-on-background font-headline">
-            {t("app.settings.notificationPreferences")}
-          </h3>
-          <p className="text-on-surface-variant text-sm">
-            {t("app.settings.notificationDescription")}
-          </p>
-        </div>
+    <div className="bg-canvas border border-hairline rounded-[18px] p-[32px]">
+      <div className="space-y-[8px] mb-[24px]">
+        <h3 className="text-[21px] font-semibold text-ink leading-[1.19]">
+          {t("app.settings.notificationPreferences")}
+        </h3>
+        <p className="text-[17px] text-ink-muted-48 leading-[1.47]">
+          {t("app.settings.notificationDescription")}
+        </p>
       </div>
-      <div className="space-y-6">
-        <NotificationSettings />
-      </div>
+      <NotificationSettings />
     </div>
   );
 };

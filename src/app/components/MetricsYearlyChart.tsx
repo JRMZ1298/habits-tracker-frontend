@@ -34,21 +34,31 @@ export const YearlyChart = () => {
   const { t } = useTranslation();
   const { data, isLoading } = useYearlySummary();
 
-  const currentMonth = new Date().getMonth() + 1; // 1-12
+  const currentMonth = new Date().getMonth() + 1;
 
-  // Traducir etiquetas y marcar mes actual
   const chartData = (data ?? []).map((d) => ({
     label: MONTH_LABELS[d.label] ?? d.label,
     completed: d.completed,
     month: d.month,
     isCurrent: d.month === currentMonth,
-    // Meses futuros — null para que la línea no los dibuje
     value: d.month <= currentMonth ? d.completed : null,
   }));
 
   if (isLoading) {
     return (
-      <div className="bg-surface-container-low rounded-lg p-8 animate-pulse h-64" />
+      <div className="flex flex-col gap-[24px]">
+        <div className="flex justify-between items-start">
+          <div className="space-y-[8px]">
+            <div className="h-[12px] w-32 bg-canvas-parchment rounded animate-pulse" />
+            <div className="h-[28px] w-20 bg-canvas-parchment rounded animate-pulse" />
+          </div>
+          <div className="flex gap-[24px]">
+            <div className="h-[24px] w-16 bg-canvas-parchment rounded animate-pulse" />
+            <div className="h-[24px] w-12 bg-canvas-parchment rounded animate-pulse" />
+          </div>
+        </div>
+        <div className="h-[160px] bg-canvas-parchment rounded-[5px] animate-pulse" />
+      </div>
     );
   }
 
@@ -59,34 +69,43 @@ export const YearlyChart = () => {
   );
 
   return (
-    <section className="md:col-span-4 lg:col-span-4 bg-surface-container-low rounded-lg p-8 flex flex-col gap-6">
+    <div className="flex flex-col gap-[24px]">
       {/* Header */}
       <div className="flex justify-between items-start">
-        <div>
-          <span className="text-[10px] uppercase tracking-widest font-label font-bold text-surface-tint">
+        <div className="space-y-[4px]">
+          <span className="text-[12px] text-ink-muted-48 tracking-[-0.12px]">
             {t("app.metrics.yearlyProgress")}
           </span>
-          <h2 className="text-3xl font-bold font-headline mt-1 text-surface-tint">
+          <h2
+            className="text-[28px] font-semibold text-ink leading-[1.14]"
+            style={{ letterSpacing: "0.196px" }}
+          >
             {new Date().getFullYear()}
           </h2>
         </div>
 
-        {/* Stats rápidas */}
-        <div className="flex gap-6 text-right">
+        {/* Quick Stats */}
+        <div className="flex gap-[24px] text-right">
           <div>
-            <p className="text-2xl font-extrabold font-headline text-surface-tint">
+            <p
+              className="text-[21px] font-semibold text-ink leading-[1.19]"
+              style={{ letterSpacing: "0.231px" }}
+            >
               {total.toLocaleString()}
             </p>
-            <p className="text-[10px] uppercase tracking-widest font-label text-outline">
+            <p className="text-[12px] text-ink-muted-48 tracking-[-0.12px]">
               {t("app.metrics.totalYear")}
             </p>
           </div>
           {peak && peak.completed > 0 && (
             <div>
-              <p className="text-2xl font-extrabold font-headline text-surface-tint">
+              <p
+                className="text-[21px] font-semibold text-ink leading-[1.19]"
+                style={{ letterSpacing: "0.231px" }}
+              >
                 {peak.completed}
               </p>
-              <p className="text-[10px] uppercase tracking-widest font-label text-outline">
+              <p className="text-[12px] text-ink-muted-48 tracking-[-0.12px]">
                 {MONTH_LABELS[peak.label] ?? peak.label}
               </p>
             </div>
@@ -94,10 +113,10 @@ export const YearlyChart = () => {
         </div>
       </div>
 
-      {/* Gráfica */}
+      {/* Chart */}
       <ChartContainer
         config={chartConfig}
-        className="min-h-40 w-full text-outline"
+        className="min-h-[160px] w-full"
       >
         <LineChart
           data={chartData}
@@ -105,20 +124,30 @@ export const YearlyChart = () => {
         >
           <CartesianGrid
             vertical={false}
-            stroke="hsl(var(--color-outline-variant) / 0.2)"
+            stroke="#f0f0f0"
           />
 
           <XAxis
             dataKey="label"
             tickLine={false}
             axisLine={false}
-            tick={{ fontSize: 11, fontWeight: 600 }}
+            tick={{
+              fontSize: 12,
+              fontWeight: 400,
+              fill: "#7a7a7a",
+              letterSpacing: "-0.12px",
+            }}
           />
 
           <YAxis
             tickLine={false}
             axisLine={false}
-            tick={{ fontSize: 10 }}
+            tick={{
+              fontSize: 12,
+              fontWeight: 400,
+              fill: "#7a7a7a",
+              letterSpacing: "-0.12px",
+            }}
             allowDecimals={false}
           />
 
@@ -134,7 +163,7 @@ export const YearlyChart = () => {
           <Line
             type="monotone"
             dataKey="value"
-            stroke="var(--chart-1)"
+            stroke="#0066cc"
             strokeWidth={2.5}
             dot={({ cx, cy, payload }) => {
               if (payload.value === null) return <g key={cx} />;
@@ -144,22 +173,22 @@ export const YearlyChart = () => {
                   cx={cx}
                   cy={cy}
                   r={payload.isCurrent ? 5 : 3}
-                  fill={payload.isCurrent ? "var(--chart-1)" : "var(--chart-2)"}
-                  stroke="var(--chart-1)"
+                  fill={payload.isCurrent ? "#0066cc" : "#e0e0e0"}
+                  stroke="#0066cc"
                   strokeWidth={3}
                 />
               );
             }}
             activeDot={{ r: 6, strokeWidth: 2 }}
-            connectNulls={false} // No conecta los meses futuros
+            connectNulls={false}
           />
         </LineChart>
       </ChartContainer>
 
-      {/* Leyenda meses futuros */}
-      <p className="text-[10px] text-outline font-label">
+      {/* Legend */}
+      <p className="text-[12px] text-ink-muted-48 tracking-[-0.12px]">
         {t("app.metrics.futureMonths")}
       </p>
-    </section>
+    </div>
   );
 };
