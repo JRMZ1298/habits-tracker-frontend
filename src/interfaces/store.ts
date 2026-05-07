@@ -1,6 +1,7 @@
 // ── Usuario en sesión (lo que guardamos en Zustand, no el User completo) ──────
 export interface AuthUser {
   name: string;
+  email: string;
 }
 
 // ── Forma del store de Zustand ────────────────────────────────────────────────

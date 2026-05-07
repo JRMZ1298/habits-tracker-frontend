@@ -9,7 +9,7 @@ export const SocialLoginButton = ({ text }: SocialLoginButtonProps) => {
   const label = text ?? t("auth.social.loginGoogle");
 
   const handleGoogleLogin = () => {
-    console.log("Google login clicked");
+    window.location.href = "http://localhost:8000/auth/google";
   };
 
   return (

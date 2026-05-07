@@ -3,6 +3,7 @@ export interface LoginResponse {
   access_token: string;
   token_type: "bearer";
   user_name: string;
+  user_email: string;
 }
 
 export interface RegisterResponse {

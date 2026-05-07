@@ -1,5 +1,6 @@
 import { useLogout } from "@/auth/hooks/useAuth";
 import { useTranslation } from "react-i18next";
+import { useThemeStore } from "@/stores/themeStore";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,10 +9,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
 export const MainHeader = () => {
   const { t } = useTranslation();
   const logout = useLogout();
+  const { theme, toggleTheme } = useThemeStore();
 
   const handleLogout = () => {
     logout();
@@ -27,16 +30,29 @@ export const MainHeader = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <button aria-label="Buscar" className=" hover:bg-surface-container rounded-full p-2 transition-colors duration-200 active:scale-95">
-            <span className="material-symbols-outlined">search</span>
-          </button>
-          <button aria-label="Notificaciones" className=" hover:bg-surface-container rounded-full p-2 transition-colors duration-200 active:scale-95">
-            <span className="material-symbols-outlined">notifications</span>
+          <button
+            onClick={toggleTheme}
+            aria-label={
+              theme === "dark" ? "Activar modo claro" : "Activar modo oscuro"
+            }
+            className="hover:bg-surface-container rounded-full p-2 transition-colors duration-200 active:scale-95"
+          >
+            <span
+              className={cn(
+                theme !== "dark" ? "text-primary-focus" : "text-amber-400",
+                "material-symbols-outlined",
+              )}
+            >
+              {theme === "dark" ? "light_mode" : "dark_mode"}
+            </span>
           </button>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button aria-label="Menú de usuario" className="rounded-full p-0 border-0 bg-transparent hover:bg-surface-container transition-colors duration-200">
+              <button
+                aria-label="Menú de usuario"
+                className="rounded-full p-0 border-0 bg-transparent hover:bg-surface-container transition-colors duration-200"
+              >
                 <img
                   alt="User profile avatar"
                   className="w-8 h-8 rounded-full border-2 border-primary-container"
@@ -47,15 +63,21 @@ export const MainHeader = () => {
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>{t("appName")}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => window.location.href = "/app/settings"}>
-                <span className="material-symbols-outlined mr-2 text-sm">settings</span>
+              <DropdownMenuItem
+                onClick={() => (window.location.href = "/app/settings")}
+              >
+                <span className="material-symbols-outlined mr-2 text-sm">
+                  settings
+                </span>
                 {t("app.dashboard.settings")}
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={handleLogout}
                 className="text-destructive focus:text-destructive"
               >
-                <span className="material-symbols-outlined mr-2 text-sm">logout</span>
+                <span className="material-symbols-outlined mr-2 text-sm">
+                  logout
+                </span>
                 Cerrar sesión
               </DropdownMenuItem>
             </DropdownMenuContent>

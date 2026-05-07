@@ -5,17 +5,66 @@ import {
   NotAuthenticatedRoute,
 } from "@/components/routes/ProtectedRoutes";
 
-const LoginPage = lazy(() => import("@/auth/pages/LoginPage").then(module => ({ default: module.LoginPage })));
-const RegistroPage = lazy(() => import("@/auth/pages/RegistroPage").then(module => ({ default: module.RegistroPage })));
-const HomePage = lazy(() => import("@/landingPage/pages/HomePage").then(module => ({ default: module.HomePage })));
-const MetricsPage = lazy(() => import("@/app/pages/MetricsPage").then(module => ({ default: module.MetricsPage })));
-const DashboardPage = lazy(() => import("@/app/pages/DashboardPage").then(module => ({ default: module.DashboardPage })));
-const HabitsPage = lazy(() => import("@/app/pages/HabitsPage").then(module => ({ default: module.HabitsPage })));
-const SettingsPage = lazy(() => import("@/app/pages/SettingsPage").then(module => ({ default: module.SettingsPage })));
-const HabitAdminPage = lazy(() => import("@/app/pages/HabitAdminPage").then(module => ({ default: module.HabitAdminPage })));
-const BadgesGalleryPage = lazy(() => import("@/app/pages/BadgesGalleryPage").then(module => ({ default: module.BadgesGalleryPage })));
-const AppLayout = lazy(() => import("@/app/layouts/AppLayout").then(module => ({ default: module.default })));
-const AuthLayout = lazy(() => import("@/auth/layouts/AuthLayout").then(module => ({ default: module.default })));
+const LoginPage = lazy(() =>
+  import("@/auth/pages/LoginPage").then((module) => ({
+    default: module.LoginPage,
+  })),
+);
+const RegistroPage = lazy(() =>
+  import("@/auth/pages/RegistroPage").then((module) => ({
+    default: module.RegistroPage,
+  })),
+);
+const AuthCallbackPage = lazy(() =>
+  import("@/auth/pages/AuthCallbackPage").then((module) => ({
+    default: module.AuthCallbackPage,
+  })),
+);
+const HomePage = lazy(() =>
+  import("@/landingPage/pages/HomePage").then((module) => ({
+    default: module.HomePage,
+  })),
+);
+const MetricsPage = lazy(() =>
+  import("@/app/pages/MetricsPage").then((module) => ({
+    default: module.MetricsPage,
+  })),
+);
+const DashboardPage = lazy(() =>
+  import("@/app/pages/DashboardPage").then((module) => ({
+    default: module.DashboardPage,
+  })),
+);
+const HabitsPage = lazy(() =>
+  import("@/app/pages/HabitsPage").then((module) => ({
+    default: module.HabitsPage,
+  })),
+);
+const SettingsPage = lazy(() =>
+  import("@/app/pages/SettingsPage").then((module) => ({
+    default: module.SettingsPage,
+  })),
+);
+const HabitAdminPage = lazy(() =>
+  import("@/app/pages/HabitAdminPage").then((module) => ({
+    default: module.HabitAdminPage,
+  })),
+);
+const BadgesGalleryPage = lazy(() =>
+  import("@/app/pages/BadgesGalleryPage").then((module) => ({
+    default: module.BadgesGalleryPage,
+  })),
+);
+const AppLayout = lazy(() =>
+  import("@/app/layouts/AppLayout").then((module) => ({
+    default: module.default,
+  })),
+);
+const AuthLayout = lazy(() =>
+  import("@/auth/layouts/AuthLayout").then((module) => ({
+    default: module.default,
+  })),
+);
 
 const LoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-canvas">
@@ -60,6 +109,14 @@ export const appRoutes = createBrowserRouter([
         element: (
           <Suspense fallback={<LoadingFallback />}>
             <RegistroPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "callback",
+        element: (
+          <Suspense fallback={<LoadingFallback />}>
+            <AuthCallbackPage />
           </Suspense>
         ),
       },

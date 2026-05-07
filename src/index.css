@@ -7,6 +7,51 @@
 
 @custom-variant dark (&:is(.dark *));
 
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  mix-blend-mode: normal;
+}
+
+/* 🌙 tema anterior */
+::view-transition-old(root) {
+  animation-name: theme-fade-out;
+}
+
+/* ☀️ tema nuevo */
+::view-transition-new(root) {
+  animation-name: theme-fade-in;
+}
+
+@keyframes theme-fade-in {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes theme-fade-out {
+  from {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(1.02);
+  }
+}
+
 :root {
   color-scheme: light;
   --background: oklch(1 0 0);
@@ -38,6 +83,40 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Apple Design tokens - light mode raw values */
+  --canvas: #ffffff;
+  --canvas-parchment: #f5f5f7;
+  --surface-pearl: #fafafc;
+  --surface-container: #f5f5f7;
+  --surface-container-low: #fafafc;
+  --surface-container-lowest: #ffffff;
+  --surface-container-high: #e0e0e0;
+  --surface: #f5f5f7;
+  --surface-dim: #e0e0e0;
+  --ink: #1d1d1f;
+  --ink-muted-48: #7a7a7a;
+  --ink-muted-80: #333333;
+  --body: #1d1d1f;
+  --body-muted: #cccccc;
+  --body-on-dark: #ffffff;
+  --on-surface: #1d1d1f;
+  --on-dark: #ffffff;
+  --surface-tint: #1d1d1f;
+  --apple-primary: #0066cc;
+  --apple-primary-focus: #0071e3;
+  --apple-primary-on-dark: #2997ff;
+  --apple-primary-dim: #0052a3;
+  --apple-on-primary: #ffffff;
+  --apple-on-primary-fixed: #ffffff;
+  --hairline: #e0e0e0;
+  --divider-soft: #f0f0f0;
+  --apple-outline: #7a7a7a;
+  --surface-tile-1: #272729;
+  --surface-tile-2: #2a2a2c;
+  --surface-tile-3: #252527;
+  --surface-black: #000000;
+  --surface-chip-translucent: #d2d2d7;
 }
 
 html {
@@ -49,7 +128,13 @@ body {
   min-height: 100vh;
   background: #f5f5f7;
   color: #1d1d1f;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Text",
+    system-ui,
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -78,7 +163,9 @@ body {
 
 @theme inline {
   --font-heading: var(--font-sans);
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --font-sans:
+    "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui,
+    sans-serif;
 
   /* Core theme variables (OKLCH) */
   --color-background: var(--background);
@@ -117,47 +204,47 @@ body {
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Apple Design tokens - surface colors */
-  --color-canvas: #ffffff;
-  --color-canvas-parchment: #f5f5f7;
-  --color-surface-pearl: #fafafc;
-  --color-surface-container: #f5f5f7;
-  --color-surface-container-low: #fafafc;
-  --color-surface-container-lowest: #ffffff;
-  --color-surface-container-high: #e0e0e0;
-  --color-surface: #f5f5f7;
-  --color-surface-dim: #e0e0e0;
+  /* Apple Design tokens - surface colors (via raw vars for dark mode override) */
+  --color-canvas: var(--canvas);
+  --color-canvas-parchment: var(--canvas-parchment);
+  --color-surface-pearl: var(--surface-pearl);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim);
 
   /* Apple Design tokens - text colors */
-  --color-ink: #1d1d1f;
-  --color-ink-muted-48: #7a7a7a;
-  --color-ink-muted-80: #333333;
-  --color-body: #1d1d1f;
-  --color-body-muted: #cccccc;
-  --color-body-on-dark: #ffffff;
-  --color-on-surface: #1d1d1f;
-  --color-on-dark: #ffffff;
-  --color-surface-tint: #1d1d1f;
+  --color-ink: var(--ink);
+  --color-ink-muted-48: var(--ink-muted-48);
+  --color-ink-muted-80: var(--ink-muted-80);
+  --color-body: var(--body);
+  --color-body-muted: var(--body-muted);
+  --color-body-on-dark: var(--body-on-dark);
+  --color-on-surface: var(--on-surface);
+  --color-on-dark: var(--on-dark);
+  --color-surface-tint: var(--surface-tint);
 
   /* Apple Design tokens - primary colors */
-  --color-primary: #0066cc;
-  --color-primary-focus: #0071e3;
-  --color-primary-on-dark: #2997ff;
-  --color-primary-dim: #0052a3;
-  --color-on-primary: #ffffff;
-  --color-on-primary-fixed: #ffffff;
+  --color-primary: var(--apple-primary);
+  --color-primary-focus: var(--apple-primary-focus);
+  --color-primary-on-dark: var(--apple-primary-on-dark);
+  --color-primary-dim: var(--apple-primary-dim);
+  --color-on-primary: var(--apple-on-primary);
+  --color-on-primary-fixed: var(--apple-on-primary-fixed);
 
   /* Apple Design tokens - borders */
-  --color-hairline: #e0e0e0;
-  --color-divider-soft: #f0f0f0;
-  --color-outline: #7a7a7a;
+  --color-hairline: var(--hairline);
+  --color-divider-soft: var(--divider-soft);
+  --color-outline: var(--apple-outline);
 
   /* Apple Design tokens - surface tiles */
-  --color-surface-tile-1: #272729;
-  --color-surface-tile-2: #2a2a2c;
-  --color-surface-tile-3: #252527;
-  --color-surface-black: #000000;
-  --color-surface-chip-translucent: #d2d2d7;
+  --color-surface-tile-1: var(--surface-tile-1);
+  --color-surface-tile-2: var(--surface-tile-2);
+  --color-surface-tile-3: var(--surface-tile-3);
+  --color-surface-black: var(--surface-black);
+  --color-surface-chip-translucent: var(--surface-chip-translucent);
 
   /* Radius */
   --radius-sm: 5px;
@@ -170,6 +257,8 @@ body {
 }
 
 .dark {
+  color-scheme: dark;
+
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -185,6 +274,7 @@ body {
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
@@ -201,6 +291,40 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Apple Design tokens - dark mode raw values */
+  --canvas: #1c1c1e;
+  --canvas-parchment: #2c2c2e;
+  --surface-pearl: #3a3a3c;
+  --surface-container: #2c2c2e;
+  --surface-container-low: #242426;
+  --surface-container-lowest: #1c1c1e;
+  --surface-container-high: #3a3a3c;
+  --surface: #2c2c2e;
+  --surface-dim: #1c1c1e;
+  --ink: #f5f5f7;
+  --ink-muted-48: #8e8e93;
+  --ink-muted-80: #d1d1d6;
+  --body: #f5f5f7;
+  --body-muted: #8e8e93;
+  --body-on-dark: #ffffff;
+  --on-surface: #f5f5f7;
+  --on-dark: #ffffff;
+  --surface-tint: #f5f5f7;
+  --apple-primary: #2997ff;
+  --apple-primary-focus: #40a9ff;
+  --apple-primary-on-dark: #64b5f6;
+  --apple-primary-dim: #0071e3;
+  --apple-on-primary: #ffffff;
+  --apple-on-primary-fixed: #ffffff;
+  --hairline: rgba(255, 255, 255, 0.12);
+  --divider-soft: rgba(255, 255, 255, 0.06);
+  --apple-outline: #8e8e93;
+  --surface-tile-1: #272729;
+  --surface-tile-2: #2a2a2c;
+  --surface-tile-3: #252527;
+  --surface-black: #000000;
+  --surface-chip-translucent: rgba(255, 255, 255, 0.16);
 }
 
 @layer base {
@@ -222,5 +346,10 @@ body {
   .dark {
     --chart-1: #2997ff;
     --chart-2: #3a3a3c;
+  }
+
+  html.dark body {
+    background: #1c1c1e;
+    color: #f5f5f7;
   }
 }

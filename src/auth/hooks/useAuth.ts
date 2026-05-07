@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import type { LoginResponse } from "@/interfaces/api";
 import type { LoginForm, RegisterForm } from "@/interfaces/forms";
 import { toast } from "sonner";
+import type { AxiosError } from "axios";
 
 export function useLogin() {
   const setAuth = useAuthStore((s) => s.setAuth);
@@ -16,13 +17,20 @@ export function useLogin() {
 
     onSuccess: (data) => {
       queryClient.clear();
-      setAuth(data.access_token, { name: data.user_name });
+      setAuth(data.access_token, {
+        name: data.user_name,
+        email: data.user_email,
+      });
       toast.success("¡Sesión iniciada correctamente!");
       navigate("/app");
     },
 
     onError: (error) => {
-      toast.error(error.message || "Error al iniciar sesión");
+      const axiosError = error as AxiosError<{ detail?: string }>;
+      const message =
+        axiosError.response?.data?.detail ||
+        "Correo y/o contraseña incorrectos";
+      toast.error(message);
     },
   });
 }

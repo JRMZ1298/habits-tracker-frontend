@@ -24,8 +24,10 @@ habitsApi.interceptors.response.use(
   (response) => response, // Si va bien, devuelve normal
 
   (error) => {
-    if (error.response?.status === 401) {
-      // Token expirado o inválido — logout automático
+    const isLoginRequest = error.config?.url?.includes("/auth/login");
+
+    if (error.response?.status === 401 && !isLoginRequest) {
+      // Token expirado o inválido — logout automático (solo si NO es login)
       useAuthStore.getState().logout();
       window.location.href = "/auth/login";
     }

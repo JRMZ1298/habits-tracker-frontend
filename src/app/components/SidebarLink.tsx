@@ -6,6 +6,7 @@ interface SidebarLinkProps {
   icon: string;
   translationKey: string;
   fillIcon?: boolean;
+  onClick?: () => void;
 }
 
 export const SidebarLink = ({
@@ -13,6 +14,7 @@ export const SidebarLink = ({
   icon,
   translationKey,
   fillIcon = false,
+  onClick,
 }: SidebarLinkProps) => {
   const { t } = useTranslation();
   const pathname = useLocation();
@@ -21,12 +23,14 @@ export const SidebarLink = ({
 
   return (
     <Link
-      className={`flex items-center gap-3 px-4 py-3 text-ink-muted-48 rounded-full font-headline text-sm font-semibold hover:translate-x-1 transition-transform duration-200 active:scale-95 ${
+      className={`flex items-center gap-3 px-4 py-3 text-ink-muted-48 rounded-full font-headline text-sm font-semibold hover:translate-x-1 transition-transform duration-200 active:scale-95 md:justify-center md:px-2 lg:justify-start lg:px-4 md:hover:translate-x-0 lg:hover:translate-x-1 ${
         isActive
           ? "text-primary-focus bg-surface-container-lowest shadow-sm"
           : "opacity-80"
       }`}
       to={to}
+      title={t(translationKey)}
+      onClick={onClick}
     >
       <span
         className="material-symbols-outlined"
@@ -34,7 +38,7 @@ export const SidebarLink = ({
       >
         {icon}
       </span>
-      {t(translationKey)}
+      <span className="inline md:hidden lg:inline">{t(translationKey)}</span>
     </Link>
   );
 };

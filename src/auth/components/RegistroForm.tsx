@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { SocialLoginButton } from "./SocialLoginButton";
 import { BrandHeader } from "./BrandHeader";
 import { useRegister } from "../hooks/useAuth";
 import type { RegisterForm as RegisterFormType } from "@/interfaces/forms";
@@ -18,13 +17,10 @@ const registerSchema = z
       .min(8, "La contraseña debe tener al menos 8 caracteres"),
     confirmPassword: z.string().min(1, "Debes confirmar tu contraseña"),
   })
-  .refine(
-    (data) => data.password === data.confirmPassword,
-    {
-      message: "Las contraseñas no coinciden",
-      path: ["confirmPassword"],
-    }
-  );
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Las contraseñas no coinciden",
+    path: ["confirmPassword"],
+  });
 
 export const RegistroForm = () => {
   const { t } = useTranslation();
@@ -84,11 +80,15 @@ export const RegistroForm = () => {
                 person
               </span>
             </div>
-           {errors.name && (
-             <p className="text-error text-xs font-label ml-1" role="alert" aria-live="polite">
-               {errors.name.message}
-             </p>
-           )}
+            {errors.name && (
+              <p
+                className="text-error text-xs font-label ml-1"
+                role="alert"
+                aria-live="polite"
+              >
+                {errors.name.message}
+              </p>
+            )}
           </div>
           <div className="space-y-1">
             <label className="font-label text-sm font-bold text-surface-tint ml-1">
@@ -107,11 +107,15 @@ export const RegistroForm = () => {
                 mail
               </span>
             </div>
-           {errors.email && (
-             <p className="text-error text-xs font-label ml-1" role="alert" aria-live="polite">
-               {errors.email.message}
-             </p>
-           )}
+            {errors.email && (
+              <p
+                className="text-error text-xs font-label ml-1"
+                role="alert"
+                aria-live="polite"
+              >
+                {errors.email.message}
+              </p>
+            )}
           </div>
           <div className="space-y-1">
             <label className="font-label text-sm font-bold text-surface-tint ml-1">
@@ -130,11 +134,15 @@ export const RegistroForm = () => {
                 lock
               </span>
             </div>
-           {errors.password && (
-             <p className="text-error text-xs font-label ml-1" role="alert" aria-live="polite">
-               {errors.password.message}
-             </p>
-           )}
+            {errors.password && (
+              <p
+                className="text-error text-xs font-label ml-1"
+                role="alert"
+                aria-live="polite"
+              >
+                {errors.password.message}
+              </p>
+            )}
           </div>
           <div className="space-y-1">
             <label className="font-label text-sm font-bold text-surface-tint ml-1">
@@ -147,7 +155,7 @@ export const RegistroForm = () => {
                 }`}
                 placeholder={t(
                   "auth.register.confirmPasswordPlaceholder",
-                  "Repite tu contraseña"
+                  "Repite tu contraseña",
                 )}
                 type="password"
                 {...register("confirmPassword")}
@@ -156,11 +164,15 @@ export const RegistroForm = () => {
                 lock_reset
               </span>
             </div>
-           {errors.confirmPassword && (
-             <p className="text-error text-xs font-label ml-1" role="alert" aria-live="polite">
-               {errors.confirmPassword.message}
-             </p>
-           )}
+            {errors.confirmPassword && (
+              <p
+                className="text-error text-xs font-label ml-1"
+                role="alert"
+                aria-live="polite"
+              >
+                {errors.confirmPassword.message}
+              </p>
+            )}
           </div>
           <button
             className="w-full bg-primary-dim text-white font-headline font-bold py-5 rounded-full shadow-lg shadow-primary/20 hover:bg-on-primary-fixed active:scale-95 transition-all duration-200 mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -172,14 +184,14 @@ export const RegistroForm = () => {
               : t("auth.register.createAccount")}
           </button>
         </form>
-        <div className="relative flex items-center py-2">
+        {/* <div className="relative flex items-center py-2">
           <div className="grow border-t border-outline-variant/20"></div>
           <span className="shrink mx-4 text-on-surface-variant text-xs font-label uppercase tracking-widest">
             {t("auth.register.orContinue")}
           </span>
           <div className="grow border-t border-outline-variant/20"></div>
         </div>
-        <SocialLoginButton text={t("auth.register.signupGoogle")} />
+        <SocialLoginButton text={t("auth.register.signupGoogle")} /> */}
         <p className="text-center font-label text-on-surface-variant pt-4">
           {t("auth.register.haveAccount")}{" "}
           <Link

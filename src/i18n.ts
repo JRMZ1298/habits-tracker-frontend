@@ -143,7 +143,8 @@ const resources = {
             privacy: "Privacidad",
             supplyChain: "Cadena de suministro",
           },
-          legal: "La fuente real de información sobre hábitos y crecimiento personal.",
+          legal:
+            "La fuente real de información sobre hábitos y crecimiento personal.",
         },
       },
       auth: {
@@ -215,7 +216,7 @@ const resources = {
           habits: "Hábitos",
           statistics: "Estadísticas",
           settings: "Configuración",
-          addNewHabit: "Agregar nuevo hábito",
+          addNewHabit: "Nuevo hábito",
           dailyProgress: "Progreso diario",
           keepBlooming: "Sigue creciendo",
           habitsDoneP1: " de ",
@@ -366,7 +367,7 @@ const resources = {
         cancel: "Cancelar",
       },
       sidebar: {
-        addNewHabit: "Agregar nuevo hábito",
+        addNewHabit: "Nuevo hábito",
       },
     },
   },
