@@ -78,8 +78,8 @@ export const DashboardHabitList: React.FC<Props> = (props) => {
             </div>
           )}
 
-          {props.habits?.map((habit, index) => {
-            const { bgColor, textColor } = getHabitColor(index);
+          {props.habits?.map((habit) => {
+            const color = getHabitColor(habit.icon);
             const completedToday = props.completedMap[habit.id] ?? false;
             const isWeekly = habit.frequency === "weekly";
 
@@ -96,7 +96,7 @@ export const DashboardHabitList: React.FC<Props> = (props) => {
               >
                 <div className="flex items-center gap-[17px]">
                   <div
-                    className={`w-[44px] h-[44px] rounded-full ${bgColor} flex items-center justify-center ${textColor}`}
+                    className={`w-[44px] h-[44px] rounded-full ${color} flex items-center justify-center`}
                   >
                     <span className="material-symbols-outlined text-[24px]">
                       {habit.icon ?? "task_alt"}
@@ -183,7 +183,7 @@ export const DashboardHabitList: React.FC<Props> = (props) => {
                     className={`rounded-full transition-all
                   ${
                     p === props.page
-                      ? "bg-ink w-[24px] h-[5px]"
+                      ? "bg-primary w-[24px] h-[5px]"
                       : "bg-hairline w-[5px] h-[5px]"
                   }`}
                   />
@@ -204,6 +204,6 @@ export const DashboardHabitList: React.FC<Props> = (props) => {
           </div>
         )}
       </div>
-      </>
+    </>
   );
 };

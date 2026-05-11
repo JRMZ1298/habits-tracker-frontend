@@ -7,8 +7,8 @@ export const SettingsPage = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="flex-1 space-y-[48px]">
-      <header className="space-y-[12px] pt-[32px]">
+    <section className="flex-1 space-y-12">
+      <header className="space-y-3 pt-8">
         <h1
           className="text-[40px] md:text-[56px] font-semibold text-ink leading-[1.1]"
           style={{ letterSpacing: "-0.28px" }}
@@ -20,9 +20,9 @@ export const SettingsPage = () => {
         </p>
       </header>
 
-      <div className="space-y-[24px]">
+      <div className="space-y-6">
         <IdentitySettings />
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-[20px]">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           <div className="lg:col-span-2">
             <NotificationsPanel />
           </div>

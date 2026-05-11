@@ -22,6 +22,8 @@ import type {
 import type { HabitFormData } from "@/app/pages/ui/FormHabitSchema";
 import { useState } from "react";
 import { toast } from "sonner";
+import type { HabitPeriodProgress } from "@/interfaces/api";
+import habitsApi from "@/api/habitsApi";
 
 // Clave de cache — TanStack identifica cada query por su queryKey
 const HABITS_KEY = ["habits"] as const;
@@ -140,6 +142,7 @@ export function useLogHabit(onNewBadge?: (badge: NewBadge) => void) {
       queryClient.invalidateQueries({ queryKey: ["weekly-summary"] });
       queryClient.invalidateQueries({ queryKey: ["profile-stats"] });
       queryClient.invalidateQueries({ queryKey: ["yearly-summary"] });
+      queryClient.invalidateQueries({ queryKey: ["habit-progress"] });
     },
   });
 }
@@ -214,4 +217,33 @@ export function useUpdateHabit(id: number) {
       toast.error(error.message || "Error al actualizar el hábito");
     },
   });
+}
+
+const getHabitPeriodProgress = (
+  habitId: number,
+): Promise<HabitPeriodProgress> =>
+  habitsApi.get(`/stats/habit/${habitId}/period-progress`).then((r) => r.data);
+
+export function useHabitsProgress(habitIds: number[]) {
+  const results = useQueries({
+    queries: habitIds.map((id) => ({
+      queryKey: ["habit-progress", id],
+      queryFn: () => getHabitPeriodProgress(id),
+      enabled: !!id,
+      staleTime: 1000 * 60 * 2,
+    })),
+  });
+
+  const progressMap = habitIds.reduce(
+    (acc, id, index) => {
+      const data = results[index].data;
+      if (data) acc[id] = data;
+      return acc;
+    },
+    {} as Record<number, HabitPeriodProgress>,
+  );
+
+  const isLoading = results.some((r) => r.isLoading);
+
+  return { progressMap, isLoading };
 }

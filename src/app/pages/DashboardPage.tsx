@@ -26,7 +26,7 @@ export const DashboardPage = () => {
 
   if (profileStatsLoading) {
     return (
-      <div className="space-y-[80px]">
+      <div className="space-y-20">
         <div className="h-36 animate-pulse" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
           <div className="md:col-span-2 bg-canvas animate-pulse h-72" />
@@ -46,7 +46,7 @@ export const DashboardPage = () => {
 
   return (
     <div className="relative">
-      <div className="relative space-y-[48px]">
+      <div className="relative space-y-12">
         <DashboardHeader
           percentageCompleted={completedPercentage}
           currentStreak={profile?.best_current_streak.streak ?? 0}

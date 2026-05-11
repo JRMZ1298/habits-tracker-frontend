@@ -157,24 +157,6 @@ export const MetricsStatGrid: React.FC<Props> = (props) => {
           <BadgesSection />
         </div>
       </div>
-
-      {/* CTA Section - Parchment Tile */}
-      <section className="bg-canvas-parchment rounded-[18px] p-[32px] md:p-[48px] flex flex-col md:flex-row items-center justify-between gap-[24px]">
-        <div className="space-y-[8px]">
-          <h3
-            className="text-[28px] font-semibold text-ink leading-[1.14]"
-            style={{ letterSpacing: "0.196px" }}
-          >
-            {t("app.metrics.newPeak")}
-          </h3>
-          <p className="text-[17px] text-ink-muted-48 leading-[1.47]">
-            {t("app.metrics.peakMessage")}
-          </p>
-        </div>
-        <button className="bg-primary text-on-primary text-[17px] font-normal leading-[1.47] rounded-[9999px] px-[22px] py-[11px] transition-transform active:scale-[0.95] whitespace-nowrap">
-          {t("app.metrics.optimizeSchedule")}
-        </button>
-      </section>
     </>
   );
 };

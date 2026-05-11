@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { HabitCard } from "./HabitCard";
-import { useHabitsGrid } from "../hooks/useHabits";
-import { useHabitsStats } from "../hooks/useHabits";
+import { useHabitsGrid, useHabitsProgress } from "../hooks/useHabits";
 import { buildHabitCardProps } from "@/lib/habitCardProps";
 import { useDeleteHabit } from "../hooks/useHabits";
 import { useNavigate } from "react-router";
@@ -11,7 +10,7 @@ export const HabitsGrid = () => {
 
   const { habits, isLoading, data, page, setPage } = useHabitsGrid(6);
   const habitIds = habits.map((h) => h.id);
-  const { statsMap, isLoading: statsLoading } = useHabitsStats(habitIds);
+  const { progressMap, isLoading: statsLoading } = useHabitsProgress(habitIds);
   const deleteHabit = useDeleteHabit();
   const navigate = useNavigate();
 
@@ -44,9 +43,9 @@ export const HabitsGrid = () => {
   return (
     <div className="space-y-[32px]">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]">
-        {habits.map((habit, index) => {
-          const stats = statsMap[habit.id];
-          const props = buildHabitCardProps(habit, stats, index);
+        {habits.map((habit) => {
+          const progress = progressMap[habit.id];
+          const props = buildHabitCardProps(habit, progress);
 
           return (
             <HabitCard

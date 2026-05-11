@@ -1,34 +1,35 @@
-import type { Habit, HabitStats } from "@/interfaces/api";
+import type { Habit, HabitPeriodProgress } from "@/interfaces/api";
 
-const BARS_BY_FREQUENCY: Record<string, number> = {
-  daily: 7,
-  weekly: 4,
+const CATEGORY_COLORS: Record<string, string> = {
+  favorite: "bg-rose-500/15 text-rose-500",
+  directions_run: "bg-orange-500/15 text-orange-500",
+  self_improvement: "bg-violet-500/15 text-violet-500",
+  exercise: "bg-emerald-500/15 text-emerald-500",
+  water_drop: "bg-sky-500/15 text-sky-500",
+  menu_book: "bg-amber-500/15 text-amber-500",
+  fork_spoon: "bg-red-500/15 text-red-500",
+  sleep: "bg-indigo-500/15 text-indigo-400",
 };
-
-const CATEGORY_COLORS = [
-  "bg-primary/10 text-primary",
-  "bg-surface-tile-1/10 text-ink",
-  "bg-surface-chip-translucent/50 text-ink",
-];
 
 export function buildHabitCardProps(
   habit: Habit,
-  stats: HabitStats | undefined,
-  index: number,
+  progress: HabitPeriodProgress | undefined, // ← cambia HabitStats por HabitPeriodProgress
 ) {
-  const totalBars = BARS_BY_FREQUENCY[habit.frequency] ?? 7;
-  const completed = stats?.total ?? 0;
-  const completedBars = Math.min(completed, totalBars);
-  const percentage =
-    totalBars > 0 ? Math.round((completedBars / totalBars) * 100) : 0;
+  // Si aún no llegó el dato del período, usar valores vacíos
+  const completedBars = progress?.completed_bars ?? 0;
+  const totalBars =
+    progress?.total_bars ?? (habit.frequency === "daily" ? 7 : 4);
+  const percentage = progress?.percentage ?? 0;
+  const progressText = progress?.progress ?? `0 / ${totalBars}`;
 
   return {
     icon: habit.icon ?? "task_alt",
     title: habit.name,
     category: habit.goal ?? habit.frequency,
-    categoryColor: CATEGORY_COLORS[index % CATEGORY_COLORS.length],
+    categoryColor:
+      CATEGORY_COLORS[habit.icon ?? ""] ?? "bg-primary/10 text-primary",
     frequency: habit.frequency,
-    progress: `${completedBars} / ${totalBars}`,
+    progress: progressText,
     percentage,
     completedBars,
     totalBars,

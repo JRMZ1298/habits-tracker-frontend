@@ -28,3 +28,6 @@ AGENTS.MD
 .agents
 DESIGN.MD
 session-ses*.MD
+
+# Test coverage
+coverage/

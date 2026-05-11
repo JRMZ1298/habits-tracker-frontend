@@ -299,6 +299,8 @@ const resources = {
           optimizeSchedule: "Optimizar horario",
         },
         settings: {
+          savedSuccessfully: "Cambios guardados correctamente",
+          saving: "Guardando...",
           notifications: "Notificaciones",
           dailyReminder: "Recordatorio diario",
           dailyReminderDesc: "Recibe a las 8 AM la lista de hábitos pendientes",

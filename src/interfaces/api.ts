@@ -120,8 +120,32 @@ export interface YearlyMonth {
   completed: number;
 }
 
+export interface HabitPeriodProgress {
+  habit_id: number;
+  frequency: string;
+  period_start: string;
+  period_end: string;
+  completed: number;
+  total_bars: number;
+  completed_bars: number;
+  percentage: number;
+  progress: string;
+}
+
 // ---------Notifications---------------------------------------------------------------------
 export interface NotificationPreferences {
   daily_reminder: boolean;
   weekly_summary: boolean;
+}
+
+// ---------user-profile----------------------------------------------------------------------
+export interface UpdateProfileData {
+  name?: string;
+  email?: string;
+}
+
+export interface UpdateProfileResponse {
+  id: number;
+  name: string;
+  email: string;
 }

@@ -1,11 +1,21 @@
-const HABIT_COLORS = [
-  { bgColor: "bg-primary/10", textColor: "text-primary" },
-  { bgColor: "bg-canvas-parchment", textColor: "text-ink" },
-  { bgColor: "bg-surface-tile-1/10", textColor: "text-ink-muted-80" },
-  { bgColor: "bg-surface-chip-translucent/40", textColor: "text-ink" },
-  { bgColor: "bg-hairline/50", textColor: "text-ink-muted-48" },
-];
+const CATEGORY_COLORS: Record<string, string> = {
+  favorite: "bg-rose-500/15 text-rose-500",
 
-export function getHabitColor(index: number) {
-  return HABIT_COLORS[index % HABIT_COLORS.length];
+  directions_run: "bg-orange-500/15 text-orange-500",
+
+  self_improvement: "bg-violet-500/15 text-violet-500",
+
+  exercise: "bg-emerald-500/15 text-emerald-500",
+
+  water_drop: "bg-sky-500/15 text-sky-500",
+
+  menu_book: "bg-amber-500/15 text-amber-500",
+
+  fork_spoon: "bg-red-500/15 text-red-500",
+
+  sleep: "bg-indigo-500/15 text-indigo-400",
+};
+
+export function getHabitColor(icon: string) {
+  return CATEGORY_COLORS[icon ?? "task_alt"] ?? "bg-primary/10 text-primary";
 }

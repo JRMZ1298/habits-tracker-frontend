@@ -19,8 +19,8 @@ export const DashboardBentoGrid: React.FC<Props> = ({
   return (
     <section className="grid grid-cols-1 md:grid-cols-2 gap-0">
       {/* Daily Progress - Light Tile */}
-      <div className="bg-canvas p-[48px] md:p-[80px] flex flex-col justify-between min-h-[320px]">
-        <div className="space-y-[12px]">
+      <div className="bg-canvas p-12 md:p-20 flex flex-col justify-between min-h-80">
+        <div className="space-y-3">
           <span className="text-[12px] text-ink-muted-48 tracking-[-0.12px]">
             {t("app.dashboard.dailyProgress")}
           </span>
@@ -32,8 +32,8 @@ export const DashboardBentoGrid: React.FC<Props> = ({
           </h2>
         </div>
 
-        <div className="flex items-end justify-between mt-[48px]">
-          <div className="space-y-[4px]">
+        <div className="flex items-end justify-between mt-12">
+          <div className="space-y-1">
             <span
               className="text-[56px] font-semibold text-ink leading-[1.07]"
               style={{ letterSpacing: "-0.28px" }}
@@ -51,7 +51,7 @@ export const DashboardBentoGrid: React.FC<Props> = ({
             </p>
           </div>
 
-          <div className="w-[120px] h-[120px] relative">
+          <div className="w-30 h-30 relative">
             <svg
               className="w-full h-full transform -rotate-90"
               viewBox="0 0 100 100"
@@ -83,18 +83,18 @@ export const DashboardBentoGrid: React.FC<Props> = ({
       </div>
 
       {/* Energy Level - Dark Tile */}
-      <div className="bg-surface-tile-1 text-on-dark p-[48px] md:p-[80px] flex flex-col justify-between min-h-[320px]">
-        <div className="space-y-[12px]">
+      <div className="bg-surface-tile-1 text-on-dark p-12 md:p-20 flex flex-col justify-between min-h-12">
+        <div className="space-y-3">
           <div className="flex items-center justify-between">
             <span className="material-symbols-outlined text-3xl text-body-muted">
               bolt
             </span>
-            <span className="bg-surface-tile-2 text-body-muted px-[14px] py-[8px] rounded-[11px] text-[14px]">
+            <span className="bg-surface-tile-2 text-body-muted px-3.5 py-2 rounded-md text-[14px]">
               {t("app.dashboard.active")}
             </span>
           </div>
 
-          <div className="mt-[24px] space-y-[8px]">
+          <div className="mt-6 space-y-2">
             <h3 className="text-[28px] font-semibold leading-[1.14] text-body-on-dark">
               {t("app.dashboard.energyLevel")}
             </h3>
@@ -104,11 +104,11 @@ export const DashboardBentoGrid: React.FC<Props> = ({
           </div>
         </div>
 
-        <div className="h-[64px] flex items-end gap-[6px] mt-[32px]">
+        <div className="h-16 flex items-end gap-1.5 mt-8">
           {[40, 65, 100, 75, 85].map((h, i) => (
             <div
               key={i}
-              className="flex-1 bg-body-muted/30 rounded-[5px] transition-all"
+              className="flex-1 bg-body-muted/30 rounded-sm transition-all"
               style={{ height: `${h}%` }}
             />
           ))}
