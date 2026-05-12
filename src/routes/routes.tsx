@@ -4,6 +4,7 @@ import {
   AuthenticatedRoute,
   NotAuthenticatedRoute,
 } from "@/components/routes/ProtectedRoutes";
+import { LoadingFallback } from "@/components/LoadingFallback";
 
 const LoginPage = lazy(() =>
   import("@/auth/pages/LoginPage").then((module) => ({
@@ -64,15 +65,6 @@ const AuthLayout = lazy(() =>
   import("@/auth/layouts/AuthLayout").then((module) => ({
     default: module.default,
   })),
-);
-
-const LoadingFallback = () => (
-  <div className="min-h-screen flex items-center justify-center bg-canvas">
-    <div className="animate-pulse flex flex-col items-center gap-4">
-      <div className="w-12 h-12 rounded-full bg-primary/20 animate-bounce" />
-      <p className="text-ink-muted-48 text-sm">Cargando...</p>
-    </div>
-  </div>
 );
 
 export const appRoutes = createBrowserRouter([

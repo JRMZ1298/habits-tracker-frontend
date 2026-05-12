@@ -116,16 +116,16 @@ export const FormHabit = () => {
   });
 
   const onSubmit = useCallback(
-    async (data: HabitFormData) => {
-      await mutation.mutateAsync({
+    (data: HabitFormData) => {
+      mutation.mutateAsync({
         name: data.name.trim(),
         frequency: data.frequency,
         goal: data.goal,
         category: data.category,
         reminders: data.reminders,
-      });
-
-      navigate("/app/habits");
+      }).then(() => {
+        navigate("/app/habits");
+      }).catch(() => undefined);
     },
     [mutation, navigate],
   );

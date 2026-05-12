@@ -1,4 +1,5 @@
 import { http, HttpResponse } from "msw";
+import type { HabitPeriodProgress } from "@/interfaces/api";
 
 export const handlers = [
   http.post("*/auth/login", () =>
@@ -18,17 +19,63 @@ export const handlers = [
     }),
   ),
 
-  http.get("*/habits/", () =>
-    HttpResponse.json({
+  http.get("*/habits/", ({ request }) => {
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get("page") ?? 1);
+    return HttpResponse.json({
       habits: [],
       total: 0,
-      page: 1,
+      page,
       limit: 10,
       total_pages: 0,
       has_next: false,
-      has_prev: false,
+      has_prev: page > 1,
+    });
+  }),
+
+  http.get("*/habits/:id", () =>
+    HttpResponse.json({
+      id: 1,
+      user_id: 1,
+      name: "Ejercicio matutino",
+      frequency: "daily",
+      goal: "30 minutos",
+      reminders: ["07:00"],
+      icon: "dumbbell",
+      created_at: "2025-01-15T10:00:00Z",
     }),
   ),
+
+  http.post("*/habits/", () =>
+    HttpResponse.json(
+      {
+        id: 4,
+        user_id: 1,
+        name: "New habit",
+        frequency: "daily",
+        goal: "30 minutos",
+        reminders: ["07:00"],
+        icon: "favorite",
+        created_at: "2025-06-01T10:00:00Z",
+      },
+      { status: 201 },
+    ),
+  ),
+
+  http.put("*/habits/:id", () =>
+    HttpResponse.json({
+      id: 1,
+      user_id: 1,
+      name: "Updated habit",
+      frequency: "daily",
+      goal: "30 minutos",
+      reminders: ["07:00"],
+      icon: "favorite",
+      created_at: "2025-01-15T10:00:00Z",
+    }),
+  ),
+
+  http.delete("*/habits/:id", () => new HttpResponse(null, { status: 204 })),
 
   http.get("*/habits/:id/logs/today", () =>
     HttpResponse.json({ completed: false }),
@@ -53,7 +100,7 @@ export const handlers = [
   ),
 
   http.get("*/stats/today-count", () =>
-    HttpResponse.json({ count: 0 }),
+    HttpResponse.json({ completed: 0 }),
   ),
 
   http.get("*/stats/weekly", () =>
@@ -76,12 +123,26 @@ export const handlers = [
     }),
   ),
 
+  http.get("*/stats/habit/:id/period-progress", () =>
+    HttpResponse.json({
+      habit_id: 1,
+      frequency: "daily",
+      period_start: "2025-06-01",
+      period_end: "2025-06-07",
+      completed: 5,
+      total_bars: 7,
+      completed_bars: 5,
+      percentage: 71,
+      progress: "71%",
+    } satisfies HabitPeriodProgress),
+  ),
+
   http.get("*/badges/", () =>
     HttpResponse.json([]),
   ),
 
   http.get("*/badges/progress", () =>
-    HttpResponse.json([]),
+    HttpResponse.json({}),
   ),
 
   http.get("*/notifications/me/notifications", () =>
@@ -102,6 +163,21 @@ export const handlers = [
     HttpResponse.json({
       title: "Yoga fluido de 15 min",
       image: null,
+    }),
+  ),
+
+  http.put("*/users/me", () =>
+    HttpResponse.json({
+      id: 1,
+      name: "Updated Name",
+      email: "updated@example.com",
+    }),
+  ),
+
+  http.post("*/users/refresh", () =>
+    HttpResponse.json({
+      access_token: "refreshed-token-456",
+      token_type: "bearer",
     }),
   ),
 ];

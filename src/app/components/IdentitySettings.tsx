@@ -99,7 +99,7 @@ const IdentityForm = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-5.5 py-2.75 rounded-[9999px] bg-primary text-on-primary text-[17px] font-normal leading-[1.47] transition-transform active:scale-[0.95]"
+              className="px-5.5 py-2.75 rounded-[9999px] bg-primary text-on-primary text-[17px] font-normal leading-[1.47] transition-transform active:scale-[0.95] hover:bg-primary-focus"
             >
               {t("app.settings.advanced.saveChanges")}
             </button>

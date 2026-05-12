@@ -24,7 +24,7 @@ const registerSchema = z
 
 export const RegistroForm = () => {
   const { t } = useTranslation();
-  const { mutateAsync, isPending } = useRegister();
+  const { mutate: doRegister, isPending } = useRegister();
 
   const {
     register,
@@ -43,7 +43,7 @@ export const RegistroForm = () => {
   });
 
   const onSubmit = async (data: RegisterFormType) => {
-    await mutateAsync(data);
+    doRegister(data);
   };
 
   return (
@@ -184,14 +184,6 @@ export const RegistroForm = () => {
               : t("auth.register.createAccount")}
           </button>
         </form>
-        {/* <div className="relative flex items-center py-2">
-          <div className="grow border-t border-outline-variant/20"></div>
-          <span className="shrink mx-4 text-on-surface-variant text-xs font-label uppercase tracking-widest">
-            {t("auth.register.orContinue")}
-          </span>
-          <div className="grow border-t border-outline-variant/20"></div>
-        </div>
-        <SocialLoginButton text={t("auth.register.signupGoogle")} /> */}
         <p className="text-center font-label text-on-surface-variant pt-4">
           {t("auth.register.haveAccount")}{" "}
           <Link

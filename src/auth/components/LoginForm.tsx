@@ -14,7 +14,7 @@ const loginSchema = z.object({
 
 export const LoginForm = () => {
   const { t } = useTranslation();
-  const { mutateAsync, isPending } = useLogin();
+  const { mutate: login, isPending } = useLogin();
 
   const {
     register,
@@ -31,7 +31,7 @@ export const LoginForm = () => {
   });
 
   const onSubmit = async (data: LoginFormType) => {
-    await mutateAsync(data);
+    login(data);
   };
 
   return (

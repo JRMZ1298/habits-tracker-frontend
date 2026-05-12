@@ -13,17 +13,25 @@ beforeEach(() => {
     dispatchEvent: vi.fn(),
   }));
 
-  vi.stubGlobal("IntersectionObserver", vi.fn(() => ({
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-    disconnect: vi.fn(),
-  })));
+  class MockIntersectionObserver {
+    observe = vi.fn();
+    unobserve = vi.fn();
+    disconnect = vi.fn();
+    root = null;
+    rootMargin = "";
+    thresholds = [];
+    constructor() {}
+    takeRecords = () => [];
+  }
+  vi.stubGlobal("IntersectionObserver", MockIntersectionObserver);
 
-  vi.stubGlobal("ResizeObserver", vi.fn(() => ({
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-    disconnect: vi.fn(),
-  })));
+  class MockResizeObserver {
+    observe = vi.fn();
+    unobserve = vi.fn();
+    disconnect = vi.fn();
+    constructor() {}
+  }
+  vi.stubGlobal("ResizeObserver", MockResizeObserver);
 });
 
 afterEach(() => {

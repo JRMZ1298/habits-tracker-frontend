@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { NotificationsPanel } from "../components/NotificationsPanel";
-import { WebhooksPanel } from "../components/WebhooksPanel";
+// import { WebhooksPanel } from "../components/WebhooksPanel";
 import { IdentitySettings } from "../components/IdentitySettings";
 
 export const SettingsPage = () => {
@@ -26,9 +26,9 @@ export const SettingsPage = () => {
           <div className="lg:col-span-2">
             <NotificationsPanel />
           </div>
-          <div className="lg:col-span-1">
+          {/* <div className="lg:col-span-1">
             <WebhooksPanel />
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
