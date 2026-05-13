@@ -40,9 +40,13 @@ export const loginUser = (
 };
 
 // ── Hábitos ───────────────────────────────────────────────────────────────────
-export const getHabits = (page = 1, limit = 5): Promise<PaginatedHabits> =>
+export const getHabits = (
+  page = 1,
+  limit = 5,
+  search = "",
+): Promise<PaginatedHabits> =>
   habitsApi
-    .get("/habits/", { params: { page, limit } })
+    .get("/habits/", { params: { page, limit, search } })
     .then((res) => res.data);
 
 export const createHabit = (newHabit: HabitFormData) =>
@@ -62,10 +66,7 @@ export const deleteHabit = (habitId: number) =>
 export const getHabit = (id: number): Promise<Habit> =>
   habitsApi.get(`/habits/${id}`).then((res) => res.data);
 
-export const updateHabit = (
-  id: number,
-  data: HabitFormData,
-): Promise<Habit> =>
+export const updateHabit = (id: number, data: HabitFormData): Promise<Habit> =>
   habitsApi
     .put(`/habits/${id}`, {
       name: data.name,

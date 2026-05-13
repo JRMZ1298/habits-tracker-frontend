@@ -20,7 +20,7 @@ import type {
   PaginatedHabits,
 } from "@/interfaces/api";
 import type { HabitFormData } from "@/app/pages/ui/FormHabitSchema";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import type { HabitPeriodProgress } from "@/interfaces/api";
 import habitsApi from "@/api/habitsApi";
@@ -175,10 +175,22 @@ export function useHabitsStats(habitIds: number[]) {
 //Get Habits para la pagina de Habitos
 export function useHabitsGrid(limit = 6) {
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+
+  // Debounce — espera 400ms después de que el usuario deja de escribir
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+      setPage(1); // Volver a página 1 al buscar
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [search]);
 
   const query = useQuery<PaginatedHabits, Error>({
-    queryKey: ["habits-grid", page],
-    queryFn: () => getHabits(page, limit),
+    queryKey: ["habits-grid", page, debouncedSearch],
+    queryFn: () => getHabits(page, limit, debouncedSearch),
     placeholderData: (prev) => prev,
   });
 
@@ -186,6 +198,8 @@ export function useHabitsGrid(limit = 6) {
     ...query,
     page,
     setPage,
+    search,
+    setSearch,
     habits: query.data?.habits ?? [],
   };
 }

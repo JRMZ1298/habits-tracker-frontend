@@ -1,14 +1,28 @@
 import { useTranslation } from "react-i18next";
 import { HabitCard } from "./HabitCard";
-import { useHabitsGrid, useHabitsProgress } from "../hooks/useHabits";
+import { useHabitsProgress } from "../hooks/useHabits";
 import { buildHabitCardProps } from "@/lib/habitCardProps";
 import { useDeleteHabit } from "../hooks/useHabits";
 import { useNavigate } from "react-router";
+import type { Habit, PaginatedHabits } from "@/interfaces/api";
+import type { Dispatch, SetStateAction } from "react";
 
-export const HabitsGrid = () => {
+interface Props {
+  habits: Habit[];
+  data: PaginatedHabits | undefined;
+  page: number;
+  setPage: Dispatch<SetStateAction<number>>;
+  isLoading: boolean;
+}
+
+export const HabitsGrid: React.FC<Props> = ({
+  habits,
+  data,
+  page,
+  setPage,
+  isLoading,
+}) => {
   const { t } = useTranslation();
-
-  const { habits, isLoading, data, page, setPage } = useHabitsGrid(6);
   const habitIds = habits.map((h) => h.id);
   const { progressMap, isLoading: statsLoading } = useHabitsProgress(habitIds);
   const deleteHabit = useDeleteHabit();

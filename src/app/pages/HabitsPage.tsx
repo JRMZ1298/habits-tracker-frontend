@@ -4,11 +4,14 @@ import { HabitsManagement } from "../components/HabitsManagement";
 import { HabitsGrid } from "../components/HabitsGrid";
 import { useProfileStats } from "../hooks/useProfileStats";
 import { useNavigate } from "react-router";
+import { useHabitsGrid } from "../hooks/useHabits";
 
 export const HabitsPage = () => {
   const { t } = useTranslation();
   const { data: profile } = useProfileStats();
   const navigate = useNavigate();
+  const { habits, data, page, setPage, search, setSearch, isLoading } =
+    useHabitsGrid(6);
 
   return (
     <div className="space-y-[48px]">
@@ -18,9 +21,15 @@ export const HabitsPage = () => {
         }
       />
 
-      <HabitsManagement />
+      <HabitsManagement search={search} onSearch={setSearch} />
 
-      <HabitsGrid />
+      <HabitsGrid
+        habits={habits}
+        data={data}
+        page={page}
+        setPage={setPage}
+        isLoading={isLoading}
+      />
 
       <div className="pt-[17px] hidden md:block">
         <button
