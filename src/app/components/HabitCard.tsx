@@ -45,7 +45,7 @@ export const HabitCard = ({
             </span>
           </div>
         </div>
-        <div className="flex gap-[4px] opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex gap-[4px] md:opacity-0 md:group-hover:opacity-100 transition-opacity">
           <button
             onClick={onEdit}
             className="p-[8px] text-ink-muted-48 hover:text-primary transition-colors rounded-[8px]"
