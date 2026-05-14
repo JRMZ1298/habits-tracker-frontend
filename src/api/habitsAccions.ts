@@ -17,9 +17,9 @@ export const registerUser = (
   newUser: RegisterForm,
 ): Promise<RegisterResponse> => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { confirmPassword, ...rest } = newUser;
+  const { confirmPassword, name, email, password } = newUser;
   return habitsApi
-    .post("/auth/register", null, { params: rest })
+    .post("/auth/register", { email, name, password })
     .then((res) => res.data);
 };
 
