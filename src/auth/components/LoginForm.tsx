@@ -35,12 +35,12 @@ export const LoginForm = () => {
   };
 
   return (
-    <div className="rounded-xl p-8 md:p-10 shadow-sm border border-outline-variant/10 bg-white/70 backdrop-blur-xl">
+    <div className="rounded-xl p-8 md:p-10 shadow-sm border border-hairline bg-surface-container-low backdrop-blur-xl">
       <div className="mb-10 text-center">
-        <h2 className="text-3xl font-bold text-on-surface tracking-tight">
+        <h2 className="text-3xl font-bold text-ink tracking-tight">
           {t("auth.login.welcome")}
         </h2>
-        <p className="text-on-surface-variant font-label mt-2">
+        <p className="text-ink-muted-48 font-label mt-2">
           {t("auth.login.subtitle")}
         </p>
       </div>
@@ -49,12 +49,12 @@ export const LoginForm = () => {
         <div className="space-y-2">
           <label
             htmlFor="email"
-            className="block text-xs font-bold text-on-surface-variant font-label ml-1"
+            className="block text-xs font-bold text-ink-muted-48 font-label ml-1"
           >
             {t("auth.login.emailLabel")}
           </label>
           <div className="relative">
-            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant">
+            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-ink-muted-48">
               mail
             </span>
             <input
@@ -62,14 +62,14 @@ export const LoginForm = () => {
               type="email"
               placeholder={t("auth.login.emailPlaceholder")}
               {...register("email")}
-              className={`w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary-fixed transition-all font-body ${
-                errors.email ? "ring-2 ring-error" : ""
+              className={`w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded text-ink placeholder:text-ink-muted-48 focus:ring-2 focus:ring-primary-fixed transition-all font-body ${
+                errors.email ? "ring-2 ring-destructive" : ""
               }`}
             />
           </div>
           {errors.email && (
             <p
-              className="text-error text-xs font-label ml-1"
+              className="text-destructive text-xs font-label ml-1"
               role="alert"
               aria-live="polite"
             >
@@ -82,19 +82,19 @@ export const LoginForm = () => {
           <div className="flex justify-between items-center px-1">
             <label
               htmlFor="password"
-              className="block text-xs font-bold text-on-surface-variant font-label"
+              className="block text-xs font-bold text-ink-muted-48 font-label"
             >
               {t("auth.login.passwordLabel")}
             </label>
             <a
               href="#"
-              className="text-xs font-bold text-surface-tint hover:text-on-surface-variant transition-colors font-label"
+              className="text-xs font-bold text-surface-tint hover:text-ink-muted-48 transition-colors font-label"
             >
               {t("auth.login.forgotPassword")}
             </a>
           </div>
           <div className="relative">
-            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant">
+            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-ink-muted-48">
               lock
             </span>
             <input
@@ -102,14 +102,14 @@ export const LoginForm = () => {
               type="password"
               placeholder="••••••••"
               {...register("password")}
-              className={`w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary-fixed transition-all font-body ${
-                errors.password ? "ring-2 ring-error" : ""
+              className={`w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded text-ink placeholder:text-ink-muted-48 focus:ring-2 focus:ring-primary-fixed transition-all font-body ${
+                errors.password ? "ring-2 ring-destructive" : ""
               }`}
             />
           </div>
           {errors.password && (
             <p
-              className="text-error text-xs font-label ml-1"
+              className="text-destructive text-xs font-label ml-1"
               role="alert"
               aria-live="polite"
             >
@@ -136,10 +136,10 @@ export const LoginForm = () => {
 
       <div className="relative my-8">
         <div aria-hidden="true" className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-outline-variant/20"></div>
+          <div className="w-full border-t border-hairline"></div>
         </div>
         <div className="relative flex justify-center text-xs font-bold uppercase tracking-widest">
-          <span className="bg-white/0 px-4 text-on-surface-variant font-label">
+          <span className="bg-surface-container-low px-4 text-ink-muted-48 font-label">
             {t("auth.login.continueWith")}
           </span>
         </div>
@@ -148,7 +148,7 @@ export const LoginForm = () => {
       <SocialLoginButton />
 
       <div className="mt-10 text-center">
-        <p className="text-on-surface-variant font-label text-sm">
+        <p className="text-ink-muted-48 font-label text-sm">
           {t("auth.login.noAccount")}{" "}
           <Link
             to="/auth/registro"

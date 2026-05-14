@@ -13,7 +13,7 @@ export const BrandHeader = () => {
       </div>
       <Link
         to="/home"
-        className="text-2xl font-headline font-extrabold text-on-background tracking-tighter"
+        className="text-2xl font-headline font-extrabold text-ink tracking-tighter"
       >
         Vitality
       </Link>

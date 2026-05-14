@@ -16,7 +16,7 @@ export const SocialLoginButton = ({ text }: SocialLoginButtonProps) => {
     <button
       type="button"
       onClick={handleGoogleLogin}
-      className="w-full py-4 bg-secondary-container text-on-secondary-container font-bold rounded-full hover:bg-secondary-fixed-dim transition-all active:scale-95 flex items-center justify-center gap-3"
+      className="w-full py-4 bg-surface-container-low text-ink font-bold rounded-full hover:bg-surface-container transition-all active:scale-95 flex items-center justify-center gap-3 border border-hairline"
     >
       <img
         alt="Google logo"

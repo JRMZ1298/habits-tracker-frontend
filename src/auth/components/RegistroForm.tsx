@@ -47,12 +47,12 @@ export const RegistroForm = () => {
   };
 
   return (
-    <div className="bg-surface-container-lowest glass-panel w-full max-w-md p-8 lg:p-12 rounded-xl shadow-2xl shadow-primary/5">
+    <div className="bg-surface-container-low glass-panel w-full max-w-md p-8 lg:p-12 rounded-xl shadow-2xl shadow-primary/5 border border-hairline">
       <div className="lg:hidden mb-8 space-y-2">
-        <h1 className="text-4xl font-headline font-extrabold text-on-surface tracking-tight">
+        <h1 className="text-4xl font-headline font-extrabold text-ink tracking-tight">
           {t("auth.register.headline")}
         </h1>
-        <p className="font-label text-on-surface-variant">
+        <p className="font-label text-ink-muted-48">
           {t("auth.register.subtitle")}
         </p>
       </div>
@@ -64,25 +64,25 @@ export const RegistroForm = () => {
           noValidate
         >
           <div className="space-y-1">
-            <label className="font-label text-sm font-bold text-surface-tint ml-1">
+            <label className="font-label text-sm font-bold text-ink-muted-48 ml-1">
               {t("auth.register.nameLabel")}
             </label>
             <div className="relative group">
               <input
-                className={`w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant/30 focus:ring-2 focus:ring-primary rounded-lg py-4 px-5 font-label transition-all duration-300 ${
-                  errors.name ? "ring-2 ring-error" : ""
+                className={`w-full bg-surface-container-low border-none ring-1 ring-hairline focus:ring-2 focus:ring-primary rounded-lg py-4 px-5 font-label text-ink placeholder:text-ink-muted-48 transition-all duration-300 ${
+                  errors.name ? "ring-2 ring-destructive" : ""
                 }`}
                 placeholder={t("auth.register.namePlaceholder")}
                 type="text"
                 {...register("name")}
               />
-              <span className="material-symbols-outlined absolute right-4 top-4 text-outline-variant group-focus-within:text-primary">
+              <span className="material-symbols-outlined absolute right-4 top-4 text-ink-muted-48 group-focus-within:text-primary">
                 person
               </span>
             </div>
             {errors.name && (
               <p
-                className="text-error text-xs font-label ml-1"
+                className="text-destructive text-xs font-label ml-1"
                 role="alert"
                 aria-live="polite"
               >
@@ -91,25 +91,25 @@ export const RegistroForm = () => {
             )}
           </div>
           <div className="space-y-1">
-            <label className="font-label text-sm font-bold text-surface-tint ml-1">
+            <label className="font-label text-sm font-bold text-ink-muted-48 ml-1">
               {t("auth.register.emailLabel")}
             </label>
             <div className="relative group">
               <input
-                className={`w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant/30 focus:ring-2 focus:ring-primary rounded-lg py-4 px-5 font-label transition-all duration-300 ${
-                  errors.email ? "ring-2 ring-error" : ""
+                className={`w-full bg-surface-container-low border-none ring-1 ring-hairline focus:ring-2 focus:ring-primary rounded-lg py-4 px-5 font-label text-ink placeholder:text-ink-muted-48 transition-all duration-300 ${
+                  errors.email ? "ring-2 ring-destructive" : ""
                 }`}
                 placeholder={t("auth.register.emailPlaceholder")}
                 type="email"
                 {...register("email")}
               />
-              <span className="material-symbols-outlined absolute right-4 top-4 text-outline-variant group-focus-within:text-primary">
+              <span className="material-symbols-outlined absolute right-4 top-4 text-ink-muted-48 group-focus-within:text-primary">
                 mail
               </span>
             </div>
             {errors.email && (
               <p
-                className="text-error text-xs font-label ml-1"
+                className="text-destructive text-xs font-label ml-1"
                 role="alert"
                 aria-live="polite"
               >
@@ -118,25 +118,25 @@ export const RegistroForm = () => {
             )}
           </div>
           <div className="space-y-1">
-            <label className="font-label text-sm font-bold text-surface-tint ml-1">
+            <label className="font-label text-sm font-bold text-ink-muted-48 ml-1">
               {t("auth.register.passwordLabel")}
             </label>
             <div className="relative group">
               <input
-                className={`w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant/30 focus:ring-2 focus:ring-primary rounded-lg py-4 px-5 font-label transition-all duration-300 ${
-                  errors.password ? "ring-2 ring-error" : ""
+                className={`w-full bg-surface-container-low border-none ring-1 ring-hairline focus:ring-2 focus:ring-primary rounded-lg py-4 px-5 font-label text-ink placeholder:text-ink-muted-48 transition-all duration-300 ${
+                  errors.password ? "ring-2 ring-destructive" : ""
                 }`}
                 placeholder={t("auth.register.passwordPlaceholder")}
                 type="password"
                 {...register("password")}
               />
-              <span className="material-symbols-outlined absolute right-4 top-4 text-outline-variant group-focus-within:text-primary">
+              <span className="material-symbols-outlined absolute right-4 top-4 text-ink-muted-48 group-focus-within:text-primary">
                 lock
               </span>
             </div>
             {errors.password && (
               <p
-                className="text-error text-xs font-label ml-1"
+                className="text-destructive text-xs font-label ml-1"
                 role="alert"
                 aria-live="polite"
               >
@@ -145,13 +145,13 @@ export const RegistroForm = () => {
             )}
           </div>
           <div className="space-y-1">
-            <label className="font-label text-sm font-bold text-surface-tint ml-1">
+            <label className="font-label text-sm font-bold text-ink-muted-48 ml-1">
               {t("auth.register.confirmPasswordLabel", "Confirmar contraseña")}
             </label>
             <div className="relative group">
               <input
-                className={`w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant/30 focus:ring-2 focus:ring-primary rounded-lg py-4 px-5 font-label transition-all duration-300 ${
-                  errors.confirmPassword ? "ring-2 ring-error" : ""
+                className={`w-full bg-surface-container-low border-none ring-1 ring-hairline focus:ring-2 focus:ring-primary rounded-lg py-4 px-5 font-label text-ink placeholder:text-ink-muted-48 transition-all duration-300 ${
+                  errors.confirmPassword ? "ring-2 ring-destructive" : ""
                 }`}
                 placeholder={t(
                   "auth.register.confirmPasswordPlaceholder",
@@ -160,13 +160,13 @@ export const RegistroForm = () => {
                 type="password"
                 {...register("confirmPassword")}
               />
-              <span className="material-symbols-outlined absolute right-4 top-4 text-outline-variant group-focus-within:text-primary">
+              <span className="material-symbols-outlined absolute right-4 top-4 text-ink-muted-48 group-focus-within:text-primary">
                 lock_reset
               </span>
             </div>
             {errors.confirmPassword && (
               <p
-                className="text-error text-xs font-label ml-1"
+                className="text-destructive text-xs font-label ml-1"
                 role="alert"
                 aria-live="polite"
               >
@@ -184,7 +184,7 @@ export const RegistroForm = () => {
               : t("auth.register.createAccount")}
           </button>
         </form>
-        <p className="text-center font-label text-on-surface-variant pt-4">
+        <p className="text-center font-label text-ink-muted-48 pt-4">
           {t("auth.register.haveAccount")}{" "}
           <Link
             to="/auth/login"

@@ -1,13 +1,21 @@
 import { BrandHeader } from "@/auth/components/BrandHeader";
 import { LoginForm } from "@/auth/components/LoginForm";
-import { useSearchParams } from "react-router";
+import { useSearchParams, Link } from "react-router";
+import { X } from "lucide-react";
 
 export const LoginPage = () => {
   const [searchParams] = useSearchParams();
   const googleError = searchParams.get("error");
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center p-6 bg-surface">
+    <div className="min-h-screen flex flex-col justify-center items-center p-6 bg-surface relative">
+      <Link
+        to="/home"
+        className="absolute top-6 right-6 size-10 flex items-center justify-center rounded-full text-ink-muted-80 hover:text-ink hover:bg-ink/5 transition-colors"
+        aria-label="Cerrar y volver al inicio"
+      >
+        <X className="size-5" />
+      </Link>
       <main className="w-full max-w-md">
         <BrandHeader />
         <LoginForm />

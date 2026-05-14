@@ -1,46 +1,52 @@
 import { useTranslation } from "react-i18next";
 
+type LinkColumn = {
+  heading: string;
+  links: { label: string; href: string }[];
+};
+
+type TextColumn = {
+  heading?: string;
+  items: string[];
+};
+
+type Column = LinkColumn | TextColumn;
+
+const isLinkColumn = (column: Column): column is LinkColumn =>
+  "links" in column;
+
 export const Footer = () => {
   const { t } = useTranslation();
 
-  const footerColumns = [
-    {
-      heading: t("landing.footer.shopAndLearn.heading"),
-      links: [
-        { label: t("landing.footer.shopAndLearn.habits"), href: "#features" },
-        { label: t("landing.footer.shopAndLearn.metrics"), href: "#features" },
-        { label: t("landing.footer.shopAndLearn.badges"), href: "#features" },
-        { label: t("landing.footer.shopAndLearn.settings"), href: "#features" },
-      ],
-    },
+  const valuesHeading = t("landing.footer.values.heading");
+
+  const valores = [
+    t("landing.footer.values.accessibility"),
+    t("landing.footer.values.education"),
+    t("landing.footer.values.environment"),
+    t("landing.footer.values.inclusion"),
+    t("landing.footer.values.privacy"),
+    t("landing.footer.values.supplyChain"),
+  ];
+
+  const chunkSize = Math.ceil(valores.length / 3);
+  const valoresColumns: Column[] = Array.from({ length: 3 }, (_, i) => ({
+    heading: i === 0 ? valuesHeading : undefined,
+    items: valores.slice(i * chunkSize, (i + 1) * chunkSize),
+  }));
+
+  const footerColumns: Column[] = [
     {
       heading: t("landing.footer.account.heading"),
       links: [
-        { label: t("landing.footer.account.manageAccount"), href: "/app/settings" },
+        {
+          label: t("landing.footer.account.manageAccount"),
+          href: "/app/settings",
+        },
         { label: t("landing.footer.account.signIn"), href: "/auth/login" },
       ],
     },
-    {
-      heading: t("landing.footer.about.heading"),
-      links: [
-        { label: t("landing.footer.about.newsroom"), href: "#" },
-        { label: t("landing.footer.about.leadership"), href: "#" },
-        { label: t("landing.footer.about.workOpportunities"), href: "#" },
-        { label: t("landing.footer.about.investors"), href: "#" },
-        { label: t("landing.footer.about.ethicsCompliance"), href: "#" },
-      ],
-    },
-    {
-      heading: t("landing.footer.values.heading"),
-      links: [
-        { label: t("landing.footer.values.accessibility"), href: "#" },
-        { label: t("landing.footer.values.education"), href: "#" },
-        { label: t("landing.footer.values.environment"), href: "#" },
-        { label: t("landing.footer.values.inclusion"), href: "#" },
-        { label: t("landing.footer.values.privacy"), href: "#" },
-        { label: t("landing.footer.values.supplyChain"), href: "#" },
-      ],
-    },
+    ...valoresColumns,
   ];
 
   return (
@@ -53,22 +59,34 @@ export const Footer = () => {
 
         {/* Link columns */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-[24px] mb-[48px]">
-          {footerColumns.map((column) => (
-            <div key={column.heading}>
-              <h3 className="text-[14px] font-semibold text-ink leading-[1.29] tracking-[-0.224px] mb-[12px]">
-                {column.heading}
-              </h3>
+          {footerColumns.map((column, index) => (
+            <div key={index}>
+              {column.heading ? (
+                <h3 className="text-[14px] font-semibold text-ink leading-[1.29] tracking-[-0.224px] mb-[12px]">
+                  {column.heading}
+                </h3>
+              ) : (
+                <div className="w-full h-[28px]"></div>
+              )}
               <ul className="space-y-[8px]">
-                {column.links.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-[17px] font-normal text-ink-muted-80 leading-[2.41] hover:text-primary transition-colors block"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
+                {isLinkColumn(column)
+                  ? column.links.map((link) => (
+                      <li key={link.label}>
+                        <a
+                          href={link.href}
+                          className="text-[17px] font-normal text-ink-muted-80 leading-[2.41] hover:text-primary transition-colors block"
+                        >
+                          {link.label}
+                        </a>
+                      </li>
+                    ))
+                  : column.items.map((item) => (
+                      <li key={item}>
+                        <span className="text-[17px] font-normal text-ink-muted-80 leading-[2.41] block">
+                          {item}
+                        </span>
+                      </li>
+                    ))}
               </ul>
             </div>
           ))}
