@@ -16,8 +16,7 @@ import type { HabitFormData } from "@/app/pages/ui/FormHabitSchema";
 export const registerUser = (
   newUser: RegisterForm,
 ): Promise<RegisterResponse> => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { confirmPassword, name, email, password } = newUser;
+  const { name, email, password } = newUser;
   return habitsApi
     .post("/auth/register", { email, name, password })
     .then((res) => res.data);
