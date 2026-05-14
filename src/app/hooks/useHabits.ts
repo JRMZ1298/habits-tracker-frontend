@@ -52,7 +52,6 @@ export function useCreateHabit() {
     mutationFn: (newHabit) => createHabit(newHabit),
     onSuccess: () => {
       toast.success("¡Hábito creado exitosamente!");
-      // Invalida el cache de hábitos → TanStack los vuelve a pedir automáticamente
       queryClient.invalidateQueries({ queryKey: HABITS_KEY });
       queryClient.invalidateQueries({ queryKey: ["habits-grid"] });
     },

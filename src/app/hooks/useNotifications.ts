@@ -2,6 +2,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { NotificationPreferences } from "@/interfaces/api";
 import habitsApi from "@/api/habitsApi";
+import { toast } from "sonner";
 
 export function useNotificationPreferences() {
   return useQuery<NotificationPreferences>({
@@ -20,6 +21,7 @@ export function useUpdateNotifications() {
         .put("/notifications/me/notifications", prefs)
         .then((r) => r.data),
     onSuccess: (data) => {
+      toast.success("Notificaciones actualizadas correctamente");
       queryClient.setQueryData(["notification-prefs"], data);
     },
   });
