@@ -9,7 +9,7 @@ export const SocialLoginButton = ({ text }: SocialLoginButtonProps) => {
   const label = text ?? t("auth.social.loginGoogle");
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:8000/auth/google";
+    window.location.href = `${import.meta.env.VITE_BASE_URL}/auth/google`;
   };
 
   return (
