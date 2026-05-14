@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { createHashRouter, Navigate } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import {
   AuthenticatedRoute,
   NotAuthenticatedRoute,
@@ -67,7 +67,7 @@ const AuthLayout = lazy(() =>
   })),
 );
 
-export const appRoutes = createHashRouter([
+export const appRoutes = createBrowserRouter([
   //Main Routes
   {
     path: "/home",
